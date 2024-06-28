@@ -1,0 +1,76 @@
+@startuml 1_overview
+skinparam linetype ortho
+mainframe **로그인, 네비게이션이 있는 FE 페이지의 컴포넌트 다이어그램**
+
+package "Frontend" {
+  rectangle "Components" AS components {
+    component "loginForm"
+    component "navbar"
+
+    loginForm -down[hidden]- navbar
+  }
+  rectangle "Hooks" AS hooks {
+    component "useLogin"
+    component "useNavbar"
+
+    useLogin -down[hidden]- useNavbar
+  }
+  rectangle "API Services" AS api_services {
+    component "(POST) /auth/login" AS login
+    component "(GET/PATCH) /navigation" AS navigation
+
+    login -down[hidden]- navigation
+  }
+
+  components -right-> hooks
+  hooks -right-> api_services
+}
+note AS component_note
+  component가 hook을 이용,
+  데이터 조작
+end note
+
+note AS response_note
+  Backend와 통신,
+  Frontend로 응답 전달
+end note
+
+queue "request"
+queue "response"
+
+cloud "Backend" {
+  component "(POST) /auth/login" AS login_api
+  component "(GET/PATCH) /navigation" AS navigation_api
+
+
+  login_api -down[hidden]- navigation_api
+}
+
+database DB {
+  skinparam <<transparent>> {
+    ComponentStyle rectangle
+    ComponentFontColor white
+    ComponentBackgroundColor transparent
+    ComponentBorderColor transparent
+  }
+  component trasparent1 <<transparent>>
+  component transparent2 <<transparent>>
+
+  trasparent1 -down[hidden]- transparent2
+}
+
+DB - login_api
+DB - navigation_api
+
+request -down[hidden]- response
+
+Frontend - request
+Backend <- request
+
+Frontend <- response
+Backend -right- response
+
+navbar -down-> component_note
+response --> response_note
+
+@enduml
