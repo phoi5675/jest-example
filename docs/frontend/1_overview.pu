@@ -42,7 +42,6 @@ cloud "Backend" {
   component "(POST) /auth/login" AS login_api
   component "(GET/PATCH) /navigation" AS navigation_api
 
-
   login_api -down[hidden]- navigation_api
 }
 

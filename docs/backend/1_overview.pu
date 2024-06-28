@@ -1,0 +1,66 @@
+@startuml 1_overview
+mainframe **로그인, 네비게이션 API가 있는 BE의 컴포넌트 다이어그램**
+
+skinparam linetype ortho
+skinparam <<transparent>> {
+  ComponentStyle rectangle
+  ComponentFontColor white
+  ComponentBackgroundColor transparent
+  ComponentBorderColor transparent
+}
+skinparam DefaultTextAlignment left
+
+package Frontend {
+  rectangle "API Services" AS api_services {
+    component "(POST) /auth/login" AS login
+    component "(GET/PATCH) /navigation" AS navigation
+
+    login -down[hidden]- navigation
+  }
+}
+
+queue "request"
+queue "response"
+
+cloud Backend {
+  rectangle handler {
+    component "(POST) /auth/login handler" as login_handler
+    component "(GET/PATCH) /navigation handler" as nav_handler
+
+    login_handler -down[hidden]- nav_handler
+  }
+  rectangle service {
+    component "(POST) /auth/login service" as login_service
+    component "(GET/PATCH) /navigation service" as nav_service
+
+    login_service -down[hidden]- nav_service
+  }
+}
+
+database DB {
+  component trasparent1 <<transparent>>
+  component transparent2 <<transparent>>
+
+  trasparent1 -down[hidden]- transparent2
+}
+
+request -down[hidden]- response
+
+Frontend - request
+handler <- request
+
+Frontend <- response
+handler -right- response
+
+Frontend -right[hidden]- Backend
+Backend -right[hidden]- DB
+service <-right-> DB : <back:white>DB Query 처리
+
+handler <----> service : \
+Business logic을\n\
+service에서 처리하도록 함수 호출\n\
+\n\
+service 함수에서 처리한 DB Query 결과를\n\
+handler에게 다시 돌려줌
+
+@enduml
