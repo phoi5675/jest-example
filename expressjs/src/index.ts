@@ -3,15 +3,28 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import express, { NextFunction, Request, Response } from "express";
+import authRouter from "@auth/authRouter";
+import navRouter from "@navigation/navRouter";
+import logger from "@shared/utils/logger";
+import express, { Request, Response } from "express";
 
 const app = express();
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
+// Middleware to parse incoming requests with JSON payloads
+app.use(express.json());
+
+/**
+ * Routes
+ */
+app.use("/auth", authRouter);
+app.use("/navigation", navRouter);
+
+app.get("/", (req: Request, res: Response) => {
   res.send("welcome!");
 });
 
 app.listen("3000", () => {
-  console.log(`hello, world!`);
+  logger.log(`Server on!`);
 });
+
+export default app;

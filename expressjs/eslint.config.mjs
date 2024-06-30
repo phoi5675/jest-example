@@ -9,6 +9,7 @@ export default [
     rules: {
       eqeqeq: "warn",
       "handle-callback-err": "error",
+      "no-console": "error",
       "no-duplicate-case": "error",
       "no-lone-blocks": "error",
       "no-this-before-super": "error",
