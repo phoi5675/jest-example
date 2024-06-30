@@ -54,7 +54,8 @@ handler -right- response
 
 Frontend -right[hidden]- Backend
 Backend -right[hidden]- DB
-service <-right-> DB : <back:white>DB Query 처리
+service <-right-> DB : \
+  <back:white>DB Query 처리\n
 
 handler <----> service : \
 Business logic을\n\
