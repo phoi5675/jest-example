@@ -1,6 +1,8 @@
 @startuml 1_overview
-skinparam linetype ortho
 mainframe **로그인, 네비게이션이 있는 FE 페이지의 컴포넌트 다이어그램**
+hide stereotype
+
+skinparam linetype ortho
 
 package "Frontend" {
   rectangle "Components" AS components {

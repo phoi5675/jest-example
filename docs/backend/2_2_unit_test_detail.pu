@@ -1,5 +1,6 @@
 @startuml 2_2_unit_test_detail
 mainframe **Unit testing detail - handler**
+hide stereotype
 
 skinparam Linetype ortho
 skinparam DefaultTextAlignment left

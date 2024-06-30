@@ -1,5 +1,6 @@
 @startuml 2_unit_test_overview
 mainframe **Unit testing overview - handler**
+hide stereotype
 
 skinparam linetype ortho
 skinparam <<transparent>> {
