@@ -39,11 +39,9 @@ package "Jest 🃏" <<jest>> AS Jest {
 
 note bottom of Jest
   요약
-  1. Setup / apply mock
-    - insert test data to db
+  1. Setup
   2. Run test
   3. Teardown
-    - delete test data from db
   4. End test
 end note
 
@@ -81,7 +79,7 @@ Jest <- function_return
 handler -right- function_return
 
 Jest -right[hidden]- Backend
-DB -up---> service
+DB <-up---> service
 
 handler <-> service
 

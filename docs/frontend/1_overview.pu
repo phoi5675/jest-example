@@ -60,8 +60,8 @@ database DB {
   trasparent1 -down[hidden]- transparent2
 }
 
-DB - login_api
-DB - navigation_api
+DB <-> login_api
+DB <-> navigation_api
 
 request -down[hidden]- response
 
