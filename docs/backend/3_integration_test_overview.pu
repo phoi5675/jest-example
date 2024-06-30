@@ -1,0 +1,88 @@
+@startuml 3_integration_test_overview
+mainframe **Integration test overview**
+hide stereotype
+
+skinparam linetype ortho
+skinparam <<transparent>> {
+  ComponentStyle rectangle
+  ComponentFontColor white
+  ComponentBackgroundColor transparent
+  ComponentBorderColor transparent
+}
+skinparam DefaultTextAlignment left
+
+skinparam <<jest>> {
+  PackageBackgroundColor Orange
+}
+
+skinparam <<jest_note>> {
+  NoteBorderColor transparent
+  NoteBackgroundColor transparent
+}
+
+skinparam <<database>> {
+  DatabaseBackgroundColor Wihte
+}
+
+package "Jest 🃏" <<jest>> AS Jest {
+  note AS jest_note <<jest_note>>
+    1. 테스트 코드에서 사용할 값을 DB에 추가(**Setup**)
+    2. (Optional) 필요한 함수에 대해 mock 적용
+    3. 테스트 시작 : 테스트 코드에서 handler 함수를 호출
+    4. handler 함수의 return value 확인
+      a. return value가 예상한 값인 경우에는 테스트 Pass
+      b. 예상한 값과 다른 경우에는 테스트 Fail
+    5. 테스트에서 사용한 값을 DB에서 삭제(**Teardown**)
+    6. 테스트 종료 및 결과 출력
+  end note
+}
+
+note bottom of Jest
+  요약
+  1. Setup / apply mock
+    - insert test data to db
+  2. Run test
+  3. Teardown
+    - delete test data from db
+  4. End test
+end note
+
+queue "Function call" AS function_call
+queue "Return value by function" AS function_return
+
+cloud Backend {
+  rectangle handler {
+    component "(POST) /auth/login handler" as login_handler
+    component "(GET/PATCH) /navigation handler" as nav_handler
+
+    login_handler -down[hidden]- nav_handler
+  }
+  rectangle service {
+    component "(POST) /auth/login service" as login_service
+    component "(GET/PATCH) /navigation service" as nav_service
+
+    login_service -down[hidden]- nav_service
+  }
+}
+
+database DB <<database>> {
+  note as db_note <<jest_note>>
+    1. Setup 단계에서 테스트에 필요한 값 삽입
+    2. Teardown 단계에서 테스트에 사용한 값 삭제
+  end note
+}
+
+function_call -down[hidden]- function_return
+
+Jest - function_call
+handler <- function_call
+
+Jest <- function_return
+handler -right- function_return
+
+Jest -right[hidden]- Backend
+DB -up---> service
+
+handler <-> service
+
+@enduml
