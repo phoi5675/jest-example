@@ -1,0 +1,75 @@
+@startuml 2_unit_test_overview
+mainframe **Unit testing overview - handler**
+
+skinparam linetype ortho
+skinparam <<transparent>> {
+  ComponentStyle rectangle
+  ComponentFontColor transparent
+  ComponentBackgroundColor transparent
+  ComponentBorderColor transparent
+}
+
+skinparam package  {
+  BackgroundColor<<mocked>> LightSlateGray
+}
+
+skinparam rectangle {
+  BackgroundColor<<mocked>> LightSlateGray
+}
+
+skinparam database {
+  BackgroundColor<<mocked>> LightSlateGray
+}
+
+skinparam component {
+  BackgroundColor<<focused>> LightGreen
+}
+
+skinparam DefaultTextAlignment left
+
+package "Mocked frontend" <<mocked>> AS mocked_frontend {
+  package Frontend {
+    rectangle "API Services" AS api_services 
+  }
+
+  queue "request"
+  queue "response"
+}
+
+cloud Backend {
+  rectangle handler {
+    component "(POST) /auth/login handler" <<focused>> AS login_handler
+    component "(GET/PATCH) /navigation handler" AS nav_handler
+
+    login_handler -down[hidden]- nav_handler
+  }
+  rectangle service <<mocked>> {
+    component "(POST) /auth/login service" AS login_service
+    component "(GET/PATCH) /navigation service" AS nav_service
+
+    login_service -down[hidden]- nav_service
+  }
+}
+
+database DB <<mocked>> {
+  component trasparent1 <<transparent>>
+  component transparent2 <<transparent>>
+
+  trasparent1 -down[hidden]- transparent2
+}
+
+request -down[hidden]- response
+
+Frontend - request
+handler <- request
+
+Frontend <- response
+handler -right- response
+
+Frontend -right[hidden]- Backend
+Backend -right[hidden]- DB
+service <-right-> DB
+
+handler <----> service
+
+@enduml

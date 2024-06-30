@@ -1,0 +1,44 @@
+@startuml 2_1_unit_test_detail
+mainframe **Unit testing detail - handler**
+
+skinparam Linetype ortho
+skinparam DefaultTextAlignment left
+
+skinparam rectangle {
+  BackgroundColor<<mocked>> LightSlateGray
+}
+skinparam component {
+  BackgroundColor<<mocked>> LightSlateGray
+  BackgroundColor<<focused>> LightGreen
+}
+
+cloud Backend {
+  rectangle handler {
+    component "(POST) /auth/login handler" <<focused>> AS login_handler
+  }
+  rectangle "real service" AS real_service {
+    component "(POST) /auth/login service" AS login_service
+  }
+  rectangle "mocked service" AS mocked_service <<mocked>> {
+    component "(POST) /auth/login service" <<mocked>> AS mocked_login_service
+  }
+  note right of login_service
+    기존 로직의 경우, handler -> service로 함수를 호출
+    Jest의 경우, service를 mock 처리하기 때문에 직접 호출하지 않음
+  end note
+
+  login_handler <--> login_service #gray;line.dashed :\
+    <back:white>Jest 실행 시에는 해당 함수를 호출하지 않음
+
+  login_handler <-right[#red,thickness=3]-> mocked_login_service :\n\
+    <back:white>Jest 실행 시,\n\
+    <back:white>실제 호출되는 함수
+
+  note right of mocked_login_service
+    mocked된 login_service는
+    mocked login_service에서 정의한 값을 return
+  end note
+
+}
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml 2_2_unit_test_detail
+mainframe **Unit testing detail - handler**
+
+skinparam Linetype ortho
+skinparam DefaultTextAlignment left
+
+skinparam <<code_block>> {
+    ComponentFontName Consolas
+    ComponentFontColor LightSlateGray
+    ComponentBackgroundColor WhiteSmoke
+}
+
+cloud Backend {
+  rectangle handler {
+    component login_handler <<code_block>> [
+      <color:black><b>(POST) /auth/login handler</b>
+
+      const loginHandler = (req, res, next) => {
+        <color:Red>const isRequestValid = validateRequest(req);
+        if (!isRequestValid) {
+          res
+          .status(400)
+          .send({ 
+            error: 'Invalid request'
+          });
+        }
+
+        <color:green>// ... 코드 생략
+
+        <color:green>// service 함수 호출하는 부분은 mock 처리
+        <color:green>// 즉, jest 실행 시 loginService()는 실제 함수가 실행되지 않음
+        const loginRes = <color:MediumBlue>await loginService(req, res, next);
+        res.status(200).send(loginRes);
+      }
+
+      app.use('/auth/login', loginHandler);
+    ]
+    note right of login_handler
+      Unit test의 경우, 예시 코드에서 loginSerevice를 mock 처리 후
+      **loginHandler** 함수의 로직 자체가 정상 동작하는지를 테스트함
+
+      ----
+      이 경우에는, 아래와 같은 테스트 케이스 생성 가능
+
+      - req가 valid한 경우, <color:green>res.statusCode는 200<color:black>이어야 함
+      - req가 invalid한 경우, <color:green>res.statusCode는 400<color:black>이어야 함
+        - res.body는 <color:green>{ error: 'Invalid request' }<color:black>가 되어야 함
+    end note
+  }
+}
+
+@enduml
