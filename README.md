@@ -4,7 +4,7 @@ Jest with expressjs and reactjs using typescript
 
 ## Prerequisites
 
-- Node.js (>=20)
+- node.js (>=20)
 - npm
 
 ## Docs
