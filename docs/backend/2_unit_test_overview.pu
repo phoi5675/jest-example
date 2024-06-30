@@ -10,32 +10,28 @@ skinparam <<transparent>> {
   ComponentBorderColor transparent
 }
 
-skinparam package  {
-  BackgroundColor<<mocked>> LightSlateGray
-}
-
-skinparam rectangle {
-  BackgroundColor<<mocked>> LightSlateGray
-}
-
-skinparam database {
-  BackgroundColor<<mocked>> LightSlateGray
+skinparam <<mocked>> {
+  PackageBackgroundColor LightSlateGray
+  RectangleBackgroundColor LightSlateGray
+  DatabaseBackgroundColor LightSlateGray
+  ComponentBackgroundColor LightSlateGray 
 }
 
 skinparam component {
   BackgroundColor<<focused>> LightGreen
 }
 
+
 skinparam DefaultTextAlignment left
 
 package "Mocked frontend" <<mocked>> AS mocked_frontend {
-  package Frontend {
-    rectangle "API Services" AS api_services 
+  package Frontend <<mocked>> {
+    rectangle "API Services" <<mocked>> AS api_services 
   }
 
+}
   queue "request"
   queue "response"
-}
 
 cloud Backend {
   rectangle handler {
@@ -45,8 +41,8 @@ cloud Backend {
     login_handler -down[hidden]- nav_handler
   }
   rectangle service <<mocked>> {
-    component "(POST) /auth/login service" AS login_service
-    component "(GET/PATCH) /navigation service" AS nav_service
+    component "(POST) /auth/login service" <<mocked>> AS login_service
+    component "(GET/PATCH) /navigation service" <<mocked>> AS nav_service
 
     login_service -down[hidden]- nav_service
   }
@@ -72,5 +68,11 @@ Backend -right[hidden]- DB
 service <-right-> DB
 
 handler <----> service
+
+note right of login_handler
+  Unit test에서는 하이라이트된
+  <back:limegreen>(POST) /auth/login handler 함수 이외에
+  <back:limegreen>모든 I/O, function 및 database는 **mock**을 사용함
+end note
 
 @enduml
