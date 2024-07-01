@@ -51,13 +51,13 @@ queue "Return value by function" AS function_return
 cloud Backend {
   rectangle handler {
     component "(POST) /auth/login handler" as login_handler
-    component "(GET/PATCH) /navigation handler" as nav_handler
+    component "(GET/PATCH/DELETE) /navigation handler" as nav_handler
 
     login_handler -down[hidden]- nav_handler
   }
   rectangle service {
     component "(POST) /auth/login service" as login_service
-    component "(GET/PATCH) /navigation service" as nav_service
+    component "(GET/PATCH/DELETE) /navigation service" as nav_service
 
     login_service -down[hidden]- nav_service
   }

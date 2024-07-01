@@ -19,7 +19,7 @@ package "Frontend" {
   }
   rectangle "API Services" AS api_services {
     component "(POST) /auth/login" AS login
-    component "(GET/PATCH) /navigation" AS navigation
+    component "(GET/PATCH/DELETE) /navigation" AS navigation
 
     login -down[hidden]- navigation
   }
@@ -42,7 +42,7 @@ queue "response"
 
 cloud "Backend" {
   component "(POST) /auth/login" AS login_api
-  component "(GET/PATCH) /navigation" AS navigation_api
+  component "(GET/PATCH/DELETE) /navigation" AS navigation_api
 
   login_api -down[hidden]- navigation_api
 }

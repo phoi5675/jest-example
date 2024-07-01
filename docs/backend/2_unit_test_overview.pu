@@ -36,13 +36,13 @@ package "Mocked frontend" <<mocked>> AS mocked_frontend {
 cloud Backend {
   rectangle handler {
     component "(POST) /auth/login handler" <<focused>> AS login_handler
-    component "(GET/PATCH) /navigation handler" AS nav_handler
+    component "(GET/PATCH/DELETE) /navigation handler" AS nav_handler
 
     login_handler -down[hidden]- nav_handler
   }
   rectangle service <<mocked>> {
     component "(POST) /auth/login service" <<mocked>> AS login_service
-    component "(GET/PATCH) /navigation service" <<mocked>> AS nav_service
+    component "(GET/PATCH/DELETE) /navigation service" <<mocked>> AS nav_service
 
     login_service -down[hidden]- nav_service
   }
