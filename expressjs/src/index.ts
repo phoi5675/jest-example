@@ -3,9 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import authRouter from "@/auth/authRouter";
 import fallbackApi from "@/fallbackApi";
-import navRouter from "@/navigation/navRouter";
+import { dropModels, initModels } from "@/models/setupModel";
+import authRouter from "@/router/auth/authRouter";
+import navRouter from "@/router/navigation/navRouter";
 import logger from "@/shared/utils/logger";
 import express, { Request, Response } from "express";
 
@@ -27,8 +28,18 @@ app.get("/", (req: Request, res: Response) => {
 // Default fallback(404) route
 app.all("*", fallbackApi);
 
-app.listen("3000", () => {
+const server = app.listen("3000", async () => {
+  await initModels();
   logger.log(`Server on!`);
+});
+
+process.on("SIGTERM", async () => {
+  logger.debug("SIGTERM signal received: closing HTTP server");
+  server.close(() => {
+    logger.debug("HTTP server closed");
+  });
+
+  await dropModels();
 });
 
 export default app;
