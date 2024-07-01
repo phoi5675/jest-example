@@ -3,9 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import authRouter from "@auth/authRouter";
-import navRouter from "@navigation/navRouter";
-import logger from "@shared/utils/logger";
+import authRouter from "@/auth/authRouter";
+import fallbackApi from "@/fallbackApi";
+import navRouter from "@/navigation/navRouter";
+import logger from "@/shared/utils/logger";
 import express, { Request, Response } from "express";
 
 const app = express();
@@ -22,6 +23,9 @@ app.use("/navigation", navRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("welcome!");
 });
+
+// Default fallback(404) route
+app.all("*", fallbackApi);
 
 app.listen("3000", () => {
   logger.log(`Server on!`);

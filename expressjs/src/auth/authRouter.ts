@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import loginController from "@auth/login/loginController";
+import loginController from "@/auth/login/loginController";
 import { Router } from "express";
 
 const router = Router();

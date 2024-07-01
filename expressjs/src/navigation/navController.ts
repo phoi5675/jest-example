@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import logger from "@shared/utils/logger";
+import logger from "@/shared/utils/logger";
 import { Request, Response } from "express";
 import StatusCodes from "http-status-codes";
 import {

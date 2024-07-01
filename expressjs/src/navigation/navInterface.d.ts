@@ -6,7 +6,7 @@
 import {
   CommonErrorResponse,
   CommonResponse,
-} from "@shared/types/resInterface";
+} from "@/shared/types/resInterface";
 
 export interface GetNavRequest {
   userId: string;
