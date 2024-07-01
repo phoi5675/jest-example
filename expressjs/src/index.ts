@@ -33,7 +33,7 @@ const server = app.listen("3000", async () => {
   logger.log(`Server on!`);
 });
 
-process.on("SIGTERM", async () => {
+process.on("SIGINT", async () => {
   logger.debug("SIGTERM signal received: closing HTTP server");
   server.close(() => {
     logger.debug("HTTP server closed");

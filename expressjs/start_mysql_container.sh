@@ -17,4 +17,5 @@ docker run -d --rm \
   -e MYSQL_USER=express_user \
   -e MYSQL_PASSWORD=password \
   -e MYSQL_ROOT_PASSWORD=rootpassword \
+  --name mysql_container \
   mysql

@@ -7,7 +7,7 @@ import {
   PostLoginErrorResponse,
   PostLoginRequest,
   PostLoginResponse,
-} from "@/auth/login/loginInterface";
+} from "@/router/auth/login/loginInterface";
 import logger from "@/shared/utils/logger";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";

@@ -4,16 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 import ENV from "@/constant/env";
-import knex, { Knex } from "knex";
+import * as _knex from "knex";
 
-const _knex: Knex = knex({
-  client: "mysql",
+const knex: _knex.Knex = _knex.knex({
+  client: "mysql2",
   connection: {
     host: ENV.DB_HOST,
     user: ENV.DB_USER,
     password: ENV.DB_PASSWORD,
     database: ENV.DB_NAME,
   },
+  debug: true,
 });
 
-export default _knex;
+export default knex;

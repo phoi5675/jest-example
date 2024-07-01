@@ -11,7 +11,10 @@ import UserRepository from "./UserRepository";
 class NavigationRepository extends Repository {
   static tableName = "navigation";
   static createTable = async (knex: Knex) => {
-    knex.schema.createTable(
+    if (await knex.schema.hasTable(NavigationRepository.tableName)) {
+      return;
+    }
+    await knex.schema.createTable(
       NavigationRepository.tableName,
       (table: Knex.CreateTableBuilder) => {
         table.increments("seq").notNullable();
@@ -23,7 +26,9 @@ class NavigationRepository extends Repository {
     );
   };
   static dropTable = async (knex: Knex) => {
-    knex.schema.dropTableIfExists(NavigationRepository.tableName);
+    if (await knex.schema.hasTable(NavigationRepository.tableName)) {
+      await knex.schema.dropTableIfExists(NavigationRepository.tableName);
+    }
   };
 
   constructor(knex: Knex) {

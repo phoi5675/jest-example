@@ -10,7 +10,10 @@ import Repository from "./Repository";
 class UserRepository extends Repository {
   static tableName = "user";
   static createTable = async (knex: Knex) => {
-    knex.schema.createTable(
+    if (await knex.schema.hasTable(UserRepository.tableName)) {
+      return;
+    }
+    await knex.schema.createTable(
       UserRepository.tableName,
       (table: Knex.CreateTableBuilder) => {
         table.increments("seq").notNullable();
@@ -23,7 +26,9 @@ class UserRepository extends Repository {
     );
   };
   static dropTable = async (knex: Knex) => {
-    knex.schema.dropTableIfExists(UserRepository.tableName);
+    if (await knex.schema.hasTable(UserRepository.tableName)) {
+      await knex.schema.dropTable(UserRepository.tableName);
+    }
   };
 
   constructor(knex: Knex) {
