@@ -7,6 +7,8 @@ import {
   CommonErrorResponse,
   CommonResponse,
 } from "@/shared/types/resInterface";
+import { ParamsDictionary } from "express-serve-static-core";
+import { ParsedQs } from "qs";
 
 export interface PostLoginRequest {
   username: string;
@@ -18,3 +20,18 @@ export interface PostLoginResponse extends CommonResponse {
 }
 
 export interface PostLoginErrorResponse extends CommonErrorResponse {}
+
+export interface PostLoginController<
+  P = ParamsDictionary,
+  ResBody = PostLoginResponse | PostLoginErrorResponse,
+  ReqBody = PostLoginRequest,
+  ReqQuery = ParsedQs,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  LocalsObj extends Record<string, any> = Record<string, any>,
+> {
+  (
+    req: Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>,
+    res: Response<ResBody, LocalsObj>,
+    next: NextFunction
+  ): void;
+}

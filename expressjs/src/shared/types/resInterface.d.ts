@@ -3,10 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-export interface CommonResponse {
+import { Response } from "express";
+
+export interface CommonResponse extends Response {
   message: string;
 }
 
-export interface CommonErrorResponse {
+export interface CommonErrorResponse extends Response {
   message: string;
 }

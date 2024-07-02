@@ -15,10 +15,15 @@ export default [
       "no-this-before-super": "error",
       "no-unreachable": "error",
       "no-unsafe-finally": "error",
-      "no-unused-vars": "warn",
       "rest-spread-spacing": "error",
       "spaced-comment": "error",
       "valid-typeof": "error",
+    },
+  },
+  {
+    files: ["*.d.ts"],
+    rules: {
+      "no-unused-vars": "off",
     },
   },
 ];
