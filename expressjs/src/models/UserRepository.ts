@@ -6,6 +6,7 @@
 import { User } from "@/shared/types/models/User";
 import { Knex } from "knex";
 import Repository from "./Repository";
+import knex from "./knexConfig";
 
 class UserRepository extends Repository {
   static tableName = "user";
@@ -59,4 +60,6 @@ class UserRepository extends Repository {
   }
 }
 
-export default UserRepository;
+const userRepository = new UserRepository(knex);
+
+export { UserRepository, userRepository };

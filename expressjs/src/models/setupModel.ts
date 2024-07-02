@@ -6,8 +6,8 @@
 import ENV from "@/constant/env";
 import knex from "@/models/knexConfig";
 import logger from "@/shared/utils/logger";
-import NavigationRepository from "./NavigationRepository";
-import UserRepository from "./UserRepository";
+import { NavigationRepository } from "./NavigationRepository";
+import { UserRepository } from "./UserRepository";
 
 const initModels = async () => {
   if (ENV.NODE_ENV !== `local`) {
