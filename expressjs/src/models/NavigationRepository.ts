@@ -6,7 +6,8 @@
 import { Navigation } from "@/shared/types/models/Navigation";
 import { Knex } from "knex";
 import Repository from "./Repository";
-import UserRepository from "./UserRepository";
+import { UserRepository } from "./UserRepository";
+import knex from "./knexConfig";
 
 class NavigationRepository extends Repository {
   static tableName = "navigation";
@@ -35,8 +36,21 @@ class NavigationRepository extends Repository {
     super(knex);
   }
 
-  async findByPath(path: string): Promise<Navigation | undefined> {
-    return this.knex(NavigationRepository.tableName).where({ path }).first();
+  async findByPath(
+    username: string,
+    path: string
+  ): Promise<Navigation | undefined> {
+    const user = await this.knex(UserRepository.tableName)
+      .where({ username })
+      .first();
+
+    if (!user) {
+      return;
+    }
+
+    return this.knex(NavigationRepository.tableName)
+      .where({ path: path, FK_user_id: user.id })
+      .first();
   }
 
   async findByUsername(
@@ -56,4 +70,6 @@ class NavigationRepository extends Repository {
   }
 }
 
-export default NavigationRepository;
+const navigationRepository = new NavigationRepository(knex);
+
+export { NavigationRepository, navigationRepository };

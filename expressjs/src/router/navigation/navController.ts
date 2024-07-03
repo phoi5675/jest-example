@@ -3,24 +3,54 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
-import { Request, Response } from "express";
 import StatusCodes from "http-status-codes";
 import {
-  PatchNavErrResponse,
-  PatchNavRequest,
-  PatchNavResponse,
+  GetNavErrResponseBody,
+  GetNavRequestBody,
+  GetNavResponseBody,
+  PatchNavErrResponseBody,
+  PatchNavRequestBody,
+  PatchNavResponseBody,
 } from "./navInterface";
+import { navService } from "./navService";
 
 class NavController {
-  async getNavigation(req: Request, res: Response) {
-    res.status(StatusCodes.OK).send({ message: "List of navigations" });
-  }
+  getNavigation = async (
+    req: CustomRequest<
+      GetNavResponseBody[] | GetNavErrResponseBody,
+      GetNavRequestBody
+    >,
+    res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>
+  ) => {
+    try {
+      const navItems = await navService.getNavItemsByUserId(req.body.userId);
 
-  async patchNavigation(
-    req: Request<PatchNavRequest>,
-    res: Response<PatchNavResponse | PatchNavErrResponse>
-  ) {
+      if (!navItems) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .send({ message: "Pathlist not found" });
+      } else {
+        const response: GetNavResponseBody[] = navItems;
+        res.status(StatusCodes.OK).send(response);
+      }
+    } catch (error) {
+      logger.error(error);
+      const response: GetNavErrResponseBody = {
+        message: "Error fetching navigation items",
+      };
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(response);
+    }
+  };
+
+  patchNavigation = async (
+    req: CustomRequest<
+      PatchNavResponseBody[] | PatchNavErrResponseBody,
+      PatchNavRequestBody
+    >,
+    res: CustomResponse<PatchNavResponseBody[] | PatchNavErrResponseBody>
+  ) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });
     } catch (error) {
@@ -29,7 +59,7 @@ class NavController {
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .send({ message: "Patch navigation error!" });
     }
-  }
+  };
 }
 
 export default new NavController();

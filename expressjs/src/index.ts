@@ -9,6 +9,7 @@ import authRouter from "@/router/auth/authRouter";
 import navRouter from "@/router/navigation/navRouter";
 import logger from "@/shared/utils/logger";
 import express, { Request, Response } from "express";
+import ENV from "./constant/env";
 
 const app = express();
 
@@ -28,7 +29,7 @@ app.get("/", (req: Request, res: Response) => {
 // Default fallback(404) route
 app.all("*", fallbackApi);
 
-const server = app.listen("3000", async () => {
+const server = app.listen(ENV.SERVER_PORT, async () => {
   await initModels();
   logger.log(`Server on!`);
 });

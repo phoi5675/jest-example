@@ -4,17 +4,18 @@
 // https://opensource.org/licenses/MIT
 
 import {
-  CommonErrorResponse,
-  CommonResponse,
-} from "@/shared/types/resInterface";
+  CommonErrorResponseBody,
+  CommonRequestBody,
+  CommonResponseBody,
+} from "@/shared/types/expressCore";
 
-export interface PostLoginRequest {
+export interface PostLoginRequestBody extends CommonRequestBody {
   username: string;
   password: string;
 }
 
-export interface PostLoginResponse extends CommonResponse {
-  token: string;
+export interface PostLoginResponseBody extends CommonResponseBody {
+  token?: string;
 }
 
-export interface PostLoginErrorResponse extends CommonErrorResponse {}
+export interface PostLoginErrorResponseBody extends CommonErrorResponseBody {}

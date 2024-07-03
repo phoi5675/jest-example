@@ -7,14 +7,15 @@ import ENV from "@/constant/env";
 import * as _knex from "knex";
 
 const knex: _knex.Knex = _knex.knex({
-  client: "mysql2",
+  client: ENV.DB_DRIVER,
   connection: {
     host: ENV.DB_HOST,
     user: ENV.DB_USER,
     password: ENV.DB_PASSWORD,
     database: ENV.DB_NAME,
+    port: Number(ENV.DB_PORT),
   },
-  debug: true,
+  debug: false,
 });
 
 export default knex;

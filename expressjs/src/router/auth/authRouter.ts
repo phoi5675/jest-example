@@ -4,10 +4,11 @@
 // https://opensource.org/licenses/MIT
 
 import loginController from "@/router/auth/login/loginController";
+import loginValidator from "@/router/auth/login/loginValidator";
 import { Router } from "express";
 
 const router = Router();
 
-router.post("/login", loginController.postLogin);
+router.post("/login", loginValidator.postLogin, loginController.postLogin);
 
 export default router;

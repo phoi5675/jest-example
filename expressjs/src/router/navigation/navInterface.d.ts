@@ -4,25 +4,30 @@
 // https://opensource.org/licenses/MIT
 
 import {
-  CommonErrorResponse,
-  CommonResponse,
-} from "@/shared/types/resInterface";
+  CommonErrorResponseBody,
+  CommonRequestBody,
+  CommonResponseBody,
+} from "@/shared/types/expressCore";
 
-export interface GetNavRequest {
+export interface GetNavRequestBody extends CommonRequestBody {
   userId: string;
 }
 
-export interface GetNavResponse extends CommonResponse {}
+export interface GetNavResponseBody extends CommonResponseBody {
+  seq: number;
+  path: string;
+  FK_user_seq: number;
+}
 
-export interface GetNavErrResponse extends CommonErrorResponse {}
+export interface GetNavErrResponseBody extends CommonErrorResponseBody {}
 
-export interface PatchNavRequest {
+export interface PatchNavRequestBody {
   userId: string;
   navData: unknown;
 }
 
-export interface PatchNavResponse extends CommonResponse {
+export interface PatchNavResponseBody extends CommonResponseBody {
   userId: string;
 }
 
-export interface PatchNavErrResponse extends CommonErrorResponse {}
+export interface PatchNavErrResponseBody extends CommonErrorResponseBody {}

@@ -4,39 +4,42 @@
 // https://opensource.org/licenses/MIT
 
 import {
-  PostLoginErrorResponse,
-  PostLoginRequest,
-  PostLoginResponse,
+  PostLoginErrorResponseBody,
+  PostLoginRequestBody,
+  PostLoginResponseBody,
 } from "@/router/auth/login/loginInterface";
+import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
-import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import loginService from "./loginService";
 
 class LoginController {
-  async postLogin(
-    req: Request<PostLoginRequest>,
-    res: Response<PostLoginResponse | PostLoginErrorResponse>
-  ) {
+  postLogin = async (
+    req: CustomRequest<
+      PostLoginResponseBody | PostLoginErrorResponseBody,
+      PostLoginRequestBody
+    >,
+    res: CustomResponse<PostLoginResponseBody | PostLoginErrorResponseBody>
+  ): Promise<void> => {
     try {
-      const { username, password } = req.body;
+      const loginRes = await loginService.postLogin(req);
 
-      if (!username || !password) {
+      if (!loginRes) {
         res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "Invalid request" });
-        return;
+          .send({ message: "Invalid credentials" });
+      } else {
+        res
+          .status(StatusCodes.OK)
+          .send({ message: "login success", token: "t0ken" });
       }
-
-      res
-        .status(StatusCodes.OK)
-        .json({ message: "login success", token: "t0ken" });
     } catch (error) {
       logger.error(error);
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+        .send({ message: "Internal server error" });
     }
-  }
+  };
 }
 
 export default new LoginController();
