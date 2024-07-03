@@ -3,30 +3,35 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import StatusCodes from "http-status-codes";
 import {
-  GetNavController,
-  GetNavErrResponse,
-  GetNavRequest,
-  GetNavResponse,
-  PatchNavController,
-  PatchNavErrResponse,
-  PatchNavRequest,
-  PatchNavResponse,
+  GetNavErrResponseBody,
+  GetNavRequestBody,
+  GetNavResponseBody,
+  PatchNavErrResponseBody,
+  PatchNavRequestBody,
+  PatchNavResponseBody,
 } from "./navInterface";
 
 class NavController {
-  getNavigation: GetNavController = (
-    req: GetNavRequest,
-    res: GetNavResponse | GetNavErrResponse
+  getNavigation = async (
+    req: CustomRequest<
+      GetNavResponseBody | GetNavErrResponseBody,
+      GetNavRequestBody
+    >,
+    res: CustomResponse<GetNavResponseBody | GetNavErrResponseBody>
   ) => {
     res.status(StatusCodes.OK).send({ message: "List of navigations" });
   };
 
-  patchNavigation: PatchNavController = async (
-    req: PatchNavRequest,
-    res: PatchNavResponse | PatchNavErrResponse
+  patchNavigation = async (
+    req: CustomRequest<
+      PatchNavResponseBody | PatchNavErrResponseBody,
+      PatchNavRequestBody
+    >,
+    res: CustomResponse<PatchNavResponseBody | PatchNavErrResponseBody>
   ) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });

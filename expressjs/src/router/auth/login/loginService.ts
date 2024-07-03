@@ -4,13 +4,20 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { Request } from "express";
-
-// TODO: add service logic for login here
+import { CustomRequest } from "@/shared/types/expressCore";
+import {
+  PostLoginErrorResponseBody,
+  PostLoginRequestBody,
+  PostLoginResponseBody,
+} from "./loginInterface";
 
 class LoginService {
-  postLogin = async (req: Request): Promise<string | undefined> => {
-    // TODO: implement this method to send a request to the server with username and password.
+  postLogin = async (
+    req: CustomRequest<
+      PostLoginResponseBody | PostLoginErrorResponseBody,
+      PostLoginRequestBody
+    >
+  ): Promise<string | undefined> => {
     const { username, password } = req.body;
 
     const user = await userRepository.findByUsername(username);

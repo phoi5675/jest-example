@@ -4,55 +4,26 @@
 // https://opensource.org/licenses/MIT
 
 import {
-  CommonErrorResponse,
-  CommonResponse,
-} from "@/shared/types/resInterface";
+  CommonErrorResponseBody,
+  CommonRequestBody,
+  CommonResponseBody,
+} from "@/shared/types/expressCore";
 
-export interface GetNavRequest {
+export interface GetNavRequestBody extends CommonRequestBody {
   userId: string;
 }
 
-export interface GetNavResponse extends CommonResponse {}
+export interface GetNavResponseBody extends CommonResponseBody {}
 
-export interface GetNavErrResponse extends CommonErrorResponse {}
+export interface GetNavErrResponseBody extends CommonErrorResponseBody {}
 
-export interface GetNavController<
-  P = ParamsDictionary,
-  ResBody = GetNavResponse | GetNavErrorResponse,
-  ReqBody = GetNavRequest,
-  ReqQuery = ParsedQs,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  LocalsObj extends Record<string, any> = Record<string, any>,
-> {
-  (
-    req: Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>,
-    res: Response<ResBody, LocalsObj>,
-    next: NextFunction
-  ): void;
-}
-
-export interface PatchNavRequest {
+export interface PatchNavRequestBody {
   userId: string;
   navData: unknown;
 }
 
-export interface PatchNavResponse extends CommonResponse {
+export interface PatchNavResponseBody extends CommonResponseBody {
   userId: string;
 }
 
-export interface PatchNavErrResponse extends CommonErrorResponse {}
-
-export interface PatchNavController<
-  P = ParamsDictionary,
-  ResBody = PatchNavResponse | PatchNavErrorResponse,
-  ReqBody = PatchNavRequest,
-  ReqQuery = ParsedQs,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  LocalsObj extends Record<string, any> = Record<string, any>,
-> {
-  (
-    req: Request<P, ResBody, ReqBody, ReqQuery, LocalsObj>,
-    res: Response<ResBody, LocalsObj>,
-    next: NextFunction
-  ): void;
-}
+export interface PatchNavErrResponseBody extends CommonErrorResponseBody {}
