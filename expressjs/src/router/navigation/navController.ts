@@ -14,24 +14,42 @@ import {
   PatchNavRequestBody,
   PatchNavResponseBody,
 } from "./navInterface";
+import { navService } from "./navService";
 
 class NavController {
   getNavigation = async (
     req: CustomRequest<
-      GetNavResponseBody | GetNavErrResponseBody,
+      GetNavResponseBody[] | GetNavErrResponseBody,
       GetNavRequestBody
     >,
-    res: CustomResponse<GetNavResponseBody | GetNavErrResponseBody>
+    res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>
   ) => {
-    res.status(StatusCodes.OK).send({ message: "List of navigations" });
+    try {
+      const navItems = await navService.getNavItemsByUserId(req.body.userId);
+
+      if (!navItems) {
+        res
+          .status(StatusCodes.BAD_REQUEST)
+          .send({ message: "Pathlist not found" });
+      } else {
+        const response: GetNavResponseBody[] = navItems;
+        res.status(StatusCodes.OK).send(response);
+      }
+    } catch (error) {
+      logger.error(error);
+      const response: GetNavErrResponseBody = {
+        message: "Error fetching navigation items",
+      };
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(response);
+    }
   };
 
   patchNavigation = async (
     req: CustomRequest<
-      PatchNavResponseBody | PatchNavErrResponseBody,
+      PatchNavResponseBody[] | PatchNavErrResponseBody,
       PatchNavRequestBody
     >,
-    res: CustomResponse<PatchNavResponseBody | PatchNavErrResponseBody>
+    res: CustomResponse<PatchNavResponseBody[] | PatchNavErrResponseBody>
   ) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });

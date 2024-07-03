@@ -13,7 +13,11 @@ export interface GetNavRequestBody extends CommonRequestBody {
   userId: string;
 }
 
-export interface GetNavResponseBody extends CommonResponseBody {}
+export interface GetNavResponseBody extends CommonResponseBody {
+  seq: number;
+  path: string;
+  FK_user_seq: number;
+}
 
 export interface GetNavErrResponseBody extends CommonErrorResponseBody {}
 

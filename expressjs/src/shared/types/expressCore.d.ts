@@ -11,11 +11,11 @@ export interface ParamsDictionary {
 export interface CommonRequestBody {}
 
 export interface CommonResponseBody {
-  message: string;
+  message?: string;
 }
 
 export interface CommonErrorResponseBody {
-  message: string;
+  message?: string;
 }
 export interface CustomRequest<ResBody = unknown, ReqBody = unknown>
   extends Request<ParamsDictionary, ResBody, ReqBody> {
