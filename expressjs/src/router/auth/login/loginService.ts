@@ -4,29 +4,27 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { CustomRequest } from "@/shared/types/expressCore";
+import { CommonService } from "@/shared/class/handlerClass";
+import { CommonRequestParams, CustomRequest } from "@/shared/types/expressCore";
 import {
   PostLoginErrorResponseBody,
   PostLoginRequestBody,
   PostLoginResponseBody,
 } from "./loginInterface";
 
-class LoginService {
+class LoginService extends CommonService {
   postLogin = async (
     req: CustomRequest<
+      CommonRequestParams,
       PostLoginResponseBody | PostLoginErrorResponseBody,
       PostLoginRequestBody
     >
   ): Promise<string | undefined> => {
     const { username, password } = req.body;
 
-    const user = await userRepository.findByUsername(username);
+    const user = await userRepository.findUserWithPassword(username, password);
 
     if (!user) {
-      return;
-    }
-
-    if (user.password !== password) {
       return;
     }
 

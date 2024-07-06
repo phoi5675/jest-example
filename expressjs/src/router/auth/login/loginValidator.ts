@@ -3,11 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { CommonValidator } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-class LoginValidator {
+class LoginValidator extends CommonValidator {
   async postLogin(req: Request, res: Response, next: NextFunction) {
     try {
       const { username, password } = req.body;

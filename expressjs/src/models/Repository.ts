@@ -3,19 +3,15 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import Singleton from "@/shared/class/singletonClass";
 import { Knex } from "knex";
 
-class Repository {
-  private _instance: unknown;
+class Repository extends Singleton {
   protected readonly knex: Knex;
 
   constructor(knex: Knex) {
-    if (this._instance) {
-      throw new Error("Error - already instantiated.");
-    } else {
-      this._instance = this;
-      this.knex = knex;
-    }
+    super();
+    this.knex = knex;
   }
 }
 
