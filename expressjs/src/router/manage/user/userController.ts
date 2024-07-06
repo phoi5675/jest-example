@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { CommonController } from "@/shared/class/handler";
 import {
   CommonRequestParams,
   CustomRequest,
@@ -24,7 +25,7 @@ import {
   PostUserResponseBody,
 } from "./userInterface";
 
-class UserController {
+class UserController extends CommonController {
   getUser = async (
     req: CustomRequest<
       CommonRequestParams,

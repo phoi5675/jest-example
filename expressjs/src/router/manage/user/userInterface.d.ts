@@ -6,12 +6,16 @@
 import {
   CommonErrorResponseBody,
   CommonRequestBody,
+  CommonRequestParams,
   CommonResponseBody,
 } from "@/shared/types/expressCore";
 
-// TODO: queryParam도 인터페이스 생성
 // GET
 export interface GetUserRequestBody extends CommonRequestBody {}
+
+export interface GetUserRequestParams extends CommonRequestParams {
+  username: string;
+}
 
 export interface GetUserResponseBody extends CommonResponseBody {}
 

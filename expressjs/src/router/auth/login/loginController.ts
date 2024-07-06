@@ -8,6 +8,7 @@ import {
   PostLoginRequestBody,
   PostLoginResponseBody,
 } from "@/router/auth/login/loginInterface";
+import { CommonController } from "@/shared/class/handler";
 import {
   CommonRequestParams,
   CustomRequest,
@@ -17,7 +18,7 @@ import logger from "@/shared/utils/logger";
 import { StatusCodes } from "http-status-codes";
 import loginService from "./loginService";
 
-class LoginController {
+class LoginController extends CommonController {
   postLogin = async (
     req: CustomRequest<
       CommonRequestParams,

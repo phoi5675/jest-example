@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
+import { CommonService } from "@/shared/class/handler";
 import { CommonRequestParams, CustomRequest } from "@/shared/types/expressCore";
 import {
   PostLoginErrorResponseBody,
@@ -11,7 +12,7 @@ import {
   PostLoginResponseBody,
 } from "./loginInterface";
 
-class LoginService {
+class LoginService extends CommonService {
   postLogin = async (
     req: CustomRequest<
       CommonRequestParams,

@@ -4,11 +4,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import Singleton from "../class/singletonClass";
+
 type LogType = `log` | `error` | `debug`;
 
-class Logger {
-  static _instance: unknown;
-  static _print = (
+class Logger extends Singleton {
+  private static _print = (
     logType: LogType,
     message: string | unknown,
     ...optionalParams: unknown[]
@@ -18,13 +19,6 @@ class Logger {
       ...optionalParams
     );
   };
-
-  constructor() {
-    if (Logger._instance) {
-      throw new Error(`Do not call Logger constructor!`);
-    }
-    Logger._instance = this;
-  }
 
   log(message: string | unknown, ...optionalParams: unknown[]) {
     Logger._print(`log`, message, ...optionalParams);

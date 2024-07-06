@@ -10,7 +10,7 @@ import {
 } from "@/shared/types/expressCore";
 
 export interface GetNavRequestBody extends CommonRequestBody {
-  userId: string;
+  username: string;
 }
 
 export interface GetNavResponseBody extends CommonResponseBody {

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { CommonController } from "@/shared/class/handler";
 import {
   CommonRequestParams,
   CustomRequest,
@@ -20,7 +21,7 @@ import {
 } from "./navInterface";
 import { navService } from "./navService";
 
-class NavController {
+class NavController extends CommonController {
   getNavigation = async (
     req: CustomRequest<
       CommonRequestParams,
@@ -30,7 +31,7 @@ class NavController {
     res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>
   ) => {
     try {
-      const navItems = await navService.getNavItemsByUserId(req.body.userId);
+      const navItems = await navService.getNavItemsByUserId(req.body.username);
 
       if (!navItems) {
         res
