@@ -22,13 +22,9 @@ class LoginService extends CommonService {
   ): Promise<string | undefined> => {
     const { username, password } = req.body;
 
-    const user = await userRepository.findByUsername(username);
+    const user = await userRepository.findUserWithPassword(username, password);
 
     if (!user) {
-      return;
-    }
-
-    if (user.password !== password) {
       return;
     }
 

@@ -16,6 +16,7 @@ import {
   DeleteUserResponseBody,
   GetUserErrorResponseBody,
   GetUserRequestBody,
+  GetUserRequestQuery,
   GetUserResponseBody,
   PatchUserErrorResponseBody,
   PatchUserRequestBody,
@@ -30,7 +31,8 @@ class UserController extends CommonController {
     req: CustomRequest<
       CommonRequestParams,
       GetUserResponseBody | GetUserErrorResponseBody,
-      GetUserRequestBody
+      GetUserRequestBody,
+      GetUserRequestQuery
     >,
     res: CustomResponse<GetUserResponseBody | GetUserErrorResponseBody>
   ) => {

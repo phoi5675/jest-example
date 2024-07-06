@@ -19,6 +19,7 @@ export interface CommonResponseBody {
 
 export interface CommonErrorResponseBody {
   message?: string;
+  error?: string;
 }
 export interface CustomRequest<
   P = CommonRequestParams,
@@ -26,9 +27,9 @@ export interface CustomRequest<
   ReqBody = CommonRequestBody,
   ReqQuery = CommonRequestQuery,
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
+  params: P;
   body: ReqBody;
   query: ReqQuery;
-  params: P;
 }
 
 export interface CustomResponse<ResBody = unknown> extends Response<ResBody> {}

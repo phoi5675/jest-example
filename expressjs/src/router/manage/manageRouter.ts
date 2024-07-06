@@ -5,11 +5,12 @@
 
 import { Router } from "express";
 import { userController } from "./user/userController";
+import { userValidator } from "./user/userValidator";
 
 const router = Router();
 const MANAGE_PATH = "/manage";
 
-router.get(MANAGE_PATH, userController.getUser);
-router.post(MANAGE_PATH, userController.postUser);
-router.patch(MANAGE_PATH, userController.patchUser);
-router.delete(MANAGE_PATH, userController.deleteUser);
+router.get(MANAGE_PATH, userValidator.getUser, userController.getUser);
+router.post(MANAGE_PATH, userValidator.postUser, userController.postUser);
+router.patch(MANAGE_PATH, userValidator.patchUser, userController.patchUser);
+router.delete(MANAGE_PATH, userValidator.deleteUser, userController.deleteUser);

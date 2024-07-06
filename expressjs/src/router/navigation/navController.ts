@@ -15,9 +15,9 @@ import {
   GetNavErrResponseBody,
   GetNavRequestBody,
   GetNavResponseBody,
-  PatchNavErrResponseBody,
-  PatchNavRequestBody,
-  PatchNavResponseBody,
+  PutNavErrResponseBody,
+  PutNavRequestBody,
+  PutNavResponseBody,
 } from "./navInterface";
 import { navService } from "./navService";
 
@@ -50,13 +50,13 @@ class NavController extends CommonController {
     }
   };
 
-  patchNavigation = async (
+  putNavigation = async (
     req: CustomRequest<
       CommonRequestParams,
-      PatchNavResponseBody[] | PatchNavErrResponseBody,
-      PatchNavRequestBody
+      PutNavResponseBody[] | PutNavErrResponseBody,
+      PutNavRequestBody
     >,
-    res: CustomResponse<PatchNavResponseBody[] | PatchNavErrResponseBody>
+    res: CustomResponse<PutNavResponseBody[] | PutNavErrResponseBody>
   ) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });

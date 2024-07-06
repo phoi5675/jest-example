@@ -6,14 +6,14 @@
 import {
   CommonErrorResponseBody,
   CommonRequestBody,
-  CommonRequestParams,
+  CommonRequestQuery,
   CommonResponseBody,
 } from "@/shared/types/expressCore";
 
 // GET
 export interface GetUserRequestBody extends CommonRequestBody {}
 
-export interface GetUserRequestParams extends CommonRequestParams {
+export interface GetUserRequestQuery extends CommonRequestQuery {
   username: string;
 }
 
@@ -22,21 +22,35 @@ export interface GetUserResponseBody extends CommonResponseBody {}
 export interface GetUserErrorResponseBody extends CommonErrorResponseBody {}
 
 // POST
-export interface PostUserRequestBody extends CommonRequestBody {}
+export interface PostUserRequestBody extends CommonRequestBody {
+  username: string;
+  password: string;
+  email: string;
+}
 
-export interface PostUserResponseBody extends CommonResponseBody {}
+export interface PostUserResponseBody extends CommonResponseBody {
+  username: string;
+  email: string;
+}
 
 export interface PostUserErrorResponseBody extends CommonErrorResponseBody {}
 
 // PATCH
-export interface PatchUserRequestBody extends CommonRequestBody {}
+export interface PatchUserRequestBody extends CommonRequestBody {
+  username: string;
+  password: string;
+  email?: string;
+}
 
 export interface PatchUserResponseBody extends CommonResponseBody {}
 
 export interface PatchUserErrorResponseBody extends CommonErrorResponseBody {}
 
 // DELETE
-export interface DeleteUserRequestBody extends CommonRequestBody {}
+export interface DeleteUserRequestBody extends CommonRequestBody {
+  username: string;
+  password: string;
+}
 
 export interface DeleteUserResponseBody extends CommonResponseBody {}
 

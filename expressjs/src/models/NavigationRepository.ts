@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { Navigation } from "@/shared/types/models/Navigation";
+import { User } from "@/shared/types/models/User";
 import { Knex } from "knex";
 import Repository from "./Repository";
 import { UserRepository } from "./UserRepository";
@@ -40,7 +41,7 @@ class NavigationRepository extends Repository {
     username: string,
     path: string
   ): Promise<Navigation | undefined> {
-    const user = await this.knex(UserRepository.tableName)
+    const user: User | undefined = await this.knex(UserRepository.tableName)
       .where({ username })
       .first();
 
@@ -49,14 +50,14 @@ class NavigationRepository extends Repository {
     }
 
     return this.knex(NavigationRepository.tableName)
-      .where({ path: path, FK_user_id: user.id })
+      .where({ path: path, FK_user_seq: user.seq })
       .first();
   }
 
   async findByUsername(
     username: string
   ): Promise<Array<Navigation> | undefined> {
-    const user = await this.knex(UserRepository.tableName)
+    const user: User | undefined = await this.knex(UserRepository.tableName)
       .where({ username })
       .first();
 
@@ -65,7 +66,7 @@ class NavigationRepository extends Repository {
     }
 
     return this.knex(NavigationRepository.tableName).where({
-      FK_user_id: user.id,
+      FK_user_seq: user.seq,
     });
   }
 }
