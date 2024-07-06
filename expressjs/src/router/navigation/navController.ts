@@ -3,29 +3,35 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
+import { CommonController } from "@/shared/class/handlerClass";
+import {
+  CommonRequestParams,
+  CustomRequest,
+  CustomResponse,
+} from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import StatusCodes from "http-status-codes";
 import {
   GetNavErrResponseBody,
   GetNavRequestBody,
   GetNavResponseBody,
-  PatchNavErrResponseBody,
-  PatchNavRequestBody,
-  PatchNavResponseBody,
+  PutNavErrResponseBody,
+  PutNavRequestBody,
+  PutNavResponseBody,
 } from "./navInterface";
 import { navService } from "./navService";
 
-class NavController {
+class NavController extends CommonController {
   getNavigation = async (
     req: CustomRequest<
+      CommonRequestParams,
       GetNavResponseBody[] | GetNavErrResponseBody,
       GetNavRequestBody
     >,
     res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>
   ) => {
     try {
-      const navItems = await navService.getNavItemsByUserId(req.body.userId);
+      const navItems = await navService.getNavItemsByUserId(req.body.username);
 
       if (!navItems) {
         res
@@ -44,12 +50,13 @@ class NavController {
     }
   };
 
-  patchNavigation = async (
+  putNavigation = async (
     req: CustomRequest<
-      PatchNavResponseBody[] | PatchNavErrResponseBody,
-      PatchNavRequestBody
+      CommonRequestParams,
+      PutNavResponseBody[] | PutNavErrResponseBody,
+      PutNavRequestBody
     >,
-    res: CustomResponse<PatchNavResponseBody[] | PatchNavErrResponseBody>
+    res: CustomResponse<PutNavResponseBody[] | PutNavErrResponseBody>
   ) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });

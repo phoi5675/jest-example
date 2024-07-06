@@ -58,6 +58,20 @@ class UserRepository extends Repository {
 
     return;
   }
+
+  async findUserWithPassword(
+    username: string,
+    password: string
+  ): Promise<User | undefined> {
+    const user = await this.knex(UserRepository.tableName)
+      .where({ username, password })
+      .first();
+
+    if (user) {
+      return user as User;
+    }
+    return;
+  }
 }
 
 const userRepository = new UserRepository(knex);

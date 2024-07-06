@@ -5,10 +5,11 @@
 
 import { Router } from "express";
 import navController from "./navController";
+import { navValidator } from "./navValidator";
 
 const router = Router();
 
-router.get("/", navController.getNavigation);
-router.patch("/", navController.patchNavigation);
+router.get("/", navValidator.getNavigation, navController.getNavigation);
+router.patch("/", navValidator.putNavigation, navController.putNavigation);
 
 export default router;
