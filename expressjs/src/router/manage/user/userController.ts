@@ -3,7 +3,11 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
+import {
+  CommonRequestParams,
+  CustomRequest,
+  CustomResponse,
+} from "@/shared/types/expressCore";
 import { StatusCodes } from "http-status-codes";
 import {
   DeleteUserErrorResponseBody,
@@ -23,6 +27,7 @@ import {
 class UserController {
   getUser = async (
     req: CustomRequest<
+      CommonRequestParams,
       GetUserResponseBody | GetUserErrorResponseBody,
       GetUserRequestBody
     >,
@@ -33,6 +38,7 @@ class UserController {
 
   postUser = async (
     req: CustomRequest<
+      CommonRequestParams,
       PostUserResponseBody | PostUserErrorResponseBody,
       PostUserRequestBody
     >,
@@ -43,6 +49,7 @@ class UserController {
 
   patchUser = async (
     req: CustomRequest<
+      CommonRequestParams,
       PatchUserResponseBody | PatchUserErrorResponseBody,
       PatchUserRequestBody
     >,
@@ -53,6 +60,7 @@ class UserController {
 
   deleteUser = async (
     req: CustomRequest<
+      CommonRequestParams,
       DeleteUserResponseBody | DeleteUserErrorResponseBody,
       DeleteUserRequestBody
     >,

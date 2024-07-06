@@ -3,7 +3,11 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
+import {
+  CommonRequestParams,
+  CustomRequest,
+  CustomResponse,
+} from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import StatusCodes from "http-status-codes";
 import {
@@ -19,6 +23,7 @@ import { navService } from "./navService";
 class NavController {
   getNavigation = async (
     req: CustomRequest<
+      CommonRequestParams,
       GetNavResponseBody[] | GetNavErrResponseBody,
       GetNavRequestBody
     >,
@@ -46,6 +51,7 @@ class NavController {
 
   patchNavigation = async (
     req: CustomRequest<
+      CommonRequestParams,
       PatchNavResponseBody[] | PatchNavErrResponseBody,
       PatchNavRequestBody
     >,

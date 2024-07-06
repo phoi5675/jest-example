@@ -8,7 +8,11 @@ import {
   PostLoginRequestBody,
   PostLoginResponseBody,
 } from "@/router/auth/login/loginInterface";
-import { CustomRequest, CustomResponse } from "@/shared/types/expressCore";
+import {
+  CommonRequestParams,
+  CustomRequest,
+  CustomResponse,
+} from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import { StatusCodes } from "http-status-codes";
 import loginService from "./loginService";
@@ -16,6 +20,7 @@ import loginService from "./loginService";
 class LoginController {
   postLogin = async (
     req: CustomRequest<
+      CommonRequestParams,
       PostLoginResponseBody | PostLoginErrorResponseBody,
       PostLoginRequestBody
     >,
