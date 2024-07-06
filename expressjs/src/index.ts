@@ -12,6 +12,9 @@ import logger from "@/shared/utils/logger";
 import express, { Request, Response } from "express";
 import ENV from "./constant/env";
 
+// TODO: 로그인 되었는지 필요한 항목에 대해, 로그인 되었는지 확인하는 공통 미들웨어 생성 및 적용
+// TODO: 로그인 확인 미들웨어 완성 이후, validator에 불필요한 로그인 확인 로직 삭제
+// TODO: knex에서 where 이용할 때, 타입 체크 가능하도록 타입 추가
 const app = express();
 
 // Middleware to parse incoming requests with JSON payloads
