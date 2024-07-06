@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonService } from "@/shared/class/handler";
+import { CommonService } from "@/shared/class/handlerClass";
 
 // TODO: Write service logic
 

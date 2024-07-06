@@ -3,10 +3,11 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import fallbackApi from "@/fallbackApi";
 import { dropModels, initModels } from "@/models/setupModel";
 import authRouter from "@/router/auth/authRouter";
 import navRouter from "@/router/navigation/navRouter";
+import internalServerErrorHandler from "@/shared/handler/internalServerErrorHandler";
+import notFoundHandler from "@/shared/handler/notFoundHandler";
 import logger from "@/shared/utils/logger";
 import express, { Request, Response } from "express";
 import ENV from "./constant/env";
@@ -27,7 +28,10 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Default fallback(404) route
-app.all("*", fallbackApi);
+app.use(notFoundHandler);
+
+// Default error handling middleware(500)
+app.use(internalServerErrorHandler);
 
 const server = app.listen(ENV.SERVER_PORT, async () => {
   await initModels();

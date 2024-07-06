@@ -8,7 +8,7 @@ import {
   PostLoginRequestBody,
   PostLoginResponseBody,
 } from "@/router/auth/login/loginInterface";
-import { CommonController } from "@/shared/class/handler";
+import { CommonController } from "@/shared/class/handlerClass";
 import {
   CommonRequestParams,
   CustomRequest,

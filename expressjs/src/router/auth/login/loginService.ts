@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { CommonService } from "@/shared/class/handler";
+import { CommonService } from "@/shared/class/handlerClass";
 import { CommonRequestParams, CustomRequest } from "@/shared/types/expressCore";
 import {
   PostLoginErrorResponseBody,

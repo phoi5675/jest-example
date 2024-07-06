@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonValidator } from "@/shared/class/handler";
+import { CommonValidator } from "@/shared/class/handlerClass";
 
 // TODO: Write a validator logic
 

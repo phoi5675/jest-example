@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { navigationRepository } from "@/models/NavigationRepository";
-import { CommonService } from "@/shared/class/handler";
+import { CommonService } from "@/shared/class/handlerClass";
 import { Navigation } from "@/shared/types/models/Navigation";
 
 class NavService extends CommonService {
