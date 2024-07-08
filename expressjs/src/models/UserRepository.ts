@@ -9,7 +9,7 @@ import Repository from "./Repository";
 import knex from "./knexConfig";
 
 class UserRepository extends Repository {
-  static tableName = "user";
+  static tableName = "user" as const;
   static createTable = async (knex: Knex) => {
     if (await knex.schema.hasTable(UserRepository.tableName)) {
       return;
@@ -41,10 +41,7 @@ class UserRepository extends Repository {
       .where({ username })
       .first();
 
-    if (user) {
-      return user as User;
-    }
-    return;
+    return user;
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
@@ -52,11 +49,7 @@ class UserRepository extends Repository {
       .where({ email })
       .first();
 
-    if (user) {
-      return user as User;
-    }
-
-    return;
+    return user;
   }
 
   async findUserWithPassword(
@@ -67,10 +60,7 @@ class UserRepository extends Repository {
       .where({ username, password })
       .first();
 
-    if (user) {
-      return user as User;
-    }
-    return;
+    return user;
   }
 }
 

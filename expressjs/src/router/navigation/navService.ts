@@ -11,7 +11,7 @@ class NavService extends CommonService {
   getNavItemsByUserId = async (
     userId: string
   ): Promise<Navigation[] | undefined> => {
-    const navItems = await navigationRepository.findByUsername(userId);
+    const navItems = await navigationRepository.findPathByUsername(userId);
 
     if (!navItems) {
       return;
