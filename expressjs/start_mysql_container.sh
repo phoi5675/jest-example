@@ -9,6 +9,13 @@
 # THIS SCRIPT IS FOR LOCAL DEVELOPMENT ONLY.                #
 #############################################################
 
+ARCH=${1:-arm64v8}
+
+if [[ "$ARCH" != "arm64v8" && "$ARCH" != "amd64" ]]; then
+  echo "Invalid architecture. Exiting."
+  exit 1
+fi
+
 # Run mysql container, without volume - this container is one-time use.
 # If you want to keep data, use docker volume.
 docker run -d --rm \
@@ -18,4 +25,4 @@ docker run -d --rm \
   -e MYSQL_PASSWORD=password \
   -e MYSQL_ROOT_PASSWORD=rootpassword \
   --name mysql_container \
-  mysql
+  ${ARCH}/mysql:8.0
