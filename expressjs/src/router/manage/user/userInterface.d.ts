@@ -17,7 +17,10 @@ export interface GetUserRequestQuery extends CommonRequestQuery {
   username: string;
 }
 
-export interface GetUserResponseBody extends CommonResponseBody {}
+export interface GetUserResponseBody extends CommonResponseBody {
+  username: string;
+  email: string;
+}
 
 export interface GetUserErrorResponseBody extends CommonErrorResponseBody {}
 
@@ -49,9 +52,10 @@ export interface PatchUserErrorResponseBody extends CommonErrorResponseBody {}
 // DELETE
 export interface DeleteUserRequestBody extends CommonRequestBody {
   username: string;
-  password: string;
 }
 
-export interface DeleteUserResponseBody extends CommonResponseBody {}
+export interface DeleteUserResponseBody extends CommonResponseBody {
+  username: string;
+}
 
 export interface DeleteUserErrorResponseBody extends CommonErrorResponseBody {}

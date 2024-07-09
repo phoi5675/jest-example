@@ -6,6 +6,7 @@ export default [
   { languageOptions: { globals: globals.browser } },
   ...tseslint.configs.recommended,
   {
+    files: ["**/*.{js,mjs,cjs,js}"],
     rules: {
       eqeqeq: "warn",
       "handle-callback-err": "error",
@@ -18,6 +19,13 @@ export default [
       "rest-spread-spacing": "error",
       "spaced-comment": "error",
       "valid-typeof": "error",
+      "no-unused-vars": "error",
+    },
+  },
+  {
+    files: ["*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": "warn",
     },
   },
   {

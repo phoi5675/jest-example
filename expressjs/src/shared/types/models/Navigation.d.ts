@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 interface Navigation {
-  seq: number;
+  seq?: number;
   path: string;
   FK_user_seq: number;
 }

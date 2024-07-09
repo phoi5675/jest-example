@@ -32,4 +32,5 @@ class LoginService extends CommonService {
   };
 }
 
-export default new LoginService();
+const loginService = new LoginService();
+export { loginService, LoginService };

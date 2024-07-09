@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 interface User {
-  seq: number;
+  seq?: number;
   username: string;
   email: string;
   password: string;
