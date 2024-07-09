@@ -16,7 +16,7 @@ import {
 } from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import { StatusCodes } from "http-status-codes";
-import loginService from "./loginService";
+import { loginService } from "./loginService";
 
 class LoginController extends CommonController {
   postLogin = async (

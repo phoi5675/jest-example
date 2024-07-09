@@ -36,6 +36,17 @@ class UserRepository extends Repository {
     super(knex);
   }
 
+  // Create
+  async createUser(user: User): Promise<string | undefined> {
+    const createdUserName = await this.knex(UserRepository.tableName).insert(
+      user,
+      ["username"]
+    );
+
+    return createdUserName.shift()?.username;
+  }
+
+  // Read
   async findByUsername(username: string): Promise<User | undefined> {
     const user = await this.knex(UserRepository.tableName)
       .where({ username })
@@ -61,6 +72,27 @@ class UserRepository extends Repository {
       .first();
 
     return user;
+  }
+
+  // Update
+  async updateUserByUsername(
+    username: string,
+    user: Partial<User>
+  ): Promise<string | undefined> {
+    const updatedUser = await this.knex(UserRepository.tableName)
+      .where({ username })
+      .update(user, ["username"]);
+
+    return updatedUser.shift()?.username;
+  }
+
+  // Delete
+  async deleteUserByUsername(username: string): Promise<string | undefined> {
+    const deletedUser = await this.knex(UserRepository.tableName)
+      .where({ username })
+      .delete(["username"], { includeTriggerModifications: true });
+
+    return deletedUser;
   }
 }
 

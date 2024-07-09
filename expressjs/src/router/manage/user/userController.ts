@@ -9,6 +9,8 @@ import {
   CustomRequest,
   CustomResponse,
 } from "@/shared/types/expressCore";
+import logger from "@/shared/utils/logger";
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import {
   DeleteUserErrorResponseBody,
@@ -25,6 +27,7 @@ import {
   PostUserRequestBody,
   PostUserResponseBody,
 } from "./userInterface";
+import { userService } from "./userService";
 
 class UserController extends CommonController {
   getUser = async (
@@ -34,31 +37,89 @@ class UserController extends CommonController {
       GetUserRequestBody,
       GetUserRequestQuery
     >,
-    res: CustomResponse<GetUserResponseBody | GetUserErrorResponseBody>
+    res: CustomResponse<GetUserResponseBody | GetUserErrorResponseBody>,
+    next: NextFunction
   ) => {
-    res.status(StatusCodes.OK).send();
+    try {
+      const user = await userService.getUserInfo(req, res);
+
+      if (!user) {
+        res.status(StatusCodes.NOT_FOUND).send({ message: "User not found" });
+        return next("router");
+      }
+
+      res.status(StatusCodes.OK).send({
+        username: user.username,
+        email: user.email,
+      });
+      next();
+    } catch (error) {
+      logger.error(error);
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ message: "Internal server error while getting user info" });
+      return next("router");
+    }
   };
 
-  postUser = async (
+  createUser = async (
     req: CustomRequest<
       CommonRequestParams,
       PostUserResponseBody | PostUserErrorResponseBody,
       PostUserRequestBody
     >,
-    res: CustomResponse<PostUserResponseBody | PostUserErrorResponseBody>
+    res: CustomResponse<PostUserResponseBody | PostUserErrorResponseBody>,
+    next: NextFunction
   ) => {
-    res.status(StatusCodes.OK).send();
+    try {
+      const createdUserName = await userService.createUser(req, res);
+      if (!createdUserName) {
+        res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .send({ message: "Failed to create user" });
+        return next("router");
+      }
+      res.status(StatusCodes.CREATED).send({
+        username: createdUserName,
+        message: "User Created Successfully",
+      });
+
+      next();
+    } catch (error) {
+      logger.error(error);
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ message: "Failed to create user" });
+      return next("router");
+    }
   };
 
-  patchUser = async (
+  updateUser = async (
     req: CustomRequest<
       CommonRequestParams,
       PatchUserResponseBody | PatchUserErrorResponseBody,
       PatchUserRequestBody
     >,
-    res: CustomResponse<PatchUserResponseBody | PatchUserErrorResponseBody>
+    res: CustomResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
+    next: NextFunction
   ) => {
-    res.status(StatusCodes.OK).send();
+    try {
+      const updatedUserName = await userService.updateUserByUsername(req, res);
+
+      if (!updatedUserName) {
+        res.status(StatusCodes.NOT_FOUND).send({ message: "User not found" });
+        return next("router");
+      }
+      res.status(StatusCodes.OK).send();
+      next();
+    } catch (error) {
+      logger.error(error);
+
+      res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ message: "User not found" });
+      return next("router");
+    }
   };
 
   deleteUser = async (
@@ -67,9 +128,29 @@ class UserController extends CommonController {
       DeleteUserResponseBody | DeleteUserErrorResponseBody,
       DeleteUserRequestBody
     >,
-    res: CustomResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>
+    res: CustomResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
+    next: NextFunction
   ) => {
-    res.status(StatusCodes.OK).send();
+    try {
+      const deletedUsername = await userService.deleteUserByUsername(req, res);
+
+      if (!deletedUsername) {
+        res.status(StatusCodes.NOT_FOUND).send({ message: "User not found" });
+        return next("router");
+      }
+
+      res.status(StatusCodes.OK).send({
+        username: deletedUsername,
+        message: `User ${deletedUsername} deleted successfully`,
+      });
+
+      next();
+    } catch (error) {
+      logger.error(error);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+        message: "An error occurred while deleting the user",
+      });
+    }
   };
 }
 
