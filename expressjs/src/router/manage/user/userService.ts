@@ -26,8 +26,6 @@ import {
   PostUserResponseBody,
 } from "./userInterface";
 
-// TODO: Write service logic
-
 class UserService extends CommonService {
   getUserInfo = async (
     req: CustomRequest<
