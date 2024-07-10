@@ -3,14 +3,32 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import ROUTE from "@/constant/route";
 import { Router } from "express";
 import { userController } from "./user/userController";
 import { userValidator } from "./user/userValidator";
 
 const router = Router();
-const MANAGE_PATH = "/manage";
 
-router.get(MANAGE_PATH, userValidator.getUser, userController.getUser);
-router.post(MANAGE_PATH, userValidator.postUser, userController.createUser);
-router.patch(MANAGE_PATH, userValidator.patchUser, userController.updateUser);
-router.delete(MANAGE_PATH, userValidator.deleteUser, userController.deleteUser);
+router.get(
+  ROUTE.manage.user.url,
+  userValidator.getUser,
+  userController.getUser
+);
+router.post(
+  ROUTE.manage.user.url,
+  userValidator.postUser,
+  userController.createUser
+);
+router.patch(
+  ROUTE.manage.user.url,
+  userValidator.patchUser,
+  userController.updateUser
+);
+router.delete(
+  ROUTE.manage.user.url,
+  userValidator.deleteUser,
+  userController.deleteUser
+);
+
+export default router;

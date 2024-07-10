@@ -15,7 +15,7 @@ export interface GetNavRequestBody extends CommonRequestBody {
 }
 
 export interface GetNavResponseBody extends CommonResponseBody {
-  seq: number;
+  seq?: number;
   path: string;
   FK_user_seq: number;
 }

@@ -90,9 +90,9 @@ class UserRepository extends Repository {
   async deleteUserByUsername(username: string): Promise<string | undefined> {
     const deletedUser = await this.knex(UserRepository.tableName)
       .where({ username })
-      .delete(["username"], { includeTriggerModifications: true });
+      .delete("username", { includeTriggerModifications: true });
 
-    return deletedUser;
+    return deletedUser.shift()?.username;
   }
 }
 
