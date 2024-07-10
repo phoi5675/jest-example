@@ -13,7 +13,7 @@ import internalServerErrorHandler from "@/shared/handler/internalServerErrorHand
 import notFoundHandler from "@/shared/handler/notFoundHandler";
 import logger from "@/shared/utils/logger";
 import express from "express";
-import { CustomRequest, CustomResponse } from "./shared/types/expressCore";
+import { CommonRequest, CommonResponse } from "./shared/types/expressCore";
 
 // [ ] 로그인 되었는지 필요한 항목에 대해, 로그인 되었는지 확인하는 공통 미들웨어 생성 및 적용
 // [ ] 로그인 확인 미들웨어 완성 이후, validator에 불필요한 로그인 확인 로직 삭제
@@ -29,7 +29,7 @@ app.use(ROUTE.auth.url, authRouter);
 app.use(ROUTE.navigation.url, navRouter);
 app.use(ROUTE.manage.url, manageRouter);
 
-app.get(ROUTE.url, (req: CustomRequest, res: CustomResponse) => {
+app.get(ROUTE.url, (req: CommonRequest, res: CommonResponse) => {
   res.send({ message: `Hello, world!` });
 });
 

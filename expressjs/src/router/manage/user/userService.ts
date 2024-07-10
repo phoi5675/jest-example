@@ -6,9 +6,9 @@
 import { userRepository } from "@/models/UserRepository";
 import { CommonService } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
+  CommonResponse,
 } from "@/shared/types/expressCore";
 import {
   DeleteUserErrorResponseBody,
@@ -28,14 +28,14 @@ import {
 
 class UserService extends CommonService {
   getUserInfo = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       GetUserResponseBody | GetUserErrorResponseBody,
       GetUserRequestBody,
       GetUserRequestQuery
     >,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CustomResponse<GetUserResponseBody | GetUserErrorResponseBody>
+    res: CommonResponse<GetUserResponseBody | GetUserErrorResponseBody>
   ) => {
     const user = await userRepository.findByUsername(req.query.username);
 
@@ -43,13 +43,13 @@ class UserService extends CommonService {
   };
 
   createUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PostUserResponseBody | PostUserErrorResponseBody,
       PostUserRequestBody
     >,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CustomResponse<PostUserResponseBody | PostUserErrorResponseBody>
+    res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>
   ) => {
     const createdUserName = await userRepository.createUser(req.body);
 
@@ -57,13 +57,13 @@ class UserService extends CommonService {
   };
 
   updateUserByUsername = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PatchUserResponseBody | PatchUserErrorResponseBody,
       PatchUserRequestBody
     >,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CustomResponse<PatchUserResponseBody | PatchUserErrorResponseBody>
+    res: CommonResponse<PatchUserResponseBody | PatchUserErrorResponseBody>
   ) => {
     const updatedUserName = await userRepository.updateUserByUsername(
       req.body.username,
@@ -73,13 +73,13 @@ class UserService extends CommonService {
     return updatedUserName;
   };
   deleteUserByUsername = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       DeleteUserResponseBody | DeleteUserErrorResponseBody,
       DeleteUserRequestBody
     >,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CustomResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>
+    res: CommonResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>
   ) => {
     const deletedUsername = await userRepository.deleteUserByUsername(
       req.body.username

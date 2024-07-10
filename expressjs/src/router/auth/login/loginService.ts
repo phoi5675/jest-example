@@ -5,7 +5,7 @@
 
 import { userRepository } from "@/models/UserRepository";
 import { CommonService } from "@/shared/class/handlerClass";
-import { CommonRequestParams, CustomRequest } from "@/shared/types/expressCore";
+import { CommonRequest, CommonRequestParams } from "@/shared/types/expressCore";
 import {
   PostLoginErrorResponseBody,
   PostLoginRequestBody,
@@ -14,7 +14,7 @@ import {
 
 class LoginService extends CommonService {
   postLogin = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PostLoginResponseBody | PostLoginErrorResponseBody,
       PostLoginRequestBody

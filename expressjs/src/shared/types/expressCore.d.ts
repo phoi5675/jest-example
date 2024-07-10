@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import { Request, Response } from "express";
+import { IncomingHttpHeaders } from "http";
 import { ParsedQs } from "qs";
 
 export interface CommonRequestParams {
@@ -21,15 +22,17 @@ export interface CommonErrorResponseBody {
   message?: string;
   error?: string;
 }
-export interface CustomRequest<
+export interface CommonRequest<
   P = CommonRequestParams,
   ResBody = CommonResponseBody | CommonErrorResponseBody,
   ReqBody = CommonRequestBody,
   ReqQuery = CommonRequestQuery,
+  ReqHeader = IncomingHttpHeaders,
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
   params: P;
   body: ReqBody;
   query: ReqQuery;
+  headers: IncomingHttpHeaders & ReqHeader;
 }
 
-export interface CustomResponse<ResBody = unknown> extends Response<ResBody> {}
+export interface CommonResponse<ResBody = unknown> extends Response<ResBody> {}

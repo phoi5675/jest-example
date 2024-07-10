@@ -6,9 +6,9 @@
 import { userRepository } from "@/models/UserRepository";
 import { CommonValidator } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
+  CommonResponse,
 } from "@/shared/types/expressCore";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -24,12 +24,12 @@ import {
 
 class NavValidator extends CommonValidator {
   getNavigation = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       GetNavResponseBody[] | GetNavErrResponseBody,
       GetNavRequestBody
     >,
-    res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>,
+    res: CommonResponse<GetNavResponseBody[] | GetNavErrResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
@@ -63,12 +63,12 @@ class NavValidator extends CommonValidator {
   };
 
   putNavigation = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PutNavResponseBody[] | PutNavErrResponseBody,
       PutNavRequestBody
     >,
-    res: CustomResponse<PutNavResponseBody[] | PutNavErrResponseBody>,
+    res: CommonResponse<PutNavResponseBody[] | PutNavErrResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({

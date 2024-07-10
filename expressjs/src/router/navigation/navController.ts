@@ -5,9 +5,9 @@
 
 import { CommonController } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
+  CommonResponse,
 } from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import StatusCodes from "http-status-codes";
@@ -23,12 +23,12 @@ import { navService } from "./navService";
 
 class NavController extends CommonController {
   getNavigation = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       GetNavResponseBody[] | GetNavErrResponseBody,
       GetNavRequestBody
     >,
-    res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>
+    res: CommonResponse<GetNavResponseBody[] | GetNavErrResponseBody>
   ) => {
     try {
       const navItems = await navService.getNavItemsByUserId(req.body.username);
@@ -51,12 +51,12 @@ class NavController extends CommonController {
   };
 
   putNavigation = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PutNavResponseBody[] | PutNavErrResponseBody,
       PutNavRequestBody
     >,
-    res: CustomResponse<PutNavResponseBody[] | PutNavErrResponseBody>
+    res: CommonResponse<PutNavResponseBody[] | PutNavErrResponseBody>
   ) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });

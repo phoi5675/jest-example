@@ -5,9 +5,9 @@
 
 import { CommonController } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
+  CommonResponse,
 } from "@/shared/types/expressCore";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
@@ -31,13 +31,13 @@ import { userService } from "./userService";
 
 class UserController extends CommonController {
   getUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       GetUserResponseBody | GetUserErrorResponseBody,
       GetUserRequestBody,
       GetUserRequestQuery
     >,
-    res: CustomResponse<GetUserResponseBody | GetUserErrorResponseBody>,
+    res: CommonResponse<GetUserResponseBody | GetUserErrorResponseBody>,
     next: NextFunction
   ) => {
     try {
@@ -63,12 +63,12 @@ class UserController extends CommonController {
   };
 
   createUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PostUserResponseBody | PostUserErrorResponseBody,
       PostUserRequestBody
     >,
-    res: CustomResponse<PostUserResponseBody | PostUserErrorResponseBody>,
+    res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>,
     next: NextFunction
   ) => {
     try {
@@ -95,12 +95,12 @@ class UserController extends CommonController {
   };
 
   updateUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PatchUserResponseBody | PatchUserErrorResponseBody,
       PatchUserRequestBody
     >,
-    res: CustomResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
+    res: CommonResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
     next: NextFunction
   ) => {
     try {
@@ -123,12 +123,12 @@ class UserController extends CommonController {
   };
 
   deleteUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       DeleteUserResponseBody | DeleteUserErrorResponseBody,
       DeleteUserRequestBody
     >,
-    res: CustomResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
+    res: CommonResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
     next: NextFunction
   ) => {
     try {
