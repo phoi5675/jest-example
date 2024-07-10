@@ -1,0 +1,38 @@
+// Copyright (c) 2024 phoi5675
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+import ROUTE from "@/constant/route";
+import { NextFunction } from "express";
+import { StatusCodes } from "http-status-codes";
+import {
+  CommonErrorResponseBody,
+  CommonRequest,
+  CommonRequestBody,
+  CommonResponse,
+  CommonResponseBody,
+} from "../types/expressCore";
+
+const tokenValidityWaiverList = [ROUTE.url];
+
+const tokenValidator = (
+  req: CommonRequest<CommonRequestBody>,
+  res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>,
+  next: NextFunction
+) => {
+  // 로그인 없이 접근 가능한 페이지인 경우
+  if (tokenValidityWaiverList.includes(req.url)) {
+    return next();
+  }
+
+  // TODO: 토큰 확인 로직 추가
+  if (!req.headers.token) {
+    res.status(StatusCodes.BAD_REQUEST).send({ message: `token not found` });
+    return next("router");
+  }
+
+  next();
+};
+
+export default tokenValidator;

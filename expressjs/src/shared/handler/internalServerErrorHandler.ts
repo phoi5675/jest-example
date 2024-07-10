@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { ErrorRequestHandler } from "express";
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import {
   CommonErrorResponseBody,
@@ -22,15 +22,18 @@ import logger from "../utils/logger";
  * @param {CommonResponse<CommonResponseBody | CommonErrorResponseBody>} res - express.Response 확장, res.send는 CommonResponseBody or CommonErrorResponseBody 타입을 갖는 send 메소드
  * @returns {void}
  */
-const internalServerErrorHandler: ErrorRequestHandler = (
+const internalServerErrorHandler = (
   err: unknown,
   req: CommonRequest<CommonRequestBody>,
-  res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>
-) => {
+  res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>,
+  next: NextFunction
+): void => {
   logger.error(err);
   res
     .status(StatusCodes.INTERNAL_SERVER_ERROR)
     .send({ message: `Internal server error!` });
+
+  return next(err);
 };
 
 export default internalServerErrorHandler;

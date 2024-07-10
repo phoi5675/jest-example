@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import {
   CommonErrorResponseBody,
@@ -21,9 +22,12 @@ import {
  */
 const notFoundHandler = (
   req: CommonRequest<CommonRequestBody>,
-  res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>
+  res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>,
+  next: NextFunction
 ) => {
   res.status(StatusCodes.NOT_FOUND).json({ message: "404 Not found" });
+
+  return next("router");
 };
 
 export default notFoundHandler;

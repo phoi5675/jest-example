@@ -6,6 +6,10 @@ import { Request, Response } from "express";
 import { IncomingHttpHeaders } from "http";
 import { ParsedQs } from "qs";
 
+export interface CommonRequestHeader extends IncomingHttpHeaders {
+  token?: string;
+}
+
 export interface CommonRequestParams {
   [key: string]: string;
 }
@@ -22,17 +26,18 @@ export interface CommonErrorResponseBody {
   message?: string;
   error?: string;
 }
+
 export interface CommonRequest<
   P = CommonRequestParams,
   ResBody = CommonResponseBody | CommonErrorResponseBody,
   ReqBody = CommonRequestBody,
   ReqQuery = CommonRequestQuery,
-  ReqHeader = IncomingHttpHeaders,
+  ReqHeader = CommonRequestHeader,
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
   params: P;
   body: ReqBody;
   query: ReqQuery;
-  headers: IncomingHttpHeaders & ReqHeader;
+  headers: ReqHeader;
 }
 
 export interface CommonResponse<ResBody = unknown> extends Response<ResBody> {}
