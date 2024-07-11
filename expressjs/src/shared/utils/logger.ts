@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Copyright (c) 2024 phoi5675
 //
 // This software is released under the MIT License.

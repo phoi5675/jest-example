@@ -34,8 +34,7 @@ class NavValidator extends CommonValidator {
   ) => {
     const validator = Joi.object({
       body: Joi.object({
-        username: Joi.string().required(),
-        password: Joi.string().required(),
+        username: Joi.string().max(20).required(),
       }),
     });
 
@@ -46,14 +45,11 @@ class NavValidator extends CommonValidator {
       return next("router");
     }
 
-    const user = await userRepository.findUserWithPassword(
-      req.body.username,
-      req.body.password
-    );
+    const user = await userRepository.findByUsername(req.body.username);
 
     if (user) {
       res.status(StatusCodes.BAD_REQUEST).send({
-        message: "User not exists, or password is wrong.",
+        message: "User not exists.",
         error: `Bad request`,
       });
       return next("router");
@@ -73,8 +69,7 @@ class NavValidator extends CommonValidator {
   ) => {
     const validator = Joi.object({
       body: Joi.object({
-        username: Joi.string().required(),
-        password: Joi.string().required(),
+        username: Joi.string().max(20).required(),
         navData: Joi.array().items(Joi.string()).required(),
       }),
     });
@@ -86,14 +81,11 @@ class NavValidator extends CommonValidator {
       return next("router");
     }
 
-    const user = await userRepository.findUserWithPassword(
-      req.body.username,
-      req.body.password
-    );
+    const user = await userRepository.findByUsername(req.body.username);
 
     if (user) {
       res.status(StatusCodes.BAD_REQUEST).send({
-        message: "User not exists, or password is wrong.",
+        message: "User not exists.",
         error: `Bad request`,
       });
       return next("router");

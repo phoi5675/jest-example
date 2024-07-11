@@ -11,7 +11,6 @@ import {
 
 export interface GetNavRequestBody extends CommonRequestBody {
   username: string;
-  password: string;
 }
 
 export interface GetNavResponseBody extends CommonResponseBody {
@@ -24,7 +23,6 @@ export interface GetNavErrResponseBody extends CommonErrorResponseBody {}
 
 export interface PutNavRequestBody {
   username: string;
-  password: string;
   navData: string[];
 }
 
