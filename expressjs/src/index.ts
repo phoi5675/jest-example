@@ -4,23 +4,22 @@
 // https://opensource.org/licenses/MIT
 
 import ENV from "@/constant/env";
-import ROUTE from "@/constant/route";
 import { dropModels, initModels } from "@/models/setupModel";
 import authRouter from "@/router/auth/authRouter";
-import manageRouter from "@/router/manage/manageRouter";
 import navRouter from "@/router/navigation/navRouter";
 import internalServerErrorHandler from "@/shared/handler/internalServerErrorHandler";
 import notFoundHandler from "@/shared/handler/notFoundHandler";
 import tokenValidator from "@/shared/middleware/tokenValidator";
-import logger from "@/shared/utils/logger";
-import express from "express";
 import {
   CommonErrorResponseBody,
   CommonRequest,
   CommonRequestBody,
+  CommonRequestParams,
   CommonResponse,
   CommonResponseBody,
-} from "./shared/types/expressCore";
+} from "@/shared/types/expressCore";
+import logger from "@/shared/utils/logger";
+import express from "express";
 
 // [ ] 로그인 되었는지 필요한 항목에 대해, 로그인 되었는지 확인하는 공통 미들웨어 생성 및 적용
 // [ ] 로그인 확인 미들웨어 완성 이후, validator에 불필요한 로그인 확인 로직 삭제
@@ -35,17 +34,20 @@ app.all("*", tokenValidator);
 /**
  * Routes
  */
-app.use(ROUTE.auth.url, authRouter);
-app.use(ROUTE.navigation.url, navRouter);
-app.use(ROUTE.manage.url, manageRouter);
+app.use("/auth", authRouter);
+app.use("/navigation", navRouter);
 
 app.get(
-  ROUTE.url,
+  "/",
   (
-    req: CommonRequest<CommonRequestBody>,
+    req: CommonRequest<
+      CommonRequestParams,
+      CommonResponseBody | CommonErrorResponseBody,
+      CommonRequestBody
+    >,
     res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>
   ) => {
-    res.send({ message: `Hello, world!` });
+    res.send({ message: "welcome!" });
   }
 );
 
