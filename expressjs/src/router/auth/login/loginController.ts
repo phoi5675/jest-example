@@ -35,6 +35,7 @@ class LoginController extends CommonController {
           .status(StatusCodes.BAD_REQUEST)
           .send({ message: "Invalid credentials" });
       } else {
+        // TODO: 토큰을 헤더에 담아서 리턴하도록 변경
         res
           .status(StatusCodes.OK)
           .send({ message: "login success", token: "t0ken" });

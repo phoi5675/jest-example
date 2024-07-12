@@ -29,8 +29,6 @@ import {
   PostUserResponseBody,
 } from "./userInterface";
 
-// TODO: Write a validator logic
-
 class UserValidator extends CommonValidator {
   getUser = (
     req: CommonRequest<
