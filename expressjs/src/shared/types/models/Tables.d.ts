@@ -21,8 +21,8 @@ declare module "knex/types/tables.js" {
 
     user: Knex.CompositeTableType<
       User,
-      Pick<User, "username" | "email" | "password">,
-      Partial<Omit<User, "seq">>
+      Pick<User, "username" | "email" | "password" | "salt">,
+      Partial<Omit<User, "seq", "salt">>
     >;
   }
 }

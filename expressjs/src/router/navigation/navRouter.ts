@@ -9,8 +9,7 @@ import { navValidator } from "./navValidator";
 
 const router = Router();
 
-// NOTE: 추후 라우터 세분화 되는 경우, ROUTE 사용
 router.get("/", navValidator.getNavigation, navController.getNavigation);
 router.patch("/", navValidator.putNavigation, navController.putNavigation);
 
-export default router;
+export { router as navRouter };

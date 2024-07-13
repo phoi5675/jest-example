@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import EnvType from "@/shared/types/env.d";
+import { Env } from "@/shared/types/Env";
 import dotenv from "dotenv";
 
 dotenv.config({
@@ -11,6 +11,11 @@ dotenv.config({
   debug: true,
 });
 
-const ENV = { ...process.env } as EnvType;
+const ENV: Env = {
+  ...process.env,
+  DB_PORT: parseInt(process.env.DB_PORT),
+  MAX_TOKEN_VALID_MIN: parseInt(process.env.MAX_TOKEN_VALID_MIN),
+};
 
+// logger.log(ENV);
 export default ENV;

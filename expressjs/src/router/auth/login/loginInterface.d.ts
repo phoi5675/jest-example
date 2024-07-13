@@ -7,15 +7,16 @@ import {
   CommonErrorResponseBody,
   CommonRequestBody,
   CommonResponseBody,
-} from "@/shared/types/expressCore";
+  CommonResponseHeader,
+} from "@/shared/types/ExpressCore";
 
 export interface PostLoginRequestBody extends CommonRequestBody {
   username: string;
   password: string;
 }
 
-export interface PostLoginResponseBody extends CommonResponseBody {
-  token?: string;
-}
+export interface PostLoginResponseHeader extends CommonResponseHeader {}
+
+export interface PostLoginResponseBody extends CommonResponseBody {}
 
 export interface PostLoginErrorResponseBody extends CommonErrorResponseBody {}

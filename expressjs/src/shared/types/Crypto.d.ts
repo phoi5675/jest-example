@@ -3,12 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-interface User {
-  seq?: number;
-  username: string;
-  email: string;
-  password: string;
+export type HashedPassword = {
   salt: string;
-}
-
-export { User };
+  hashedPassword: string;
+};

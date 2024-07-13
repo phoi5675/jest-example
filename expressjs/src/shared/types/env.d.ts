@@ -3,22 +3,31 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-interface DbEnvType {
-  [key: string]: string;
-  DB_DRIVER: string;
-  DB_HOST: string;
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      DB_DRIVER: string;
+      DB_HOST: string;
+      DB_PORT: string;
+      DB_NAME: string;
+      DB_USER: string;
+      DB_PASSWORD: string;
+
+      SERVER_PORT: string;
+      NODE_ENV: "local" | "development" | "production";
+      DEL_DB_AFTER_QUIT?: string;
+      MAX_TOKEN_VALID_MIN: string;
+
+      PUBLIC_KEY: string;
+      PRIVATE_KEY: string;
+    }
+  }
+}
+
+interface Env extends NodeJS.ProcessEnv {
+  [key: string]: string | number;
   DB_PORT: number;
-  DB_NAME: string;
-  DB_USER: string;
-  DB_PASSWORD: string;
+  MAX_TOKEN_VALID_MIN: number;
 }
 
-interface ServerEnvType {
-  [key: string]: string;
-  SERVER_PORT: number;
-  NODE_ENV: string;
-}
-
-type EnvType = DbEnvType | ServerEnvType;
-
-export default EnvType;
+export { Env };

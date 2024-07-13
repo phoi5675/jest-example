@@ -6,10 +6,10 @@
 import { userRepository } from "@/models/UserRepository";
 import { CommonValidator } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
-} from "@/shared/types/expressCore";
+  CommonResponse,
+} from "@/shared/types/ExpressCore";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
@@ -29,17 +29,15 @@ import {
   PostUserResponseBody,
 } from "./userInterface";
 
-// TODO: Write a validator logic
-
 class UserValidator extends CommonValidator {
   getUser = (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       GetUserResponseBody | GetUserErrorResponseBody,
       GetUserRequestBody,
       GetUserRequestQuery
     >,
-    res: CustomResponse<GetUserResponseBody | GetUserErrorResponseBody>,
+    res: CommonResponse<GetUserResponseBody | GetUserErrorResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
@@ -59,12 +57,12 @@ class UserValidator extends CommonValidator {
   };
 
   postUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PostUserResponseBody | PostUserErrorResponseBody,
       PostUserRequestBody
     >,
-    res: CustomResponse<PostUserResponseBody | PostUserErrorResponseBody>,
+    res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
@@ -95,12 +93,12 @@ class UserValidator extends CommonValidator {
   };
 
   patchUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PatchUserResponseBody | PatchUserErrorResponseBody,
       PatchUserRequestBody
     >,
-    res: CustomResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
+    res: CommonResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
@@ -118,14 +116,11 @@ class UserValidator extends CommonValidator {
       return next("router");
     }
 
-    const user = await userRepository.findUserWithPassword(
-      req.body.username,
-      req.body.password
-    );
+    const user = await userRepository.findByUsername(req.body.username);
 
     if (user) {
       res.status(StatusCodes.BAD_REQUEST).send({
-        message: "User not exists, or password is wrong.",
+        message: "User not exists.",
         error: `Bad request`,
       });
       return next("router");
@@ -135,17 +130,17 @@ class UserValidator extends CommonValidator {
   };
 
   deleteUser = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       DeleteUserResponseBody | DeleteUserErrorResponseBody,
       DeleteUserRequestBody
     >,
-    res: CustomResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
+    res: CommonResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
       body: Joi.object({
-        username: Joi.string().max(20).required(),
+        username: Joi.string().max(10).required(),
         password: Joi.string().min(6).max(15).required(),
       }),
     });

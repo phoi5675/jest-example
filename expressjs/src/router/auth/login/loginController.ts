@@ -10,22 +10,24 @@ import {
 } from "@/router/auth/login/loginInterface";
 import { CommonController } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
-} from "@/shared/types/expressCore";
+  CommonResponse,
+} from "@/shared/types/ExpressCore";
 import logger from "@/shared/utils/logger";
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import { loginService } from "./loginService";
 
 class LoginController extends CommonController {
   postLogin = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PostLoginResponseBody | PostLoginErrorResponseBody,
       PostLoginRequestBody
     >,
-    res: CustomResponse<PostLoginResponseBody | PostLoginErrorResponseBody>
+    res: CommonResponse<PostLoginResponseBody | PostLoginErrorResponseBody>,
+    next: NextFunction
   ): Promise<void> => {
     try {
       const loginRes = await loginService.postLogin(req);
@@ -34,16 +36,21 @@ class LoginController extends CommonController {
         res
           .status(StatusCodes.BAD_REQUEST)
           .send({ message: "Invalid credentials" });
+        return next("router");
       } else {
         res
           .status(StatusCodes.OK)
-          .send({ message: "login success", token: "t0ken" });
+          .set("token", loginRes.token)
+          .set("logined-at", loginRes["logined-at"])
+          .send({ message: "login success" });
+        next();
       }
     } catch (error) {
       logger.error(error);
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .send({ message: "Internal server error" });
+      return next("router");
     }
   };
 }

@@ -5,30 +5,43 @@
 
 import { userRepository } from "@/models/UserRepository";
 import { CommonService } from "@/shared/class/handlerClass";
-import { CommonRequestParams, CustomRequest } from "@/shared/types/expressCore";
+import { CommonRequest, CommonRequestParams } from "@/shared/types/ExpressCore";
+import {
+  decryptByPrivateKey,
+  encryptByPrivateKey,
+} from "@/shared/utils/crypto";
+import moment from "moment";
 import {
   PostLoginErrorResponseBody,
   PostLoginRequestBody,
   PostLoginResponseBody,
+  PostLoginResponseHeader,
 } from "./loginInterface";
 
 class LoginService extends CommonService {
   postLogin = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PostLoginResponseBody | PostLoginErrorResponseBody,
       PostLoginRequestBody
     >
-  ): Promise<string | undefined> => {
+  ): Promise<PostLoginResponseHeader | undefined> => {
     const { username, password } = req.body;
 
-    const user = await userRepository.findUserWithPassword(username, password);
+    const decryptedHashedPassword = decryptByPrivateKey(password);
+    const user = await userRepository.findUserWithPassword(
+      username,
+      decryptedHashedPassword
+    );
 
     if (!user) {
       return;
     }
 
-    return `t0ken`;
+    const loginedAt = moment().toISOString();
+    const token = encryptByPrivateKey(password, loginedAt);
+
+    return { token, "logined-at": loginedAt };
   };
 }
 
