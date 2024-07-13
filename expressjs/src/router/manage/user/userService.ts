@@ -9,7 +9,7 @@ import {
   CommonRequest,
   CommonRequestParams,
   CommonResponse,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 import {
   DeleteUserErrorResponseBody,
   DeleteUserRequestBody,

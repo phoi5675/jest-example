@@ -17,7 +17,7 @@ import {
   CommonRequestParams,
   CommonResponse,
   CommonResponseBody,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 import logger from "@/shared/utils/logger";
 import express from "express";
 

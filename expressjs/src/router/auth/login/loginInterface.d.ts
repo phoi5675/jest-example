@@ -7,7 +7,7 @@ import {
   CommonErrorResponseBody,
   CommonRequestBody,
   CommonResponseBody,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 
 export interface PostLoginRequestBody extends CommonRequestBody {
   username: string;

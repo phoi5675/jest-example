@@ -9,7 +9,7 @@ import {
   CommonRequest,
   CommonRequestParams,
   CommonResponse,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";

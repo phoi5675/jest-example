@@ -11,7 +11,7 @@ import {
   CommonRequestBody,
   CommonResponse,
   CommonResponseBody,
-} from "../types/expressCore";
+} from "../types/ExpressCore";
 import logger from "../utils/logger";
 
 /**

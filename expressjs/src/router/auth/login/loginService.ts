@@ -5,7 +5,7 @@
 
 import { userRepository } from "@/models/UserRepository";
 import { CommonService } from "@/shared/class/handlerClass";
-import { CommonRequest, CommonRequestParams } from "@/shared/types/expressCore";
+import { CommonRequest, CommonRequestParams } from "@/shared/types/ExpressCore";
 import {
   PostLoginErrorResponseBody,
   PostLoginRequestBody,

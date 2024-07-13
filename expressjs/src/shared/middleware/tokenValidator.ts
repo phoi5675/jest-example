@@ -3,7 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import ROUTE from "@/constant/route";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import {
@@ -12,10 +11,13 @@ import {
   CommonRequestBody,
   CommonResponse,
   CommonResponseBody,
-} from "../types/expressCore";
+} from "../types/ExpressCore";
+import { TokenValidityWaiver } from "../types/Route";
 
-// TODO: POST /auth/login의 경우, token validator 예외 리스트 추가
-const tokenValidityWaiverList = [ROUTE.url];
+const tokenValidityWaiverList: TokenValidityWaiver[] = [
+  "GET /",
+  "POST /auth/login",
+];
 
 const tokenValidator = (
   req: CommonRequest<CommonRequestBody>,
@@ -23,7 +25,11 @@ const tokenValidator = (
   next: NextFunction
 ) => {
   // 로그인 없이 접근 가능한 페이지인 경우
-  if (tokenValidityWaiverList.includes(req.url)) {
+  if (
+    tokenValidityWaiverList.includes(
+      `${req.method} ${req.path}` as TokenValidityWaiver
+    )
+  ) {
     return next();
   }
 

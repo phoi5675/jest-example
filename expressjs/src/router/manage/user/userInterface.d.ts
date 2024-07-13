@@ -8,7 +8,7 @@ import {
   CommonRequestBody,
   CommonRequestQuery,
   CommonResponseBody,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 
 // GET
 export interface GetUserRequestBody extends CommonRequestBody {}

@@ -8,7 +8,7 @@ import {
   CommonRequest,
   CommonRequestParams,
   CommonResponse,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
