@@ -51,6 +51,7 @@ class UserService extends CommonService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>
   ) => {
+    // TODO: User 생성 시 password 암호화 후 repo 함수로 넘기도록 수정
     const createdUserName = await userRepository.createUser(req.body);
 
     return createdUserName;

@@ -19,6 +19,13 @@ const tokenValidityWaiverList: TokenValidityWaiver[] = [
   "POST /auth/login",
 ];
 
+const isTokenValid = (token?: string): boolean => {
+  if (!token) {
+    return false;
+  }
+  return true;
+};
+
 const tokenValidator = (
   req: CommonRequest<CommonRequestBody>,
   res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>,
@@ -35,7 +42,7 @@ const tokenValidator = (
 
   // TODO: 토큰 확인 로직 추가
   // TODO: 로그인 시 토큰을 헤더에 넣어주는 로직 추가
-  if (!req.headers.token) {
+  if (!isTokenValid(req.headers.token)) {
     res.status(StatusCodes.BAD_REQUEST).send({ message: `token not found` });
     return next("router");
   }

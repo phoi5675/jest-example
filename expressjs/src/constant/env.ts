@@ -3,7 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import EnvType from "@/shared/types/env.d";
 import dotenv from "dotenv";
 
 dotenv.config({
@@ -11,6 +10,6 @@ dotenv.config({
   debug: true,
 });
 
-const ENV = { ...process.env } as EnvType;
+const ENV = process.env;
 
 export default ENV;

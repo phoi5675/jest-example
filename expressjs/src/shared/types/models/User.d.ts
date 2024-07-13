@@ -8,6 +8,7 @@ interface User {
   username: string;
   email: string;
   password: string;
+  salt: string;
 }
 
 export { User };
