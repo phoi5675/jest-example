@@ -5,8 +5,9 @@
 
 import ENV from "@/constant/env";
 import { dropModels, initModels } from "@/models/setupModel";
-import authRouter from "@/router/auth/authRouter";
-import navRouter from "@/router/navigation/navRouter";
+import { authRouter } from "@/router/auth/authRouter";
+import { manageRouter } from "@/router/manage/manageRouter";
+import { navRouter } from "@/router/navigation/navRouter";
 import internalServerErrorHandler from "@/shared/handler/internalServerErrorHandler";
 import notFoundHandler from "@/shared/handler/notFoundHandler";
 import tokenValidator from "@/shared/middleware/tokenValidator";
@@ -30,12 +31,13 @@ app.use(express.json());
 
 // Token validator for all routes
 // Routes that don't require authentication are defined in tokenValidator
-app.all("*", tokenValidator);
+app.use(tokenValidator);
 /**
  * Routes
  */
 app.use("/auth", authRouter);
 app.use("/navigation", navRouter);
+app.use("/manage", manageRouter);
 
 app.get(
   "/",

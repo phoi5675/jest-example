@@ -8,8 +8,8 @@ import { ParsedQs } from "qs";
 
 // Request
 export interface CommonRequestHeader extends IncomingHttpHeaders {
-  token?: string;
-  loginedAt?: Date;
+  token: string;
+  "logined-at"?: Date;
 }
 
 export interface CommonRequestParams {
@@ -22,8 +22,8 @@ export interface CommonRequestQuery extends ParsedQs {}
 
 // Response
 export interface CommonResponseHeader extends OutgoingHttpHeaders {
-  token?: string;
-  loginedAt?: string;
+  token: string;
+  "logined-at"?: string;
 }
 
 export interface CommonResponseBody {
@@ -40,7 +40,6 @@ export interface CommonRequest<
   ResBody = CommonResponseBody | CommonErrorResponseBody,
   ReqBody = CommonRequestBody,
   ReqQuery = CommonRequestQuery,
-  ReqHeader = CommonRequestHeader,
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
   params: P;
   body: ReqBody;
@@ -48,9 +47,5 @@ export interface CommonRequest<
   headers: ReqHeader;
 }
 
-export interface CommonResponse<
-  ResBody = unknown,
-  ResHeader = CommonResponseHeader,
-> extends Response<ResBody> {
-  headers: ResHeader;
-}
+export interface CommonResponse<ResBody = CommonResponseBody>
+  extends Response<ResBody> {}

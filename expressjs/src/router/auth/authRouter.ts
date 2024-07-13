@@ -11,4 +11,4 @@ const router = Router();
 
 router.post("/login", loginValidator.postLogin, loginController.postLogin);
 
-export default router;
+export { router as authRouter };

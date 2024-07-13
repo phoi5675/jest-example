@@ -8,15 +8,15 @@ declare global {
     interface ProcessEnv {
       DB_DRIVER: string;
       DB_HOST: string;
-      DB_PORT: number;
+      DB_PORT: string;
       DB_NAME: string;
       DB_USER: string;
       DB_PASSWORD: string;
 
-      SERVER_PORT: number;
+      SERVER_PORT: string;
       NODE_ENV: "local" | "development" | "production";
       DEL_DB_AFTER_QUIT?: string;
-      MAX_TOKEN_VALID_MIN: number;
+      MAX_TOKEN_VALID_MIN: string;
 
       PUBLIC_KEY: string;
       PRIVATE_KEY: string;
@@ -24,4 +24,10 @@ declare global {
   }
 }
 
-export {};
+interface Env extends NodeJS.ProcessEnv {
+  [key: string]: string | number;
+  DB_PORT: number;
+  MAX_TOKEN_VALID_MIN: number;
+}
+
+export { Env };

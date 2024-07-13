@@ -19,24 +19,30 @@ import {
   CommonResponseBody,
 } from "../types/ExpressCore";
 import { TokenValidityWaiver } from "../types/Route";
+import logger from "../utils/logger";
 
 const tokenValidityWaiverList: TokenValidityWaiver[] = [
   "GET /",
   "POST /auth/login",
 ];
 
-const isTokenValid = async (
-  token?: string,
-  loginedAt?: Date
-): Promise<boolean> => {
+const isTokenValid = (token?: string, loginedAt?: string): boolean => {
   if (!token || !loginedAt) {
     return false;
   }
   const decryptedToken = decryptByPrivateKey(token, loginedAt);
+  logger.log(decryptedToken.length);
   const encryptedToken = encryptByPrivateKey(decryptedToken, loginedAt);
 
   const now = moment();
   const _loginedAt = moment(loginedAt);
+
+  logger.log(
+    `diff = ${now.diff(_loginedAt, "minute")}`,
+    _loginedAt,
+    decryptedToken,
+    encryptedToken
+  );
   return (
     decryptedToken === encryptedToken &&
     now.diff(_loginedAt, "minute") < ENV.MAX_TOKEN_VALID_MIN
@@ -56,8 +62,12 @@ const tokenValidator = (
   ) {
     return next();
   }
+  const _isTokenValid = isTokenValid(
+    req.headers.token,
+    req.headers["logined-at"]
+  );
 
-  if (!isTokenValid(req.headers.token, req.headers.loginedAt)) {
+  if (!_isTokenValid) {
     res.status(StatusCodes.BAD_REQUEST).send({ message: `token not valid` });
     return next("router");
   }

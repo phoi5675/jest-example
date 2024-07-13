@@ -41,7 +41,7 @@ class LoginController extends CommonController {
         res
           .status(StatusCodes.OK)
           .set("token", loginRes.token)
-          .set("loginedAt", loginRes.loginedAt)
+          .set("logined-at", loginRes["logined-at"])
           .send({ message: "login success" });
         next();
       }

@@ -5,30 +5,37 @@
 import ENV from "@/constant/env";
 import { HashedPassword } from "@/shared/types/Crypto";
 import crypto from "crypto";
+import moment from "moment";
 
-function decryptByPrivateKey(data: string, date?: Date): string {
+function decryptByPrivateKey(data: string, date?: string): string {
   const privateKey = ENV.PRIVATE_KEY;
   let dataToDecrypt: string;
 
   if (date) {
-    const dateString = date?.toISOString();
+    const dateString = moment(date).toISOString();
     dataToDecrypt = `${dateString}${data}`;
   } else {
     dataToDecrypt = data;
   }
 
   return crypto
-    .privateDecrypt(privateKey, Buffer.from(dataToDecrypt))
+    .privateDecrypt(
+      { key: privateKey, padding: crypto.constants.RSA_NO_PADDING },
+      Buffer.from(dataToDecrypt)
+    )
     .toString();
 }
 
-const encryptByPrivateKey = (data: string, date: Date): string => {
+const encryptByPrivateKey = (data: string, date: string): string => {
   const privateKey = ENV.PRIVATE_KEY;
-  const dateString = date.toISOString();
+  const dateString = moment(date).toISOString();
 
   const dataToEncrypt = `${dateString}${data}`;
   return crypto
-    .privateEncrypt(privateKey, Buffer.from(dataToEncrypt))
+    .privateEncrypt(
+      { key: privateKey, padding: crypto.constants.RSA_NO_PADDING },
+      Buffer.from(dataToEncrypt)
+    )
     .toString();
 };
 

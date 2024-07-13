@@ -38,10 +38,10 @@ class LoginService extends CommonService {
       return;
     }
 
-    const loginedAt = moment();
-    const token = encryptByPrivateKey(password, loginedAt.toDate());
+    const loginedAt = moment().toISOString();
+    const token = encryptByPrivateKey(password, loginedAt);
 
-    return { token, loginedAt: loginedAt.toISOString() };
+    return { token, "logined-at": loginedAt };
   };
 }
 
