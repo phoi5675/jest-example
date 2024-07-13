@@ -3,20 +3,36 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import ENV from "@/constant/env";
+import { HashedPassword } from "@/shared/types/Crypto";
 import crypto from "crypto";
 
-const decryptByPrivateKey = (
-  encryptedByPubKey: string,
-  privateKey: string = ENV.PRIVATE_KEY
-): string => {
+function decryptByPrivateKey(data: string, date?: Date): string {
+  const privateKey = ENV.PRIVATE_KEY;
+  let dataToDecrypt: string;
+
+  if (date) {
+    const dateString = date?.toISOString();
+    dataToDecrypt = `${dateString}${data}`;
+  } else {
+    dataToDecrypt = data;
+  }
+
   return crypto
-    .privateDecrypt(privateKey, Buffer.from(encryptedByPubKey))
+    .privateDecrypt(privateKey, Buffer.from(dataToDecrypt))
+    .toString();
+}
+
+const encryptByPrivateKey = (data: string, date: Date): string => {
+  const privateKey = ENV.PRIVATE_KEY;
+  const dateString = date.toISOString();
+
+  const dataToEncrypt = `${dateString}${data}`;
+  return crypto
+    .privateEncrypt(privateKey, Buffer.from(dataToEncrypt))
     .toString();
 };
 
-const encryptPassword = (
-  password: string
-): { hashedPassword: string; salt: string } => {
+const encryptPassword = (password: string): HashedPassword => {
   const salt = crypto.randomBytes(32).toString("hex");
   const hashedPassword = crypto
     .pbkdf2Sync(password, salt, 10000, 128, "sha256")
@@ -36,4 +52,9 @@ const isPasswordValid = (
   return hashedPassword === hashedPasswordInDb;
 };
 
-export { decryptByPrivateKey, encryptPassword, isPasswordValid };
+export {
+  decryptByPrivateKey,
+  encryptByPrivateKey,
+  encryptPassword,
+  isPasswordValid,
+};

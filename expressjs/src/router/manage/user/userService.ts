@@ -10,6 +10,8 @@ import {
   CommonRequestParams,
   CommonResponse,
 } from "@/shared/types/ExpressCore";
+import { User } from "@/shared/types/models/User";
+import { encryptPassword } from "@/shared/utils/crypto";
 import {
   DeleteUserErrorResponseBody,
   DeleteUserRequestBody,
@@ -51,8 +53,15 @@ class UserService extends CommonService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>
   ) => {
-    // TODO: User 생성 시 password 암호화 후 repo 함수로 넘기도록 수정
-    const createdUserName = await userRepository.createUser(req.body);
+    // salt 및 hash 함수를 통해 password를 암호화하여 저장한다.
+    const { salt, hashedPassword } = encryptPassword(req.body.password);
+    const user: User = {
+      ...req.body,
+      salt: salt,
+      password: hashedPassword,
+    };
+
+    const createdUserName = await userRepository.createUser(user);
 
     return createdUserName;
   };

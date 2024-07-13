@@ -3,8 +3,14 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import ENV from "@/constant/env";
+import {
+  decryptByPrivateKey,
+  encryptByPrivateKey,
+} from "@/shared/utils/crypto";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
+import moment from "moment";
 import {
   CommonErrorResponseBody,
   CommonRequest,
@@ -19,11 +25,22 @@ const tokenValidityWaiverList: TokenValidityWaiver[] = [
   "POST /auth/login",
 ];
 
-const isTokenValid = (token?: string): boolean => {
-  if (!token) {
+const isTokenValid = async (
+  token?: string,
+  loginedAt?: Date
+): Promise<boolean> => {
+  if (!token || !loginedAt) {
     return false;
   }
-  return true;
+  const decryptedToken = decryptByPrivateKey(token, loginedAt);
+  const encryptedToken = encryptByPrivateKey(decryptedToken, loginedAt);
+
+  const now = moment();
+  const _loginedAt = moment(loginedAt);
+  return (
+    decryptedToken === encryptedToken &&
+    now.diff(_loginedAt, "minute") < ENV.MAX_TOKEN_VALID_MIN
+  );
 };
 
 const tokenValidator = (
@@ -40,10 +57,8 @@ const tokenValidator = (
     return next();
   }
 
-  // TODO: 토큰 확인 로직 추가
-  // TODO: 로그인 시 토큰을 헤더에 넣어주는 로직 추가
-  if (!isTokenValid(req.headers.token)) {
-    res.status(StatusCodes.BAD_REQUEST).send({ message: `token not found` });
+  if (!isTokenValid(req.headers.token, req.headers.loginedAt)) {
+    res.status(StatusCodes.BAD_REQUEST).send({ message: `token not valid` });
     return next("router");
   }
 

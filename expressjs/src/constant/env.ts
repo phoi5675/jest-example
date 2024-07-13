@@ -10,6 +10,10 @@ dotenv.config({
   debug: true,
 });
 
+process.env.MAX_TOKEN_VALID_MIN = parseInt(
+  process.env.MAX_TOKEN_VALID_MIN as unknown as string
+);
+
 const ENV = process.env;
 
 export default ENV;

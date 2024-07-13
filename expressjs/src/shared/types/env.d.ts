@@ -15,6 +15,8 @@ declare global {
 
       SERVER_PORT: number;
       NODE_ENV: "local" | "development" | "production";
+      DEL_DB_AFTER_QUIT?: string;
+      MAX_TOKEN_VALID_MIN: number;
 
       PUBLIC_KEY: string;
       PRIVATE_KEY: string;

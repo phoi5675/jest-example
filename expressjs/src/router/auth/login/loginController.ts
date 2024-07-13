@@ -15,6 +15,7 @@ import {
   CommonResponse,
 } from "@/shared/types/ExpressCore";
 import logger from "@/shared/utils/logger";
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import { loginService } from "./loginService";
 
@@ -25,7 +26,8 @@ class LoginController extends CommonController {
       PostLoginResponseBody | PostLoginErrorResponseBody,
       PostLoginRequestBody
     >,
-    res: CommonResponse<PostLoginResponseBody | PostLoginErrorResponseBody>
+    res: CommonResponse<PostLoginResponseBody | PostLoginErrorResponseBody>,
+    next: NextFunction
   ): Promise<void> => {
     try {
       const loginRes = await loginService.postLogin(req);
@@ -34,17 +36,21 @@ class LoginController extends CommonController {
         res
           .status(StatusCodes.BAD_REQUEST)
           .send({ message: "Invalid credentials" });
+        return next("router");
       } else {
-        // TODO: 토큰을 헤더에 담아서 리턴하도록 변경
         res
           .status(StatusCodes.OK)
-          .send({ message: "login success", token: "t0ken" });
+          .set("token", loginRes.token)
+          .set("loginedAt", loginRes.loginedAt)
+          .send({ message: "login success" });
+        next();
       }
     } catch (error) {
       logger.error(error);
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .send({ message: "Internal server error" });
+      return next("router");
     }
   };
 }
