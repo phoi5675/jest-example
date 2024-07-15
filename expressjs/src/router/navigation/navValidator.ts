@@ -6,10 +6,10 @@
 import { userRepository } from "@/models/UserRepository";
 import { CommonValidator } from "@/shared/class/handlerClass";
 import {
+  CommonRequest,
   CommonRequestParams,
-  CustomRequest,
-  CustomResponse,
-} from "@/shared/types/expressCore";
+  CommonResponse,
+} from "@/shared/types/ExpressCore";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
@@ -24,18 +24,17 @@ import {
 
 class NavValidator extends CommonValidator {
   getNavigation = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       GetNavResponseBody[] | GetNavErrResponseBody,
       GetNavRequestBody
     >,
-    res: CustomResponse<GetNavResponseBody[] | GetNavErrResponseBody>,
+    res: CommonResponse<GetNavResponseBody[] | GetNavErrResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
       body: Joi.object({
-        username: Joi.string().required(),
-        password: Joi.string().required(),
+        username: Joi.string().max(20).required(),
       }),
     });
 
@@ -46,14 +45,11 @@ class NavValidator extends CommonValidator {
       return next("router");
     }
 
-    const user = await userRepository.findUserWithPassword(
-      req.body.username,
-      req.body.password
-    );
+    const user = await userRepository.findByUsername(req.body.username);
 
     if (user) {
       res.status(StatusCodes.BAD_REQUEST).send({
-        message: "User not exists, or password is wrong.",
+        message: "User not exists.",
         error: `Bad request`,
       });
       return next("router");
@@ -63,18 +59,17 @@ class NavValidator extends CommonValidator {
   };
 
   putNavigation = async (
-    req: CustomRequest<
+    req: CommonRequest<
       CommonRequestParams,
       PutNavResponseBody[] | PutNavErrResponseBody,
       PutNavRequestBody
     >,
-    res: CustomResponse<PutNavResponseBody[] | PutNavErrResponseBody>,
+    res: CommonResponse<PutNavResponseBody[] | PutNavErrResponseBody>,
     next: NextFunction
   ) => {
     const validator = Joi.object({
       body: Joi.object({
-        username: Joi.string().required(),
-        password: Joi.string().required(),
+        username: Joi.string().max(20).required(),
         navData: Joi.array().items(Joi.string()).required(),
       }),
     });
@@ -86,14 +81,11 @@ class NavValidator extends CommonValidator {
       return next("router");
     }
 
-    const user = await userRepository.findUserWithPassword(
-      req.body.username,
-      req.body.password
-    );
+    const user = await userRepository.findByUsername(req.body.username);
 
     if (user) {
       res.status(StatusCodes.BAD_REQUEST).send({
-        message: "User not exists, or password is wrong.",
+        message: "User not exists.",
         error: `Bad request`,
       });
       return next("router");

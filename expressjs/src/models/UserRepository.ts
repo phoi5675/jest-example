@@ -9,7 +9,7 @@ import Repository from "./Repository";
 import knex from "./knexConfig";
 
 class UserRepository extends Repository {
-  static tableName = "user";
+  static tableName = "user" as const;
   static createTable = async (knex: Knex) => {
     if (await knex.schema.hasTable(UserRepository.tableName)) {
       return;
@@ -20,7 +20,8 @@ class UserRepository extends Repository {
         table.increments("seq").notNullable();
         table.string("username", 10).notNullable();
         table.string("email", 20).notNullable();
-        table.string("password", 20).notNullable();
+        table.string("password", 128).notNullable();
+        table.string("salt", 32).notNullable();
 
         table.primary(["seq"]);
       }
@@ -36,15 +37,23 @@ class UserRepository extends Repository {
     super(knex);
   }
 
+  // Create
+  async createUser(user: User): Promise<string | undefined> {
+    const createdUserName = await this.knex(UserRepository.tableName).insert(
+      user,
+      ["username"]
+    );
+
+    return createdUserName.shift()?.username;
+  }
+
+  // Read
   async findByUsername(username: string): Promise<User | undefined> {
     const user = await this.knex(UserRepository.tableName)
       .where({ username })
       .first();
 
-    if (user) {
-      return user as User;
-    }
-    return;
+    return user;
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
@@ -52,11 +61,7 @@ class UserRepository extends Repository {
       .where({ email })
       .first();
 
-    if (user) {
-      return user as User;
-    }
-
-    return;
+    return user;
   }
 
   async findUserWithPassword(
@@ -67,10 +72,28 @@ class UserRepository extends Repository {
       .where({ username, password })
       .first();
 
-    if (user) {
-      return user as User;
-    }
-    return;
+    return user;
+  }
+
+  // Update
+  async updateUserByUsername(
+    username: string,
+    user: Partial<User>
+  ): Promise<string | undefined> {
+    const updatedUser = await this.knex(UserRepository.tableName)
+      .where({ username })
+      .update(user, ["username"]);
+
+    return updatedUser.shift()?.username;
+  }
+
+  // Delete
+  async deleteUserByUsername(username: string): Promise<string | undefined> {
+    const deletedUser = await this.knex(UserRepository.tableName)
+      .where({ username })
+      .delete("username", { includeTriggerModifications: true });
+
+    return deletedUser.shift()?.username;
   }
 }
 

@@ -4,14 +4,13 @@
 // https://opensource.org/licenses/MIT
 
 import { Navigation } from "@/shared/types/models/Navigation";
-import { User } from "@/shared/types/models/User";
 import { Knex } from "knex";
 import Repository from "./Repository";
 import { UserRepository } from "./UserRepository";
 import knex from "./knexConfig";
 
 class NavigationRepository extends Repository {
-  static tableName = "navigation";
+  static tableName = "navigation" as const;
   static createTable = async (knex: Knex) => {
     if (await knex.schema.hasTable(NavigationRepository.tableName)) {
       return;
@@ -41,7 +40,7 @@ class NavigationRepository extends Repository {
     username: string,
     path: string
   ): Promise<Navigation | undefined> {
-    const user: User | undefined = await this.knex(UserRepository.tableName)
+    const user = await this.knex(UserRepository.tableName)
       .where({ username })
       .first();
 
@@ -54,10 +53,10 @@ class NavigationRepository extends Repository {
       .first();
   }
 
-  async findByUsername(
+  async findPathByUsername(
     username: string
   ): Promise<Array<Navigation> | undefined> {
-    const user: User | undefined = await this.knex(UserRepository.tableName)
+    const user = await this.knex(UserRepository.tableName)
       .where({ username })
       .first();
 

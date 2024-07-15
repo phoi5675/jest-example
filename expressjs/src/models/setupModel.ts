@@ -20,7 +20,7 @@ const initModels = async () => {
 };
 
 const dropModels = async () => {
-  if (ENV.NODE_ENV !== `local`) {
+  if (ENV.NODE_ENV !== `local` || !ENV.DEL_DB_AFTER_QUIT) {
     return;
   }
 

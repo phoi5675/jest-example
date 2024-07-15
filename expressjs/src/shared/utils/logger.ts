@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Copyright (c) 2024 phoi5675
 //
 // This software is released under the MIT License.
@@ -14,8 +13,15 @@ class Logger extends Singleton {
     message: string | unknown,
     ...optionalParams: unknown[]
   ): void => {
+    let _msg: string | unknown;
+    if (typeof message === `string`) {
+      _msg = message;
+    } else {
+      _msg = ``;
+      optionalParams = [message, ...optionalParams];
+    }
     console[logType](
-      `[${new Date().toISOString()}][${logType.toUpperCase()}]: ${message}`,
+      `[${new Date().toISOString()}][${logType.toUpperCase()}]: ${_msg}`,
       ...optionalParams
     );
   };

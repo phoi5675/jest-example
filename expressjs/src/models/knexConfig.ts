@@ -13,7 +13,7 @@ const knex: _knex.Knex = _knex.knex({
     user: ENV.DB_USER,
     password: ENV.DB_PASSWORD,
     database: ENV.DB_NAME,
-    port: Number(ENV.DB_PORT),
+    port: ENV.DB_PORT,
   },
   debug: false,
 });

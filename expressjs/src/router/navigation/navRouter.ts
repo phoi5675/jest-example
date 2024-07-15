@@ -12,4 +12,4 @@ const router = Router();
 router.get("/", navValidator.getNavigation, navController.getNavigation);
 router.patch("/", navValidator.putNavigation, navController.putNavigation);
 
-export default router;
+export { router as navRouter };

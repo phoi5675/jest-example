@@ -7,15 +7,14 @@ import {
   CommonErrorResponseBody,
   CommonRequestBody,
   CommonResponseBody,
-} from "@/shared/types/expressCore";
+} from "@/shared/types/ExpressCore";
 
 export interface GetNavRequestBody extends CommonRequestBody {
   username: string;
-  password: string;
 }
 
 export interface GetNavResponseBody extends CommonResponseBody {
-  seq: number;
+  seq?: number;
   path: string;
   FK_user_seq: number;
 }
@@ -24,7 +23,6 @@ export interface GetNavErrResponseBody extends CommonErrorResponseBody {}
 
 export interface PutNavRequestBody {
   username: string;
-  password: string;
   navData: string[];
 }
 
