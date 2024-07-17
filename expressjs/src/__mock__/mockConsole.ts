@@ -4,11 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 const mockConsole = () => {
-  console = {
-    ...console,
-    log: jest.fn(),
+  global.console = {
+    ...global.console,
+    // log: jest.fn(),
     info: jest.fn(),
-    // error: jest.fn()
+    debug: jest.fn(),
+    error: jest.fn(),
   };
 };
 

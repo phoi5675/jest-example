@@ -31,8 +31,7 @@ const isTokenValid = (token?: string, loginedAt?: string): boolean => {
     return false;
   }
 
-  // TODO: encrypt / decrypt가 제대로 되지 않음?
-  const decryptedToken = decryptByPrivateKey(token, loginedAt);
+  const decryptedToken = decryptByPrivateKey(token);
   const encryptedToken = encryptByPrivateKey(decryptedToken, loginedAt);
 
   const now = moment();
