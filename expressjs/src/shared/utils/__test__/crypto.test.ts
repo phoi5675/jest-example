@@ -3,74 +3,129 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { HashedPassword } from "@/shared/types/Crypto";
+import Joi from "joi";
 import {
   decryptByPrivateKey,
   decryptByPublicKey,
   encryptByPrivateKey,
   encryptByPublicKey,
+  encryptPassword,
+  isPasswordValid,
 } from "../crypto";
+import { isValidResponse } from "./jestUtil";
 
-describe(`crypto util test`, () => {
-  it(`should be able to encrypt using private key`, () => {
-    const data = `some data`;
+describe(`Crypto util test`, () => {
+  describe(`Asymmetric crypto functions test`, () => {
+    it(`should be able to encrypt using private key`, () => {
+      const data = `some data`;
 
-    const encrypted = encryptByPrivateKey(data);
+      const encrypted = encryptByPrivateKey(data);
 
-    expect(encrypted).toBeDefined();
-    expect(encrypted).not.toBe(data);
+      expect(encrypted).toBeDefined();
+      expect(encrypted).not.toBe(data);
+    });
+    it(`should be able to encrypt using public key`, () => {
+      const data = `some data`;
+
+      const encrypted = encryptByPublicKey(data);
+
+      expect(encrypted).toBeDefined();
+      expect(encrypted).not.toBe(data);
+    });
+    it(`should be able to decrypt using private key, encrypted string using public key`, () => {
+      const data = `some data`;
+
+      const expectedData = data;
+
+      const encrypted = encryptByPublicKey(data);
+      const decrypted = decryptByPrivateKey<string>(encrypted);
+
+      expect(encrypted).toBeDefined();
+      expect(decrypted).toBeDefined();
+      expect(encrypted).not.toBe(expectedData);
+      expect(decrypted).toBe(expectedData);
+    });
+    it(`should be able to decrypt using public key, encrypted string using private key`, () => {
+      const data = `some data`;
+
+      const expectedData = data;
+
+      const encrypted = encryptByPrivateKey(data);
+      const decrypted = decryptByPublicKey<string>(encrypted);
+
+      expect(encrypted).toBeDefined();
+      expect(decrypted).toBeDefined();
+      expect(encrypted).not.toBe(expectedData);
+      expect(decrypted).toBe(expectedData);
+    });
+    it(`should not be able to decrypt using public key, encrypted string by public key`, () => {
+      const data = `some data`;
+
+      const encrypted = encryptByPublicKey(data);
+
+      expect(encrypted).toBeDefined();
+      expect(() => {
+        decryptByPublicKey<string>(encrypted);
+      }).toThrow();
+    });
+    it(`should not be able to decrypt using private key, encrypted string by private key`, () => {
+      const data = `some data`;
+
+      const encrypted = encryptByPrivateKey(data);
+
+      expect(encrypted).toBeDefined();
+      expect(() => {
+        decryptByPrivateKey<string>(encrypted);
+      }).toThrow();
+    });
   });
-  it(`should be able to encrypt using public key`, () => {
-    const data = `some data`;
+  describe(`One way hashing crypto functions test`, () => {
+    it(`shoud return hashed password`, () => {
+      const password = `Passw0rd`;
 
-    const encrypted = encryptByPublicKey(data);
+      const hashedPassword = encryptPassword(password);
 
-    expect(encrypted).toBeDefined();
-    expect(encrypted).not.toBe(data);
-  });
-  it(`should be able to decrypt using private key, encrypted string using public key`, () => {
-    const data = `some data`;
+      const validator = Joi.object<HashedPassword>({
+        salt: Joi.string().required(),
+        hashedPassword: Joi.string().required(),
+      });
 
-    const expectedData = data;
+      const isValid = isValidResponse<HashedPassword>(
+        validator,
+        hashedPassword
+      );
 
-    const encrypted = encryptByPublicKey(data);
-    const decrypted = decryptByPrivateKey<string>(encrypted);
+      expect(hashedPassword).toBeDefined();
+      expect(hashedPassword).not.toBe(password);
+      expect(isValid).toBeTruthy();
+    });
+    it(`should return true when the hashedPassword is hashed from a plain text password`, () => {
+      const password = `Passw0rd`;
 
-    expect(encrypted).toBeDefined();
-    expect(decrypted).toBeDefined();
-    expect(encrypted).not.toBe(expectedData);
-    expect(decrypted).toBe(expectedData);
-  });
-  it(`should be able to decrypt using public key, encrypted string using private key`, () => {
-    const data = `some data`;
+      const hashedPassword = encryptPassword(password);
 
-    const expectedData = data;
+      const isValid = isPasswordValid(
+        password,
+        hashedPassword.hashedPassword,
+        hashedPassword.salt
+      );
 
-    const encrypted = encryptByPrivateKey(data);
-    const decrypted = decryptByPublicKey<string>(encrypted);
+      expect(isValid).toBeTruthy();
+    });
+    it(`should return true when the hashedPassword is hashed from a plain text password`, () => {
+      const password = `Passw0rd`;
+      const wrongPassword = `wr0ng passw0rd`;
 
-    expect(encrypted).toBeDefined();
-    expect(decrypted).toBeDefined();
-    expect(encrypted).not.toBe(expectedData);
-    expect(decrypted).toBe(expectedData);
-  });
-  it(`should not be able to decrypt using public key, encrypted string by public key`, () => {
-    const data = `some data`;
+      const hashedPassword = encryptPassword(password);
 
-    const encrypted = encryptByPublicKey(data);
+      const isValid = isPasswordValid(
+        wrongPassword,
+        hashedPassword.hashedPassword,
+        hashedPassword.salt
+      );
 
-    expect(encrypted).toBeDefined();
-    expect(() => {
-      decryptByPublicKey<string>(encrypted);
-    }).toThrow();
-  });
-  it(`should not be able to decrypt using private key, encrypted string by private key`, () => {
-    const data = `some data`;
-
-    const encrypted = encryptByPrivateKey(data);
-
-    expect(encrypted).toBeDefined();
-    expect(() => {
-      decryptByPrivateKey<string>(encrypted);
-    }).toThrow();
+      expect(isValid).toBeFalsy();
+    });
   });
 });
