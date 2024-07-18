@@ -11,14 +11,19 @@ import knex from "./knexConfig";
 
 class NavigationRepository extends Repository {
   static tableName = "navigation" as const;
-  static createTable = async (knex: Knex) => {
+
+  constructor(knex: Knex) {
+    super(knex);
+  }
+
+  createTable = async (knex: Knex) => {
     if (await knex.schema.hasTable(NavigationRepository.tableName)) {
       return;
     }
     await knex.schema.createTable(
       NavigationRepository.tableName,
       (table: Knex.CreateTableBuilder) => {
-        table.increments("seq").notNullable();
+        table.increments("seq").notNullable().unique();
         table.string("path", 30).notNullable();
         table.integer("FK_user_seq").notNullable();
 
@@ -26,15 +31,10 @@ class NavigationRepository extends Repository {
       }
     );
   };
-  static dropTable = async (knex: Knex) => {
-    if (await knex.schema.hasTable(NavigationRepository.tableName)) {
-      await knex.schema.dropTableIfExists(NavigationRepository.tableName);
-    }
-  };
 
-  constructor(knex: Knex) {
-    super(knex);
-  }
+  dropTable = async (knex: Knex) => {
+    await knex.schema.dropTableIfExists(NavigationRepository.tableName);
+  };
 
   async findByPath(
     username: string,

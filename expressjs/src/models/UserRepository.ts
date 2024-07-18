@@ -10,15 +10,20 @@ import knex from "./knexConfig";
 
 class UserRepository extends Repository {
   static tableName = "user" as const;
-  static createTable = async (knex: Knex) => {
+
+  constructor(knex: Knex) {
+    super(knex);
+  }
+
+  createTable = async (knex: Knex) => {
     if (await knex.schema.hasTable(UserRepository.tableName)) {
       return;
     }
     await knex.schema.createTable(
       UserRepository.tableName,
       (table: Knex.CreateTableBuilder) => {
-        table.increments("seq").notNullable();
-        table.string("username", 10).notNullable();
+        table.increments("seq").notNullable().unique();
+        table.string("username", 10).notNullable().unique();
         table.string("email", 20).notNullable();
         table.string("password", 128).notNullable();
         table.string("salt", 32).notNullable();
@@ -27,15 +32,10 @@ class UserRepository extends Repository {
       }
     );
   };
-  static dropTable = async (knex: Knex) => {
-    if (await knex.schema.hasTable(UserRepository.tableName)) {
-      await knex.schema.dropTable(UserRepository.tableName);
-    }
-  };
 
-  constructor(knex: Knex) {
-    super(knex);
-  }
+  dropTable = async (knex: Knex) => {
+    await knex.schema.dropTableIfExists(UserRepository.tableName);
+  };
 
   // Create
   async createUser(user: User): Promise<string | undefined> {

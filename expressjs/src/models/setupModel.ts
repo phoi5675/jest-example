@@ -6,8 +6,8 @@
 import ENV from "@/constant/env";
 import knex from "@/models/knexConfig";
 import logger from "@/shared/utils/logger";
-import { NavigationRepository } from "./NavigationRepository";
-import { UserRepository } from "./UserRepository";
+import { navigationRepository } from "./NavigationRepository";
+import { userRepository } from "./UserRepository";
 
 const initModels = async () => {
   if (ENV.NODE_ENV !== `local`) {
@@ -15,8 +15,8 @@ const initModels = async () => {
   }
 
   logger.log(`[MODEL] init models`);
-  await UserRepository.createTable(knex);
-  await NavigationRepository.createTable(knex);
+  await userRepository.createTable(knex);
+  await navigationRepository.createTable(knex);
 };
 
 const dropModels = async () => {
@@ -25,8 +25,8 @@ const dropModels = async () => {
   }
 
   logger.log(`[MODEL] drop models`);
-  await UserRepository.dropTable(knex);
-  await NavigationRepository.dropTable(knex);
+  await userRepository.dropTable(knex);
+  await navigationRepository.dropTable(knex);
 };
 
 export { dropModels, initModels };

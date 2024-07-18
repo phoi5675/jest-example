@@ -6,8 +6,11 @@
 import Singleton from "@/shared/class/singletonClass";
 import { Knex } from "knex";
 
-class Repository extends Singleton {
+abstract class Repository extends Singleton {
   protected readonly knex: Knex;
+
+  abstract createTable: (knex: Knex) => Promise<void>;
+  abstract dropTable: (knex: Knex) => Promise<void>;
 
   constructor(knex: Knex) {
     super();
