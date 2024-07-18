@@ -5,11 +5,10 @@
 import ENV from "@/constant/env";
 import { HashedPassword } from "@/shared/types/Crypto";
 import crypto, { generateKeyPairSync, RSAKeyPairOptions } from "crypto";
-import moment from "moment";
 
-const initKeyPair = () => {
+export const initKeyPair = () => {
   const { publicKey, privateKey } = generateKeyPairSync("rsa", {
-    modulusLength: 4096,
+    modulusLength: 1024,
     publicKeyEncoding: {
       type: "spki",
       format: "pem",
@@ -23,44 +22,43 @@ const initKeyPair = () => {
   return { publicKey, privateKey };
 };
 
-const encryptByPrivateKey = (data: string, date: string): string => {
+export const encryptByPrivateKey = <T>(data: T): string => {
   const privateKey = ENV.PRIVATE_KEY;
-  const dateString = moment(date).toISOString();
+  const stringified = JSON.stringify(data);
 
-  const dataToEncrypt = `${data}${dateString}`;
   return crypto
-    .privateEncrypt(privateKey, Buffer.from(dataToEncrypt))
+    .privateEncrypt(privateKey, Buffer.from(stringified))
     .toString("base64");
 };
 
-const encryptByPublicKey = (data: string, date: string): string => {
+export const encryptByPublicKey = <T>(data: T): string => {
   const publicKey = ENV.PUBLIC_KEY;
-  const dateString = moment(date).toISOString();
-
-  const dataToEncrypt = `${data}${dateString}`;
+  const stringified = JSON.stringify(data);
 
   return crypto
-    .publicEncrypt(publicKey, Buffer.from(dataToEncrypt))
+    .publicEncrypt(publicKey, Buffer.from(stringified))
     .toString("base64");
 };
 
-const decryptByPrivateKey = (data: string): string => {
+export const decryptByPrivateKey = <T>(data: string): T => {
   const privateKey = ENV.PRIVATE_KEY;
-
-  return crypto
+  const decrypted = crypto
     .privateDecrypt(privateKey, Buffer.from(data, "base64"))
     .toString("utf-8");
+
+  return JSON.parse(decrypted);
 };
 
-const decryptByPublicKey = (data: string): string => {
+export const decryptByPublicKey = <T>(data: string): T => {
   const publicKey = ENV.PUBLIC_KEY;
-
-  return crypto
+  const decrypted = crypto
     .publicDecrypt(publicKey, Buffer.from(data, "base64"))
     .toString("utf-8");
+
+  return JSON.parse(decrypted);
 };
 
-const encryptPassword = (password: string): HashedPassword => {
+export const encryptPassword = (password: string): HashedPassword => {
   const salt = crypto.randomBytes(32).toString("hex");
   const hashedPassword = crypto
     .pbkdf2Sync(password, salt, 10000, 128, "sha256")
@@ -69,7 +67,7 @@ const encryptPassword = (password: string): HashedPassword => {
   return { salt, hashedPassword };
 };
 
-const isPasswordValid = (
+export const isPasswordValid = (
   password: string,
   hashedPasswordInDb: string,
   salt: string
@@ -78,14 +76,4 @@ const isPasswordValid = (
     .pbkdf2Sync(password, salt, 10000, 128, "sha256")
     .toString("hex");
   return hashedPassword === hashedPasswordInDb;
-};
-
-export {
-  decryptByPrivateKey,
-  decryptByPublicKey,
-  encryptByPrivateKey,
-  encryptByPublicKey,
-  encryptPassword,
-  initKeyPair,
-  isPasswordValid,
 };

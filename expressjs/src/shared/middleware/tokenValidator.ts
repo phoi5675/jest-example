@@ -32,7 +32,7 @@ const isTokenValid = (token?: string, loginedAt?: string): boolean => {
   }
 
   const decryptedToken = decryptByPrivateKey(token);
-  const encryptedToken = encryptByPrivateKey(decryptedToken, loginedAt);
+  const encryptedToken = encryptByPrivateKey(decryptedToken);
 
   const now = moment();
   const _loginedAt = moment(loginedAt);

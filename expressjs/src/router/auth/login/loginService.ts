@@ -6,6 +6,7 @@
 import { userRepository } from "@/models/UserRepository";
 import { CommonService } from "@/shared/class/handlerClass";
 import { CommonRequest, CommonRequestParams } from "@/shared/types/ExpressCore";
+import { Token } from "@/shared/types/Token";
 import {
   decryptByPrivateKey,
   encryptByPrivateKey,
@@ -28,7 +29,7 @@ class LoginService extends CommonService {
   ): Promise<PostLoginResponseHeader | undefined> => {
     const { username, password } = req.body;
 
-    const decryptedHashedPassword = decryptByPrivateKey(password);
+    const decryptedHashedPassword = decryptByPrivateKey<string>(password);
     const user = await userRepository.findUserWithPassword(
       username,
       decryptedHashedPassword
@@ -39,7 +40,11 @@ class LoginService extends CommonService {
     }
 
     const loginedAt = moment().toISOString();
-    const token = encryptByPrivateKey(password, loginedAt);
+
+    const toBeEncrypted: Token = {
+      loginedAt: loginedAt,
+    };
+    const token = encryptByPrivateKey(toBeEncrypted);
 
     return { token, "logined-at": loginedAt };
   };
