@@ -20,3 +20,6 @@ export interface PostLoginResponseHeader extends CommonResponseHeader {}
 export interface PostLoginResponseBody extends CommonResponseBody {}
 
 export interface PostLoginErrorResponseBody extends CommonErrorResponseBody {}
+
+// TODO: CommonRequest / Response처럼 headder, body, param, query 한번에 선언한 인터페이스 생성
+// TODO: 해당 인터페이스를 미들웨어에 적용

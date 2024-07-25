@@ -4,19 +4,37 @@
 // https://opensource.org/licenses/MIT
 
 import { CommonValidator } from "@/shared/class/handlerClass";
+import {
+  CommonRequest,
+  CommonRequestParams,
+  CommonResponse,
+} from "@/shared/types/ExpressCore";
 import logger from "@/shared/utils/logger";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
+import {
+  PostLoginErrorResponseBody,
+  PostLoginRequestBody,
+  PostLoginResponseBody,
+} from "./loginInterface";
 
 class LoginValidator extends CommonValidator {
-  async postLogin(req: Request, res: Response, next: NextFunction) {
+  async postLogin(
+    req: CommonRequest<
+      CommonRequestParams,
+      PostLoginResponseBody | PostLoginErrorResponseBody,
+      PostLoginRequestBody
+    >,
+    res: CommonResponse<PostLoginResponseBody | PostLoginErrorResponseBody>,
+    next: NextFunction
+  ) {
     try {
       const { username, password } = req.body;
 
       const validator = Joi.object({
         username: Joi.string().max(10).required(),
-        password: Joi.string().min(6).max(15).required(),
+        password: Joi.string().required(),
       });
 
       const validationResult = validator.validate({ username, password });

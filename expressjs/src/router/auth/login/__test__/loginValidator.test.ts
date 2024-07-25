@@ -4,3 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 // TODO: Add more tests.
+
+describe(`Login validator test`, () => {
+  it(`should return nothing when 'username' and 'password' is provided in body`, () => {});
+});

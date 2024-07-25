@@ -40,6 +40,7 @@ export interface CommonRequest<
   ResBody = CommonResponseBody | CommonErrorResponseBody,
   ReqBody = CommonRequestBody,
   ReqQuery = CommonRequestQuery,
+  ReqHeader = CommonResponseHeader,
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
   params: P;
   body: ReqBody;
