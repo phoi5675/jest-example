@@ -4,10 +4,10 @@
 // https://opensource.org/licenses/MIT
 
 import { navigationRepository } from "@/models/NavigationRepository";
-import { CommonService } from "@/shared/class/handlerClass";
+import { BaseService } from "@/shared/class/handlerClass";
 import { Navigation } from "@/shared/types/models/Navigation";
 
-class NavService extends CommonService {
+class NavService extends BaseService {
   getNavItemsByUserId = async (
     userId: string
   ): Promise<Navigation[] | undefined> => {

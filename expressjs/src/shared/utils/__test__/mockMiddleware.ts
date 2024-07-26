@@ -3,9 +3,9 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonResponse } from "@/shared/types/ExpressCore";
+import { BaseRes } from "@/shared/types/express/Response";
 
-export const mockResponse = <T extends CommonResponse>() => {
+export const mockRes = <T extends BaseRes>() => {
   const res: T = {} as T;
   res.status = jest.fn().mockReturnValue(res);
   res.json = jest.fn().mockReturnValue(res);

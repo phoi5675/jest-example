@@ -4,14 +4,14 @@
 // https://opensource.org/licenses/MIT
 
 import Joi from "joi";
-import { isValidResponse } from "./jestUtil";
+import { isValidRes } from "./jestUtil";
 
 describe(`jest util function test`, () => {
-  describe(`isValidResponse test`, () => {
+  describe(`isValidRes test`, () => {
     it(`should not throw error if NODE_ENV is "test"`, () => {
       const validator = Joi.object();
       expect(() => {
-        isValidResponse<unknown>(validator, {});
+        isValidRes<unknown>(validator, {});
       }).not.toThrow();
     });
   });

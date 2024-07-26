@@ -3,32 +3,15 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonValidator } from "@/shared/class/handlerClass";
-import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+import { BaseValidator } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
-import {
-  PostLoginErrorResponseBody,
-  PostLoginRequestBody,
-  PostLoginResponseBody,
-} from "./loginInterface";
+import { PostLogiReq, PostLoginRes } from "./types/PostLogin";
 
-class LoginValidator extends CommonValidator {
-  async postLogin(
-    req: CommonRequest<
-      CommonRequestParams,
-      PostLoginResponseBody | PostLoginErrorResponseBody,
-      PostLoginRequestBody
-    >,
-    res: CommonResponse<PostLoginResponseBody | PostLoginErrorResponseBody>,
-    next: NextFunction
-  ) {
+class LoginValidator extends BaseValidator {
+  async postLogin(req: PostLogiReq, res: PostLoginRes, next: NextFunction) {
     try {
       const { username, password } = req.body;
 

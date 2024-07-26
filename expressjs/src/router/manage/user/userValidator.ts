@@ -4,42 +4,24 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { CommonValidator } from "@/shared/class/handlerClass";
 import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+  DeleteUseReq,
+  DeleteUserRes,
+} from "@/router/manage/user/types/DeleteUser";
+import { GetUseReq, GetUserRes } from "@/router/manage/user/types/GetUser";
+import {
+  PatchUseReq,
+  PatchUserRes,
+} from "@/router/manage/user/types/PatchUser";
+import { PostUseReq, PostUserRes } from "@/router/manage/user/types/PostUser";
+import { BaseValidator } from "@/shared/class/handlerClass";
+
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
-import {
-  DeleteUserErrorResponseBody,
-  DeleteUserRequestBody,
-  DeleteUserResponseBody,
-  GetUserErrorResponseBody,
-  GetUserRequestBody,
-  GetUserRequestQuery,
-  GetUserResponseBody,
-  PatchUserErrorResponseBody,
-  PatchUserRequestBody,
-  PatchUserResponseBody,
-  PostUserErrorResponseBody,
-  PostUserRequestBody,
-  PostUserResponseBody,
-} from "./userInterface";
 
-class UserValidator extends CommonValidator {
-  getUser = (
-    req: CommonRequest<
-      CommonRequestParams,
-      GetUserResponseBody | GetUserErrorResponseBody,
-      GetUserRequestBody,
-      GetUserRequestQuery
-    >,
-    res: CommonResponse<GetUserResponseBody | GetUserErrorResponseBody>,
-    next: NextFunction
-  ) => {
+class UserValidator extends BaseValidator {
+  getUser = (req: GetUseReq, res: GetUserRes, next: NextFunction) => {
     const validator = Joi.object({
       query: Joi.object({
         username: Joi.string().required(),
@@ -56,15 +38,7 @@ class UserValidator extends CommonValidator {
     next();
   };
 
-  postUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PostUserResponseBody | PostUserErrorResponseBody,
-      PostUserRequestBody
-    >,
-    res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>,
-    next: NextFunction
-  ) => {
+  postUser = async (req: PostUseReq, res: PostUserRes, next: NextFunction) => {
     const validator = Joi.object({
       body: Joi.object({
         username: Joi.string().max(20).required(),
@@ -93,12 +67,8 @@ class UserValidator extends CommonValidator {
   };
 
   patchUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PatchUserResponseBody | PatchUserErrorResponseBody,
-      PatchUserRequestBody
-    >,
-    res: CommonResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
+    req: PatchUseReq,
+    res: PatchUserRes,
     next: NextFunction
   ) => {
     const validator = Joi.object({
@@ -130,12 +100,8 @@ class UserValidator extends CommonValidator {
   };
 
   deleteUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      DeleteUserResponseBody | DeleteUserErrorResponseBody,
-      DeleteUserRequestBody
-    >,
-    res: CommonResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
+    req: DeleteUseReq,
+    res: DeleteUserRes,
     next: NextFunction
   ) => {
     const validator = Joi.object({

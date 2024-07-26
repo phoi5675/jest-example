@@ -13,7 +13,7 @@ import {
   encryptPassword,
   isPasswordValid,
 } from "../crypto";
-import { isValidResponse } from "./jestUtil";
+import { isValidRes } from "./jestUtil";
 
 describe(`Crypto util test`, () => {
   describe(`Asymmetric crypto functions test`, () => {
@@ -91,10 +91,7 @@ describe(`Crypto util test`, () => {
         hashedPassword: Joi.string().required(),
       });
 
-      const isValid = isValidResponse<HashedPassword>(
-        validator,
-        hashedPassword
-      );
+      const isValid = isValidRes<HashedPassword>(validator, hashedPassword);
 
       expect(hashedPassword).toBeDefined();
       expect(hashedPassword).not.toBe(password);

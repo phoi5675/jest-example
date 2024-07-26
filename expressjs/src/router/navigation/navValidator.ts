@@ -4,34 +4,17 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { CommonValidator } from "@/shared/class/handlerClass";
-import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+import { BaseValidator } from "@/shared/class/handlerClass";
+
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
-import {
-  GetNavErrResponseBody,
-  GetNavRequestBody,
-  GetNavResponseBody,
-  PutNavErrResponseBody,
-  PutNavRequestBody,
-  PutNavResponseBody,
-} from "./navInterface";
 
-class NavValidator extends CommonValidator {
-  getNavigation = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      GetNavResponseBody[] | GetNavErrResponseBody,
-      GetNavRequestBody
-    >,
-    res: CommonResponse<GetNavResponseBody[] | GetNavErrResponseBody>,
-    next: NextFunction
-  ) => {
+import { GetNaReq, GetNavRes } from "@/router/navigation/types/GetNav";
+import { PutNaReq, PutNavRes } from "@/router/navigation/types/PutNav";
+
+class NavValidator extends BaseValidator {
+  getNavigation = async (req: GetNaReq, res: GetNavRes, next: NextFunction) => {
     const validator = Joi.object({
       body: Joi.object({
         username: Joi.string().max(20).required(),
@@ -58,15 +41,7 @@ class NavValidator extends CommonValidator {
     next();
   };
 
-  putNavigation = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PutNavResponseBody[] | PutNavErrResponseBody,
-      PutNavRequestBody
-    >,
-    res: CommonResponse<PutNavResponseBody[] | PutNavErrResponseBody>,
-    next: NextFunction
-  ) => {
+  putNavigation = async (req: PutNaReq, res: PutNavRes, next: NextFunction) => {
     const validator = Joi.object({
       body: Joi.object({
         username: Joi.string().max(20).required(),

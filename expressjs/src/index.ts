@@ -12,13 +12,16 @@ import internalServerErrorHandler from "@/shared/handler/internalServerErrorHand
 import notFoundHandler from "@/shared/handler/notFoundHandler";
 import tokenValidator from "@/shared/middleware/tokenValidator";
 import {
-  CommonErrorResponseBody,
-  CommonRequest,
-  CommonRequestBody,
-  CommonRequestParams,
-  CommonResponse,
-  CommonResponseBody,
-} from "@/shared/types/ExpressCore";
+  BaseReq,
+  BaseReqBody,
+  BaseReqParams,
+} from "@/shared/types/express/Request";
+import {
+  BaseErrorResBody,
+  BaseRes,
+  BaseResBody,
+} from "@/shared/types/express/Response";
+
 import logger from "@/shared/utils/logger";
 import express from "express";
 
@@ -40,12 +43,8 @@ app.use("/manage", manageRouter);
 app.get(
   "/",
   (
-    req: CommonRequest<
-      CommonRequestParams,
-      CommonResponseBody | CommonErrorResponseBody,
-      CommonRequestBody
-    >,
-    res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>
+    req: BaseReq<BaseReqParams, BaseResBody | BaseErrorResBody, BaseReqBody>,
+    res: BaseRes<BaseResBody | BaseErrorResBody>
   ) => {
     res.send({ message: "welcome!" });
   }

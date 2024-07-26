@@ -4,29 +4,22 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { CommonService } from "@/shared/class/handlerClass";
-import { CommonRequest, CommonRequestParams } from "@/shared/types/ExpressCore";
+import {
+  PostLogiReq,
+  PostLoginResHeader,
+} from "@/router/auth/login/types/PostLogin";
+import { BaseService } from "@/shared/class/handlerClass";
 import { Token } from "@/shared/types/Token";
 import {
   decryptByPrivateKey,
   encryptByPrivateKey,
 } from "@/shared/utils/crypto";
 import moment from "moment";
-import {
-  PostLoginErrorResponseBody,
-  PostLoginRequestBody,
-  PostLoginResponseBody,
-  PostLoginResponseHeader,
-} from "./loginInterface";
 
-class LoginService extends CommonService {
+class LoginService extends BaseService {
   postLogin = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PostLoginResponseBody | PostLoginErrorResponseBody,
-      PostLoginRequestBody
-    >
-  ): Promise<PostLoginResponseHeader | undefined> => {
+    req: PostLogiReq
+  ): Promise<PostLoginResHeader | undefined> => {
     const { username, password } = req.body;
 
     const decryptedHashedPassword = decryptByPrivateKey<string>(password);
@@ -51,4 +44,4 @@ class LoginService extends CommonService {
 }
 
 const loginService = new LoginService();
-export { loginService, LoginService };
+export { LoginService, loginService };
