@@ -3,33 +3,21 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonController } from "@/shared/class/handlerClass";
 import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+  GetNaReq,
+  GetNavErrorResBody,
+  GetNavRes,
+  GetNavResBody,
+} from "@/router/navigation/types/GetNav";
+
+import { PutNaReq, PutNavRes } from "@/router/navigation/types/PutNav";
+import { BaseController } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import StatusCodes from "http-status-codes";
-import {
-  GetNavErrResponseBody,
-  GetNavRequestBody,
-  GetNavResponseBody,
-  PutNavErrResponseBody,
-  PutNavRequestBody,
-  PutNavResponseBody,
-} from "./navInterface";
 import { navService } from "./navService";
 
-class NavController extends CommonController {
-  getNavigation = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      GetNavResponseBody[] | GetNavErrResponseBody,
-      GetNavRequestBody
-    >,
-    res: CommonResponse<GetNavResponseBody[] | GetNavErrResponseBody>
-  ) => {
+class NavController extends BaseController {
+  getNavigation = async (req: GetNaReq, res: GetNavRes) => {
     try {
       const navItems = await navService.getNavItemsByUserId(req.body.username);
 
@@ -38,26 +26,19 @@ class NavController extends CommonController {
           .status(StatusCodes.BAD_REQUEST)
           .send({ message: "Pathlist not found" });
       } else {
-        const response: GetNavResponseBody[] = navItems;
+        const response: GetNavResBody[] = navItems;
         res.status(StatusCodes.OK).send(response);
       }
     } catch (error) {
       logger.error(error);
-      const response: GetNavErrResponseBody = {
+      const response: GetNavErrorResBody = {
         message: "Error fetching navigation items",
       };
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(response);
     }
   };
 
-  putNavigation = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PutNavResponseBody[] | PutNavErrResponseBody,
-      PutNavRequestBody
-    >,
-    res: CommonResponse<PutNavResponseBody[] | PutNavErrResponseBody>
-  ) => {
+  putNavigation = async (req: PutNaReq, res: PutNavRes) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });
     } catch (error) {

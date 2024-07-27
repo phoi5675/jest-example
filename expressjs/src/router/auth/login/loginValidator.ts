@@ -3,20 +3,21 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonValidator } from "@/shared/class/handlerClass";
+import { BaseValidator } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
+import { PostLogiReq, PostLoginRes } from "./types/PostLogin";
 
-class LoginValidator extends CommonValidator {
-  async postLogin(req: Request, res: Response, next: NextFunction) {
+class LoginValidator extends BaseValidator {
+  postLogin(req: PostLogiReq, res: PostLoginRes, next: NextFunction) {
     try {
       const { username, password } = req.body;
 
       const validator = Joi.object({
         username: Joi.string().max(10).required(),
-        password: Joi.string().min(6).max(15).required(),
+        password: Joi.string().required(),
       });
 
       const validationResult = validator.validate({ username, password });

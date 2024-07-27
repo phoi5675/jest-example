@@ -14,7 +14,7 @@ declare global {
       DB_PASSWORD: string;
 
       SERVER_PORT: string;
-      NODE_ENV: "local" | "development" | "production";
+      NODE_ENV: "local" | "development" | "production" | "test";
       DEL_DB_AFTER_QUIT?: string;
       MAX_TOKEN_VALID_MIN: string;
 

@@ -5,10 +5,10 @@
 
 import Singleton from "./singletonClass";
 
-class CommonController extends Singleton {}
+class BaseController extends Singleton {}
 
-class CommonService extends Singleton {}
+class BaseService extends Singleton {}
 
-class CommonValidator extends Singleton {}
+class BaseValidator extends Singleton {}
 
-export { CommonController, CommonService, CommonValidator };
+export { BaseController, BaseService, BaseValidator };

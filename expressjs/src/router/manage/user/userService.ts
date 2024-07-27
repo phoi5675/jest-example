@@ -4,40 +4,26 @@
 // https://opensource.org/licenses/MIT
 
 import { userRepository } from "@/models/UserRepository";
-import { CommonService } from "@/shared/class/handlerClass";
 import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+  DeleteUseReq,
+  DeleteUserRes,
+} from "@/router/manage/user/types/DeleteUser";
+import { GetUseReq, GetUserRes } from "@/router/manage/user/types/GetUser";
+import {
+  PatchUseReq,
+  PatchUserRes,
+} from "@/router/manage/user/types/PatchUser";
+import { PostUseReq, PostUserRes } from "@/router/manage/user/types/PostUser";
+import { BaseService } from "@/shared/class/handlerClass";
+
 import { User } from "@/shared/types/models/User";
 import { encryptPassword } from "@/shared/utils/crypto";
-import {
-  DeleteUserErrorResponseBody,
-  DeleteUserRequestBody,
-  DeleteUserResponseBody,
-  GetUserErrorResponseBody,
-  GetUserRequestBody,
-  GetUserRequestQuery,
-  GetUserResponseBody,
-  PatchUserErrorResponseBody,
-  PatchUserRequestBody,
-  PatchUserResponseBody,
-  PostUserErrorResponseBody,
-  PostUserRequestBody,
-  PostUserResponseBody,
-} from "./userInterface";
 
-class UserService extends CommonService {
+class UserService extends BaseService {
   getUserInfo = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      GetUserResponseBody | GetUserErrorResponseBody,
-      GetUserRequestBody,
-      GetUserRequestQuery
-    >,
+    req: GetUseReq,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CommonResponse<GetUserResponseBody | GetUserErrorResponseBody>
+    res: GetUserRes
   ) => {
     const user = await userRepository.findByUsername(req.query.username);
 
@@ -45,13 +31,9 @@ class UserService extends CommonService {
   };
 
   createUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PostUserResponseBody | PostUserErrorResponseBody,
-      PostUserRequestBody
-    >,
+    req: PostUseReq,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>
+    res: PostUserRes
   ) => {
     // salt 및 hash 함수를 통해 password를 암호화하여 저장한다.
     const { salt, hashedPassword } = encryptPassword(req.body.password);
@@ -67,13 +49,9 @@ class UserService extends CommonService {
   };
 
   updateUserByUsername = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PatchUserResponseBody | PatchUserErrorResponseBody,
-      PatchUserRequestBody
-    >,
+    req: PatchUseReq,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CommonResponse<PatchUserResponseBody | PatchUserErrorResponseBody>
+    res: PatchUserRes
   ) => {
     const updatedUserName = await userRepository.updateUserByUsername(
       req.body.username,
@@ -83,13 +61,9 @@ class UserService extends CommonService {
     return updatedUserName;
   };
   deleteUserByUsername = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      DeleteUserResponseBody | DeleteUserErrorResponseBody,
-      DeleteUserRequestBody
-    >,
+    req: DeleteUseReq,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    res: CommonResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>
+    res: DeleteUserRes
   ) => {
     const deletedUsername = await userRepository.deleteUserByUsername(
       req.body.username

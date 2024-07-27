@@ -28,23 +28,28 @@ const config: Config = {
   // coverageDirectory: undefined,
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: ["/node_modules/", "__mock__", "__test__"],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
-  //   "clover"
-  // ],
+  coverageReporters: [
+    // "json",
+    "text",
+    "lcov",
+    // "clover"
+  ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: undefined,
+  coverageThreshold: {
+    global: {
+      statements: 75,
+      branches: 75,
+      functions: 75,
+      lines: 75,
+    },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -91,6 +96,7 @@ const config: Config = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    "^@/testData/(.*)$": "<rootDir>/src/__mock__/testData/$1",
     "^@/router/(.*)$": "<rootDir>/src/router/$1",
     "^@/constant/(.*)$": "<rootDir>/src/constant/$1",
     "^@/models/(.*)$": "<rootDir>/src/models/$1",

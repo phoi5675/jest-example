@@ -3,30 +3,17 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import {
-  PostLoginErrorResponseBody,
-  PostLoginRequestBody,
-  PostLoginResponseBody,
-} from "@/router/auth/login/loginInterface";
-import { CommonController } from "@/shared/class/handlerClass";
-import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+import { PostLogiReq, PostLoginRes } from "@/router/auth/login/types/PostLogin";
+import { BaseController } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import { loginService } from "./loginService";
 
-class LoginController extends CommonController {
+class LoginController extends BaseController {
   postLogin = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PostLoginResponseBody | PostLoginErrorResponseBody,
-      PostLoginRequestBody
-    >,
-    res: CommonResponse<PostLoginResponseBody | PostLoginErrorResponseBody>,
+    req: PostLogiReq,
+    res: PostLoginRes,
     next: NextFunction
   ): Promise<void> => {
     try {

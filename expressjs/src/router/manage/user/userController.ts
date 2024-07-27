@@ -3,43 +3,24 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { CommonController } from "@/shared/class/handlerClass";
 import {
-  CommonRequest,
-  CommonRequestParams,
-  CommonResponse,
-} from "@/shared/types/ExpressCore";
+  DeleteUseReq,
+  DeleteUserRes,
+} from "@/router/manage/user/types/DeleteUser";
+import { GetUseReq, GetUserRes } from "@/router/manage/user/types/GetUser";
+import {
+  PatchUseReq,
+  PatchUserRes,
+} from "@/router/manage/user/types/PatchUser";
+import { PostUseReq, PostUserRes } from "@/router/manage/user/types/PostUser";
+import { BaseController } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import {
-  DeleteUserErrorResponseBody,
-  DeleteUserRequestBody,
-  DeleteUserResponseBody,
-  GetUserErrorResponseBody,
-  GetUserRequestBody,
-  GetUserRequestQuery,
-  GetUserResponseBody,
-  PatchUserErrorResponseBody,
-  PatchUserRequestBody,
-  PatchUserResponseBody,
-  PostUserErrorResponseBody,
-  PostUserRequestBody,
-  PostUserResponseBody,
-} from "./userInterface";
 import { userService } from "./userService";
 
-class UserController extends CommonController {
-  getUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      GetUserResponseBody | GetUserErrorResponseBody,
-      GetUserRequestBody,
-      GetUserRequestQuery
-    >,
-    res: CommonResponse<GetUserResponseBody | GetUserErrorResponseBody>,
-    next: NextFunction
-  ) => {
+class UserController extends BaseController {
+  getUser = async (req: GetUseReq, res: GetUserRes, next: NextFunction) => {
     try {
       const user = await userService.getUserInfo(req, res);
 
@@ -63,12 +44,8 @@ class UserController extends CommonController {
   };
 
   createUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PostUserResponseBody | PostUserErrorResponseBody,
-      PostUserRequestBody
-    >,
-    res: CommonResponse<PostUserResponseBody | PostUserErrorResponseBody>,
+    req: PostUseReq,
+    res: PostUserRes,
     next: NextFunction
   ) => {
     try {
@@ -95,12 +72,8 @@ class UserController extends CommonController {
   };
 
   updateUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      PatchUserResponseBody | PatchUserErrorResponseBody,
-      PatchUserRequestBody
-    >,
-    res: CommonResponse<PatchUserResponseBody | PatchUserErrorResponseBody>,
+    req: PatchUseReq,
+    res: PatchUserRes,
     next: NextFunction
   ) => {
     try {
@@ -123,12 +96,8 @@ class UserController extends CommonController {
   };
 
   deleteUser = async (
-    req: CommonRequest<
-      CommonRequestParams,
-      DeleteUserResponseBody | DeleteUserErrorResponseBody,
-      DeleteUserRequestBody
-    >,
-    res: CommonResponse<DeleteUserResponseBody | DeleteUserErrorResponseBody>,
+    req: DeleteUseReq,
+    res: DeleteUserRes,
     next: NextFunction
   ) => {
     try {

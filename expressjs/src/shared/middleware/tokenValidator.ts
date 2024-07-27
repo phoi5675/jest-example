@@ -4,6 +4,12 @@
 // https://opensource.org/licenses/MIT
 
 import ENV from "@/constant/env";
+import { BaseReq, BaseReqBody } from "@/shared/types/express/Request";
+import {
+  BaseErrorResBody,
+  BaseRes,
+  BaseResBody,
+} from "@/shared/types/express/Response";
 import {
   decryptByPrivateKey,
   encryptByPrivateKey,
@@ -11,13 +17,6 @@ import {
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import moment from "moment";
-import {
-  CommonErrorResponseBody,
-  CommonRequest,
-  CommonRequestBody,
-  CommonResponse,
-  CommonResponseBody,
-} from "../types/ExpressCore";
 import { TokenValidityWaiver } from "../types/Route";
 import logger from "../utils/logger";
 
@@ -50,8 +49,8 @@ const isTokenValid = (token?: string, loginedAt?: string): boolean => {
 };
 
 const tokenValidator = (
-  req: CommonRequest<CommonRequestBody>,
-  res: CommonResponse<CommonResponseBody | CommonErrorResponseBody>,
+  req: BaseReq<BaseReqBody>,
+  res: BaseRes<BaseResBody | BaseErrorResBody>,
   next: NextFunction
 ) => {
   // 로그인 없이 접근 가능한 페이지인 경우
