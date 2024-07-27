@@ -7,9 +7,9 @@ const mockConsole = () => {
   global.console = {
     ...global.console,
     // log: jest.fn(),
-    info: jest.fn(),
-    debug: jest.fn(),
-    error: jest.fn(),
+    // info: jest.fn(),
+    // debug: jest.fn(),
+    // error: jest.fn(),
   };
 };
 

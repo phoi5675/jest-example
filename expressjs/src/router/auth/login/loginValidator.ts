@@ -11,7 +11,7 @@ import Joi from "joi";
 import { PostLogiReq, PostLoginRes } from "./types/PostLogin";
 
 class LoginValidator extends BaseValidator {
-  async postLogin(req: PostLogiReq, res: PostLoginRes, next: NextFunction) {
+  postLogin(req: PostLogiReq, res: PostLoginRes, next: NextFunction) {
     try {
       const { username, password } = req.body;
 
