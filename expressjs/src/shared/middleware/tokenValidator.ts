@@ -4,12 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 import ENV from "@/constant/env";
-import { BaseReq, BaseReqBody } from "@/shared/types/express/Request";
-import {
-  BaseErrorResBody,
-  BaseRes,
-  BaseResBody,
-} from "@/shared/types/express/Response";
+import { BaseReq } from "@/shared/types/express/Request";
+import { BaseRes } from "@/shared/types/express/Response";
 import {
   decryptByPrivateKey,
   encryptByPrivateKey,
@@ -48,11 +44,7 @@ const isTokenValid = (token?: string, loginedAt?: string): boolean => {
   );
 };
 
-const tokenValidator = (
-  req: BaseReq<BaseReqBody>,
-  res: BaseRes<BaseResBody | BaseErrorResBody>,
-  next: NextFunction
-) => {
+const tokenValidator = (req: BaseReq, res: BaseRes, next: NextFunction) => {
   // 로그인 없이 접근 가능한 페이지인 경우
   if (
     tokenValidityWaiverList.includes(

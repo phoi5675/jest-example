@@ -8,7 +8,7 @@ import { IncomingHttpHeaders } from "http";
 import { ParsedQs } from "qs";
 
 export interface BaseReqHeader extends IncomingHttpHeaders {
-  token: string;
+  token?: string;
   "logined-at"?: string;
 }
 
