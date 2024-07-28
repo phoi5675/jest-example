@@ -6,6 +6,7 @@
 import {
   BaseReq,
   BaseReqBody,
+  BaseReqParams,
   BaseReqQuery,
 } from "@/shared/types/express/Request";
 import {
@@ -27,7 +28,7 @@ export interface DeleteUserReqQuery extends BaseReqQuery {}
 export interface DeleteUserErrorResBody extends BaseErrorResBody {}
 
 export interface DeleteUseReq<
-  P = BasReqParams,
+  P = BaseReqParams,
   ResBody = DeleteUserResBody | DeleteUserErrorResBody,
   ReqBody = DeleteUserReqBody,
   ReqQuery = DeleteUserReqQuery,

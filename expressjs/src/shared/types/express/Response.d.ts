@@ -3,6 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import { Response } from "express";
+import { OutgoingHttpHeaders } from "http";
+
+export interface BaseResHeader extends OutgoingHttpHeaders {
+  token: string;
+  "logined-at": string;
+}
 
 export interface BaseResBody {
   message?: string;
@@ -13,9 +19,5 @@ export interface BaseErrorResBody {
   error?: string;
 }
 
-export interface BaseRes<ResBody = BaseResBody> extends Response<ResBody> {}
-
-export interface BaseResHeader extends OutgoingHttpHeaders {
-  token: string;
-  "logined-at"?: string;
-}
+export interface BaseRes<ResBody = BaseResBody | BaseErrorResBody>
+  extends Response<ResBody> {}

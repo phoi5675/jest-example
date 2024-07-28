@@ -10,14 +10,14 @@ import {
 } from "@/router/manage/user/types/DeleteUser";
 import { GetUseReq, GetUserRes } from "@/router/manage/user/types/GetUser";
 import {
-  PatchUseReq,
+  PatchUserReq,
   PatchUserRes,
 } from "@/router/manage/user/types/PatchUser";
-import { PostUseReq, PostUserRes } from "@/router/manage/user/types/PostUser";
+import { PostUserReq, PostUserRes } from "@/router/manage/user/types/PostUser";
 import { BaseService } from "@/shared/class/handlerClass";
 
 import { User } from "@/shared/types/models/User";
-import { encryptPassword } from "@/shared/utils/crypto";
+import { decryptByPrivateKey, encryptPassword } from "@/shared/utils/crypto";
 
 class UserService extends BaseService {
   getUserInfo = async (
@@ -31,10 +31,13 @@ class UserService extends BaseService {
   };
 
   createUser = async (
-    req: PostUseReq,
+    req: PostUserReq,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: PostUserRes
   ) => {
+    const decryptedPassword = decryptByPrivateKey<string>(req.body.password);
+    req.body.password = decryptedPassword;
+
     // salt 및 hash 함수를 통해 password를 암호화하여 저장한다.
     const { salt, hashedPassword } = encryptPassword(req.body.password);
     const user: User = {
@@ -43,19 +46,30 @@ class UserService extends BaseService {
       password: hashedPassword,
     };
 
-    const createdUserName = await userRepository.createUser(user);
+    const isCreated = await userRepository.createUser(user);
 
-    return createdUserName;
+    return isCreated;
   };
 
   updateUserByUsername = async (
-    req: PatchUseReq,
+    req: PatchUserReq,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: PatchUserRes
   ) => {
+    const decryptedPassword = decryptByPrivateKey<string>(req.body.password);
+    req.body.password = decryptedPassword;
+
+    // salt 및 hash 함수를 통해 password를 암호화하여 저장한다.
+    const { salt, hashedPassword } = encryptPassword(req.body.password);
+    const user: Partial<User> = {
+      ...req.body,
+      salt: salt,
+      password: hashedPassword,
+    };
+
     const updatedUserName = await userRepository.updateUserByUsername(
       req.body.username,
-      req.body
+      user
     );
 
     return updatedUserName;

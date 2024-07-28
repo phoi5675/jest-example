@@ -25,8 +25,8 @@ class UserRepository extends Repository {
         table.increments("seq").notNullable().unique();
         table.string("username", 10).notNullable().unique();
         table.string("email", 20).notNullable();
-        table.string("password", 128).notNullable();
-        table.string("salt", 32).notNullable();
+        table.string("password", 256).notNullable();
+        table.string("salt", 64).notNullable();
 
         table.primary(["seq"]);
       }
@@ -38,13 +38,12 @@ class UserRepository extends Repository {
   };
 
   // Create
-  async createUser(user: User): Promise<string | undefined> {
+  async createUser(user: User): Promise<number | undefined> {
     const createdUserName = await this.knex(UserRepository.tableName).insert(
-      user,
-      ["username"]
+      user
     );
 
-    return createdUserName.shift()?.username;
+    return createdUserName.shift();
   }
 
   // Read

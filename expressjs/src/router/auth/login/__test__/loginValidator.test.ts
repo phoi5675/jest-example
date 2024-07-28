@@ -5,7 +5,7 @@
 
 import loginValidator from "@/router/auth/login/loginValidator";
 import { mockNext, mockRes } from "@/shared/utils/__test__/mockMiddleware";
-import { postLoginReq } from "@/testData/login/postLogin";
+import { postLoginReq } from "@/testData/auth/login/postLogin";
 import { StatusCodes } from "http-status-codes";
 
 describe(`Login validator test`, () => {

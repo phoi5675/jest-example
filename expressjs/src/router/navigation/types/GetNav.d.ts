@@ -6,6 +6,7 @@
 import {
   BaseReq,
   BaseReqBody,
+  BaseReqParams,
   BaseReqQuery,
 } from "@/shared/types/express/Request";
 import {
@@ -31,7 +32,7 @@ export interface GetNavResHeader extends BaseResHeader {}
 export interface GetNavErrorResBody extends BaseErrorResBody {}
 
 export interface GetNaReq<
-  P = BasReqParams,
+  P = BaseReqParams,
   ResBody = GetNavResBody[] | GetNavErrorResBody,
   ReqBody = GetNavReqBody,
   ReqQuery = GetNavReqQuery,

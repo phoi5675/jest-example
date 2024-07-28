@@ -10,10 +10,10 @@ import {
 } from "@/router/manage/user/types/DeleteUser";
 import { GetUseReq, GetUserRes } from "@/router/manage/user/types/GetUser";
 import {
-  PatchUseReq,
+  PatchUserReq,
   PatchUserRes,
 } from "@/router/manage/user/types/PatchUser";
-import { PostUseReq, PostUserRes } from "@/router/manage/user/types/PostUser";
+import { PostUserReq, PostUserRes } from "@/router/manage/user/types/PostUser";
 import { BaseValidator } from "@/shared/class/handlerClass";
 
 import { NextFunction } from "express";
@@ -38,7 +38,7 @@ class UserValidator extends BaseValidator {
     next();
   };
 
-  postUser = async (req: PostUseReq, res: PostUserRes, next: NextFunction) => {
+  postUser = async (req: PostUserReq, res: PostUserRes, next: NextFunction) => {
     const validator = Joi.object({
       body: Joi.object({
         username: Joi.string().max(20).required(),
@@ -67,7 +67,7 @@ class UserValidator extends BaseValidator {
   };
 
   patchUser = async (
-    req: PatchUseReq,
+    req: PatchUserReq,
     res: PatchUserRes,
     next: NextFunction
   ) => {

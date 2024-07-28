@@ -9,10 +9,10 @@ import {
 } from "@/router/manage/user/types/DeleteUser";
 import { GetUseReq, GetUserRes } from "@/router/manage/user/types/GetUser";
 import {
-  PatchUseReq,
+  PatchUserReq,
   PatchUserRes,
 } from "@/router/manage/user/types/PatchUser";
-import { PostUseReq, PostUserRes } from "@/router/manage/user/types/PostUser";
+import { PostUserReq, PostUserRes } from "@/router/manage/user/types/PostUser";
 import { BaseController } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
@@ -44,20 +44,20 @@ class UserController extends BaseController {
   };
 
   createUser = async (
-    req: PostUseReq,
+    req: PostUserReq,
     res: PostUserRes,
     next: NextFunction
   ) => {
     try {
-      const createdUserName = await userService.createUser(req, res);
-      if (!createdUserName) {
+      const isCreated = await userService.createUser(req, res);
+      if (!isCreated) {
         res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
           .send({ message: "Failed to create user" });
         return next("router");
       }
       res.status(StatusCodes.CREATED).send({
-        username: createdUserName,
+        username: req.body.username,
         message: "User Created Successfully",
       });
 
@@ -72,7 +72,7 @@ class UserController extends BaseController {
   };
 
   updateUser = async (
-    req: PatchUseReq,
+    req: PatchUserReq,
     res: PatchUserRes,
     next: NextFunction
   ) => {

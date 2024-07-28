@@ -6,6 +6,7 @@
 import {
   BaseReq,
   BaseReqBody,
+  BaseReqParams,
   BaseReqQuery,
 } from "@/shared/types/express/Request";
 import {
@@ -26,8 +27,8 @@ export interface PatchUserResBody extends BaseResBody {}
 
 export interface PatchUserErrorResBody extends BaseErrorResBody {}
 
-export interface PatchUseReq<
-  P = BasReqParams,
+export interface PatchUserReq<
+  P = BaseReqParams,
   ResBody = PatchUserResBody | PatchUserErrorResBody,
   ReqBody = PatchUserReqBody,
   ReqQuery = PatchUserReqQuery,

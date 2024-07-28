@@ -3,7 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { BaseReq, BaseReqBody } from "@/shared/types/express/Request";
+import {
+  BaseReq,
+  BaseReqBody,
+  BaseReqParams,
+  BaseReqQuery,
+} from "@/shared/types/express/Request";
 import {
   BaseErrorResBody,
   BaseRes,
@@ -25,8 +30,8 @@ export interface PostUserResBody extends BaseResBody {
 
 export interface PostUserErrorResBody extends BaseErrorResBody {}
 
-export interface PostUseReq<
-  P = BasReqParams,
+export interface PostUserReq<
+  P = BaseReqParams,
   ResBody = PostUserResBody | PostUserErrorResBody,
   ReqBody = PostUserReqBody,
   ReqQuery = PostUserReqQuery,

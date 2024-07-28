@@ -3,12 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { Env } from "@/shared/types/Env";
+import { Env } from "@/shared/types/env";
 import { initKeyPair } from "@/shared/utils/crypto";
 import dotenv from "dotenv";
 
 dotenv.config({
-  path: `${process.cwd()}/env/.env.local`,
+  path: `${process.cwd()}/env/.env.${process.env.NODE_ENV}`,
   encoding: `utf-8`,
   // debug: true,
 });
@@ -23,5 +23,4 @@ const ENV: Env = {
   PUBLIC_KEY: publicKey,
 };
 
-// logger.log(ENV);
 export default ENV;

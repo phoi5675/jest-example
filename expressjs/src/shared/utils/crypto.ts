@@ -33,7 +33,7 @@ export const encryptByPrivateKey = <T>(data: T): string => {
 
 export const encryptByPublicKey = <T>(data: T): string => {
   const publicKey = ENV.PUBLIC_KEY;
-  const stringified = JSON.stringify(data);
+  const stringified = typeof data === "string" ? data : JSON.stringify(data);
 
   return crypto
     .publicEncrypt(publicKey, Buffer.from(stringified))
@@ -46,7 +46,11 @@ export const decryptByPrivateKey = <T>(data: string): T => {
     .privateDecrypt(privateKey, Buffer.from(data, "base64"))
     .toString("utf-8");
 
-  return JSON.parse(decrypted);
+  try {
+    return JSON.parse(decrypted);
+  } catch (e) {
+    return decrypted as T;
+  }
 };
 
 export const decryptByPublicKey = <T>(data: string): T => {
@@ -55,7 +59,11 @@ export const decryptByPublicKey = <T>(data: string): T => {
     .publicDecrypt(publicKey, Buffer.from(data, "base64"))
     .toString("utf-8");
 
-  return JSON.parse(decrypted);
+  try {
+    return JSON.parse(decrypted);
+  } catch (e) {
+    return decrypted as T;
+  }
 };
 
 export const encryptPassword = (password: string): HashedPassword => {
@@ -67,13 +75,16 @@ export const encryptPassword = (password: string): HashedPassword => {
   return { salt, hashedPassword };
 };
 
+export const getHashedPassword = (password: string, salt: string): string => {
+  return crypto
+    .pbkdf2Sync(password, salt, 10000, 128, "sha256")
+    .toString("hex");
+};
+
 export const isPasswordValid = (
   password: string,
   hashedPasswordInDb: string,
   salt: string
 ): boolean => {
-  const hashedPassword = crypto
-    .pbkdf2Sync(password, salt, 10000, 128, "sha256")
-    .toString("hex");
-  return hashedPassword === hashedPasswordInDb;
+  return getHashedPassword(password, salt) === hashedPasswordInDb;
 };

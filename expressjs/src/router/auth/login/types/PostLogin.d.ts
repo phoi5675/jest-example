@@ -6,6 +6,7 @@
 import {
   BaseReq,
   BaseReqBody,
+  BaseReqParams,
   BaseReqQuery,
 } from "@/shared/types/express/Request";
 import {
@@ -28,12 +29,12 @@ export interface PostLoginResBody extends BaseResBody {}
 
 export interface PostLoginErrorResBody extends BaseErrorResBody {}
 
-export interface PostLogiReq<
-  P = BasReqParams,
+export interface PostLoginReq<
+  P = BaseReqParams,
   ResBody = PostLoginResBody | PostLoginErrorResBody,
   ReqBody = PostLoginReqBody,
   ReqQuery = PostLoginReqQuery,
-> extends BaseReq<P, ResBody, ReqBody, ReqQuery, ReqHeader> {}
+> extends BaseReq<P, ResBody, ReqBody, ReqQuery> {}
 
 export interface PostLoginRes<
   ResBody = PostLoginResBody | PostLoginErrorResBody,

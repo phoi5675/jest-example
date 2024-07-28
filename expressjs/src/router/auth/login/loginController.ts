@@ -3,7 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { PostLogiReq, PostLoginRes } from "@/router/auth/login/types/PostLogin";
+import {
+  PostLoginReq,
+  PostLoginRes,
+} from "@/router/auth/login/types/PostLogin";
 import { BaseController } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
@@ -12,7 +15,7 @@ import { loginService } from "./loginService";
 
 class LoginController extends BaseController {
   postLogin = async (
-    req: PostLogiReq,
+    req: PostLoginReq,
     res: PostLoginRes,
     next: NextFunction
   ): Promise<void> => {
@@ -27,8 +30,10 @@ class LoginController extends BaseController {
       } else {
         res
           .status(StatusCodes.OK)
-          .set("token", loginRes.token)
-          .set("logined-at", loginRes["logined-at"])
+          .set({
+            token: loginRes.token,
+            "logined-at": loginRes["logined-at"],
+          })
           .send({ message: "login success" });
         next();
       }
