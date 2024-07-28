@@ -3,7 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { BaseReq, BaseReqBody } from "@/shared/types/express/Request";
+import {
+  BaseReq,
+  BaseReqBody,
+  BaseReqParams,
+  BaseReqQuery,
+} from "@/shared/types/express/Request";
 import {
   BaseErrorResBody,
   BaseRes,

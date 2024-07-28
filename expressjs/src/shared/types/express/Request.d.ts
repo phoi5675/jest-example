@@ -2,13 +2,14 @@
 //
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
+import { BaseErrorResBody, BaseResBody } from "@/shared/types/express/Response";
 import { Request } from "express";
 import { IncomingHttpHeaders } from "http";
 import { ParsedQs } from "qs";
 
 export interface BaseReqHeader extends IncomingHttpHeaders {
   token: string;
-  "logined-at"?: Date;
+  "logined-at"?: string;
 }
 
 export interface BaseReqParams {
@@ -24,7 +25,7 @@ export interface BaseReq<
   ResBody = BaseResBody | BaseErrorResBody,
   ReqBody = BaseReqBody,
   ReqQuery = BaseReqQuery,
-  ReqHeader = BaseResHeader,
+  ReqHeader extends IncomingHttpHeaders = BaseReqHeader,
 > extends Request<P, ResBody, ReqBody, ReqQuery> {
   params: P;
   body: ReqBody;

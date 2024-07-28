@@ -6,6 +6,7 @@
 import {
   BaseReq,
   BaseReqBody,
+  BaseReqParams,
   BaseReqQuery,
 } from "@/shared/types/express/Request";
 import {
