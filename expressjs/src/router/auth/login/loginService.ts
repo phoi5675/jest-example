@@ -13,6 +13,7 @@ import { Token } from "@/shared/types/Token";
 import {
   decryptByPrivateKey,
   encryptByPrivateKey,
+  getHashedPassword,
 } from "@/shared/utils/crypto";
 import moment from "moment";
 
@@ -22,10 +23,19 @@ class LoginService extends BaseService {
   ): Promise<PostLoginResHeader | undefined> => {
     const { username, password } = req.body;
 
-    const decryptedHashedPassword = decryptByPrivateKey<string>(password);
+    const decryptedPassword = decryptByPrivateKey<string>(password);
+
+    const salt = (await userRepository.findByUsername(username))?.salt;
+
+    if (!salt) {
+      return;
+    }
+
+    const hashedPassword = getHashedPassword(decryptedPassword, salt);
+
     const user = await userRepository.findUserWithPassword(
       username,
-      decryptedHashedPassword
+      hashedPassword
     );
 
     if (!user) {

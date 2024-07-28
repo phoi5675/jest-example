@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import ENV from "@/constant/env";
+import logger from "@/shared/utils/logger";
 import Joi from "joi";
 
 export const isValidRes = <T>(
@@ -17,6 +18,10 @@ export const isValidRes = <T>(
   }
 
   const validatorError = validator.validate(obj);
+
+  if (validatorError.error) {
+    logger.error(validatorError.error);
+  }
 
   return validatorError.error === undefined;
 };

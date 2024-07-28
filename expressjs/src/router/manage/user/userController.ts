@@ -49,15 +49,15 @@ class UserController extends BaseController {
     next: NextFunction
   ) => {
     try {
-      const createdUserName = await userService.createUser(req, res);
-      if (!createdUserName) {
+      const isCreated = await userService.createUser(req, res);
+      if (!isCreated) {
         res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
           .send({ message: "Failed to create user" });
         return next("router");
       }
       res.status(StatusCodes.CREATED).send({
-        username: createdUserName,
+        username: req.body.username,
         message: "User Created Successfully",
       });
 

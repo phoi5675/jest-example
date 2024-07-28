@@ -38,13 +38,12 @@ class UserRepository extends Repository {
   };
 
   // Create
-  async createUser(user: User): Promise<string | undefined> {
+  async createUser(user: User): Promise<number | undefined> {
     const createdUserName = await this.knex(UserRepository.tableName).insert(
-      user,
-      ["username"]
+      user
     );
 
-    return createdUserName.shift()?.username;
+    return createdUserName.shift();
   }
 
   // Read

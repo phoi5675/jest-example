@@ -17,7 +17,7 @@ import { PostUserReq, PostUserRes } from "@/router/manage/user/types/PostUser";
 import { BaseService } from "@/shared/class/handlerClass";
 
 import { User } from "@/shared/types/models/User";
-import { encryptByPrivateKey, encryptPassword } from "@/shared/utils/crypto";
+import { decryptByPrivateKey, encryptPassword } from "@/shared/utils/crypto";
 
 class UserService extends BaseService {
   getUserInfo = async (
@@ -35,7 +35,7 @@ class UserService extends BaseService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: PostUserRes
   ) => {
-    const decryptedPassword = encryptByPrivateKey(req.body.password);
+    const decryptedPassword = decryptByPrivateKey<string>(req.body.password);
     req.body.password = decryptedPassword;
 
     // salt 및 hash 함수를 통해 password를 암호화하여 저장한다.
@@ -46,9 +46,9 @@ class UserService extends BaseService {
       password: hashedPassword,
     };
 
-    const createdUserName = await userRepository.createUser(user);
+    const isCreated = await userRepository.createUser(user);
 
-    return createdUserName;
+    return isCreated;
   };
 
   updateUserByUsername = async (
@@ -56,7 +56,7 @@ class UserService extends BaseService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: PatchUserRes
   ) => {
-    const decryptedPassword = encryptByPrivateKey(req.body.password);
+    const decryptedPassword = decryptByPrivateKey<string>(req.body.password);
     req.body.password = decryptedPassword;
 
     // salt 및 hash 함수를 통해 password를 암호화하여 저장한다.

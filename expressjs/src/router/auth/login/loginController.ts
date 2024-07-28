@@ -30,8 +30,10 @@ class LoginController extends BaseController {
       } else {
         res
           .status(StatusCodes.OK)
-          .set("token", loginRes.token)
-          .set("logined-at", loginRes["logined-at"])
+          .set({
+            token: loginRes.token,
+            "logined-at": loginRes["logined-at"],
+          })
           .send({ message: "login success" });
         next();
       }

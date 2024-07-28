@@ -5,6 +5,7 @@
 
 import { BaseReq } from "@/shared/types/express/Request";
 import { BaseRes } from "@/shared/types/express/Response";
+import { response } from "express";
 
 export const mockReq = <T extends BaseReq>(req: Partial<T>) => {
   const _req: T = {
@@ -17,9 +18,10 @@ export const mockReq = <T extends BaseReq>(req: Partial<T>) => {
 };
 
 export const mockRes = <T extends BaseRes>() => {
-  const res: T = {} as T;
+  const res = response as T;
   res.status = jest.fn().mockReturnValue(res);
   res.json = jest.fn().mockReturnValue(res);
+  res.set = jest.fn().mockReturnValue(res);
 
   return res;
 };
