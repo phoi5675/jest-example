@@ -3,10 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { PostLogiReq } from "@/router/auth/login/types/PostLogin";
+import { PostLoginReq } from "@/router/auth/login/types/PostLogin";
 import { mockReq } from "@/shared/utils/__test__/mockMiddleware";
 
-export const postLoginReq = mockReq<PostLogiReq>({
+export const postLoginReq = mockReq<PostLoginReq>({
   body: {
     username: "username",
     password: "password",

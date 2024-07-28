@@ -97,6 +97,7 @@ const config: Config = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     "^@/testData/(.*)$": "<rootDir>/src/__mock__/testData/$1",
+    "^@/mock/(.*)$": "<rootDir>/src/__mock__/$1",
     "^@/router/(.*)$": "<rootDir>/src/router/$1",
     "^@/constant/(.*)$": "<rootDir>/src/constant/$1",
     "^@/models/(.*)$": "<rootDir>/src/models/$1",
@@ -145,7 +146,12 @@ const config: Config = {
   setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ["./src/__mock__/setupMocks.ts", "./src/constant/env.ts"],
+  setupFilesAfterEnv: [
+    "./src/__mock__/setupMocks.ts",
+    "./src/constant/env.ts",
+    "./src/__mock__/setups/globalSetup.ts",
+    "./src/__mock__/teardowns/globalTeardown.ts",
+  ],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,

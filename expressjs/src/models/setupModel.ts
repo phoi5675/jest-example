@@ -10,7 +10,7 @@ import { navigationRepository } from "./NavigationRepository";
 import { userRepository } from "./UserRepository";
 
 const initModels = async () => {
-  if (ENV.NODE_ENV !== `local`) {
+  if (ENV.NODE_ENV !== `local` && ENV.NODE_ENV !== `test`) {
     return;
   }
 
@@ -20,7 +20,10 @@ const initModels = async () => {
 };
 
 const dropModels = async () => {
-  if (ENV.NODE_ENV !== `local` || !ENV.DEL_DB_AFTER_QUIT) {
+  if (
+    (ENV.NODE_ENV !== `local` && ENV.NODE_ENV !== `test`) ||
+    !ENV.DEL_DB_AFTER_QUIT
+  ) {
     return;
   }
 
