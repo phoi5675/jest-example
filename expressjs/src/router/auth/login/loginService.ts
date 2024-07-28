@@ -5,7 +5,7 @@
 
 import { userRepository } from "@/models/UserRepository";
 import {
-  PostLogiReq,
+  PostLoginReq,
   PostLoginResHeader,
 } from "@/router/auth/login/types/PostLogin";
 import { BaseService } from "@/shared/class/handlerClass";
@@ -18,7 +18,7 @@ import moment from "moment";
 
 class LoginService extends BaseService {
   postLogin = async (
-    req: PostLogiReq
+    req: PostLoginReq
   ): Promise<PostLoginResHeader | undefined> => {
     const { username, password } = req.body;
 

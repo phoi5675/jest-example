@@ -8,10 +8,10 @@ import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
-import { PostLogiReq, PostLoginRes } from "./types/PostLogin";
+import { PostLoginReq, PostLoginRes } from "./types/PostLogin";
 
 class LoginValidator extends BaseValidator {
-  postLogin(req: PostLogiReq, res: PostLoginRes, next: NextFunction) {
+  postLogin(req: PostLoginReq, res: PostLoginRes, next: NextFunction) {
     try {
       const { username, password } = req.body;
 

@@ -25,8 +25,8 @@ class UserRepository extends Repository {
         table.increments("seq").notNullable().unique();
         table.string("username", 10).notNullable().unique();
         table.string("email", 20).notNullable();
-        table.string("password", 128).notNullable();
-        table.string("salt", 32).notNullable();
+        table.string("password", 256).notNullable();
+        table.string("salt", 64).notNullable();
 
         table.primary(["seq"]);
       }

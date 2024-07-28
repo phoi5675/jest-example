@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import { Response } from "express";
+import { OutgoingHttpHeaders } from "http";
 
 export interface BaseResBody {
   message?: string;

@@ -29,7 +29,7 @@ export interface PostLoginResBody extends BaseResBody {}
 
 export interface PostLoginErrorResBody extends BaseErrorResBody {}
 
-export interface PostLogiReq<
+export interface PostLoginReq<
   P = BaseReqParams,
   ResBody = PostLoginResBody | PostLoginErrorResBody,
   ReqBody = PostLoginReqBody,

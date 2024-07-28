@@ -14,7 +14,6 @@ import {
 } from "@/router/manage/user/types/PatchUser";
 import { PostUserReq, PostUserRes } from "@/router/manage/user/types/PostUser";
 import { BaseController } from "@/shared/class/handlerClass";
-import { encryptByPrivateKey } from "@/shared/utils/crypto";
 import logger from "@/shared/utils/logger";
 import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -50,9 +49,6 @@ class UserController extends BaseController {
     next: NextFunction
   ) => {
     try {
-      const decryptedPassword = encryptByPrivateKey(req.body.password);
-      req.body.password = decryptedPassword;
-
       const createdUserName = await userService.createUser(req, res);
       if (!createdUserName) {
         res
@@ -81,9 +77,6 @@ class UserController extends BaseController {
     next: NextFunction
   ) => {
     try {
-      const decryptedPassword = encryptByPrivateKey(req.body.password);
-      req.body.password = decryptedPassword;
-
       const updatedUserName = await userService.updateUserByUsername(req, res);
 
       if (!updatedUserName) {
