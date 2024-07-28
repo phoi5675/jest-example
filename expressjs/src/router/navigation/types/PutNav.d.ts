@@ -33,7 +33,7 @@ export interface PutNavResBody extends BaseResBody {}
 export interface PutNavErrorResBody extends BaseErrorResBody {}
 
 export interface PutNaReq<
-  P = BasReqParams,
+  P = BaseReqParams,
   ResBody = PutNavResBody | PutNavErrorResBody,
   ReqBody = PutNavReqBody,
   ReqQuery = PutNavReqQuery,

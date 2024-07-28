@@ -25,8 +25,8 @@ export interface PostUserResBody extends BaseResBody {
 
 export interface PostUserErrorResBody extends BaseErrorResBody {}
 
-export interface PostUseReq<
-  P = BasReqParams,
+export interface PostUserReq<
+  P = BaseReqParams,
   ResBody = PostUserResBody | PostUserErrorResBody,
   ReqBody = PostUserReqBody,
   ReqQuery = PostUserReqQuery,

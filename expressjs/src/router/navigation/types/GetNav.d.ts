@@ -31,7 +31,7 @@ export interface GetNavResHeader extends BaseResHeader {}
 export interface GetNavErrorResBody extends BaseErrorResBody {}
 
 export interface GetNaReq<
-  P = BasReqParams,
+  P = BaseReqParams,
   ResBody = GetNavResBody[] | GetNavErrorResBody,
   ReqBody = GetNavReqBody,
   ReqQuery = GetNavReqQuery,

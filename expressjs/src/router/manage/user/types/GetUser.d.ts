@@ -28,7 +28,7 @@ export interface GetUserResBody extends BaseResBody {
 export interface GetUserErrorResBody extends BaseErrorResBody {}
 
 export interface GetUseReq<
-  P = BasReqParams,
+  P = BaseReqParams,
   ResBody = GetUserResBody | GetUserErrorResBody,
   ReqBody = GetUserReqBody,
   ReqQuery = GetUserReqQuery,
