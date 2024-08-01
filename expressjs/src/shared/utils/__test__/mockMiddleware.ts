@@ -6,7 +6,7 @@
 import { BaseReq } from "@/shared/types/express/Request";
 import { BaseRes } from "@/shared/types/express/Response";
 import { response } from "express";
-
+import _ from "lodash";
 export const mockReq = <T extends BaseReq>(req: Partial<T>) => {
   const _req: T = {
     body: req.body || {},
@@ -14,7 +14,7 @@ export const mockReq = <T extends BaseReq>(req: Partial<T>) => {
     query: req.query || {},
   } as T;
 
-  return _req;
+  return _.cloneDeep(_req);
 };
 
 export const mockRes = <T extends BaseRes>() => {
@@ -23,7 +23,7 @@ export const mockRes = <T extends BaseRes>() => {
   res.json = jest.fn().mockReturnValue(res);
   res.set = jest.fn().mockReturnValue(res);
 
-  return res;
+  return _.cloneDeep(res);
 };
 
 export const mockNext = jest.fn().mockReturnValue(undefined);

@@ -9,12 +9,16 @@ import Joi from "joi";
 
 export const isValidRes = <T>(
   validator: Joi.ObjectSchema<T>,
-  obj: T
+  obj?: T
 ): boolean => {
   if (ENV.NODE_ENV !== "test") {
     throw new Error(
       "This function should not be used unless test envrionment!"
     );
+  }
+
+  if (!obj) {
+    return false;
   }
 
   const validatorError = validator.validate(obj);
