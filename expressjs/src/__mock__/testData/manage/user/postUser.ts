@@ -5,14 +5,11 @@
 
 import { PostUserReq } from "@/router/manage/user/types/PostUser";
 import { mockReq } from "@/shared/utils/__test__/mockMiddleware";
-import { encryptByPublicKey } from "@/shared/utils/crypto";
-
-const encryptedPassword = encryptByPublicKey("password");
 
 export const postUserReq = mockReq<PostUserReq>({
   body: {
     username: "username",
-    password: encryptedPassword,
+    password: "password",
     email: "user@testmail.com",
   },
 });
