@@ -9,7 +9,7 @@ import { loginService } from "@/router/auth/login/loginService";
 import { PostLoginResHeader } from "@/router/auth/login/types/PostLogin";
 import { isValidRes } from "@/shared/utils/__test__/jestUtil";
 import { encryptByPublicKey } from "@/shared/utils/crypto";
-import { postLoginReq } from "@/testData/auth/login/postLogin";
+import { getTestData } from "@/testData/index";
 import Joi from "joi";
 
 describe(`Login service test`, () => {
@@ -20,7 +20,8 @@ describe(`Login service test`, () => {
     await deleteUsers();
   });
   it(`should return token and login time if the user is in database`, async () => {
-    const req = postLoginReq;
+    const req = getTestData("postLoginReq");
+    req.body.password = encryptByPublicKey(req.body.password);
 
     const validator = Joi.object<PostLoginResHeader>({
       token: Joi.string().required(),
@@ -34,11 +35,10 @@ describe(`Login service test`, () => {
     expect(isValid).toBeTruthy();
   });
   it(`should return undefined if the user exists, but password is wrong`, async () => {
-    const req = postLoginReq;
+    const req = getTestData("postLoginReq");
 
     const password = encryptByPublicKey(`someWrongPassword`);
 
-    req.body.username = postLoginReq.body.username;
     req.body.password = password;
 
     const validator = Joi.object<PostLoginResHeader>({
@@ -54,12 +54,10 @@ describe(`Login service test`, () => {
     expect(res).toBeUndefined();
   });
   it(`should return undefined if the user is not in database`, async () => {
-    const req = postLoginReq;
-
-    const password = encryptByPublicKey(postLoginReq.body.password);
+    const req = getTestData("postLoginReq");
 
     req.body.username = `not_existed_user`;
-    req.body.password = password;
+    req.body.password = encryptByPublicKey(req.body.password);
 
     const validator = Joi.object<PostLoginResHeader>({
       token: Joi.string().required(),
