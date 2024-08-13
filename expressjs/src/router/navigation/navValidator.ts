@@ -10,11 +10,15 @@ import { NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
 
-import { GetNaReq, GetNavRes } from "@/router/navigation/types/GetNav";
-import { PutNaReq, PutNavRes } from "@/router/navigation/types/PutNav";
+import { GetNavReq, GetNavRes } from "@/router/navigation/types/GetNav";
+import { PutNavReq, PutNavRes } from "@/router/navigation/types/PutNav";
 
 class NavValidator extends BaseValidator {
-  getNavigation = async (req: GetNaReq, res: GetNavRes, next: NextFunction) => {
+  getNavigation = async (
+    req: GetNavReq,
+    res: GetNavRes,
+    next: NextFunction
+  ) => {
     const validator = Joi.object({
       body: Joi.object({
         username: Joi.string().max(20).required(),
@@ -41,7 +45,11 @@ class NavValidator extends BaseValidator {
     next();
   };
 
-  putNavigation = async (req: PutNaReq, res: PutNavRes, next: NextFunction) => {
+  putNavigation = async (
+    req: PutNavReq,
+    res: PutNavRes,
+    next: NextFunction
+  ) => {
     const validator = Joi.object({
       body: Joi.object({
         username: Joi.string().max(20).required(),

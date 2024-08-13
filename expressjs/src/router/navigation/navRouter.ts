@@ -10,6 +10,6 @@ import { navValidator } from "./navValidator";
 const router = Router();
 
 router.get("/", navValidator.getNavigation, navController.getNavigation);
-router.patch("/", navValidator.putNavigation, navController.putNavigation);
+router.put("/", navValidator.putNavigation, navController.putNavigation);
 
 export { router as navRouter };

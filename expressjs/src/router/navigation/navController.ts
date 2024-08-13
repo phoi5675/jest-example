@@ -4,20 +4,20 @@
 // https://opensource.org/licenses/MIT
 
 import {
-  GetNaReq,
   GetNavErrorResBody,
+  GetNavReq,
   GetNavRes,
   GetNavResBody,
 } from "@/router/navigation/types/GetNav";
 
-import { PutNaReq, PutNavRes } from "@/router/navigation/types/PutNav";
+import { PutNavReq, PutNavRes } from "@/router/navigation/types/PutNav";
 import { BaseController } from "@/shared/class/handlerClass";
 import logger from "@/shared/utils/logger";
 import StatusCodes from "http-status-codes";
 import { navService } from "./navService";
 
 class NavController extends BaseController {
-  getNavigation = async (req: GetNaReq, res: GetNavRes) => {
+  getNavigation = async (req: GetNavReq, res: GetNavRes) => {
     try {
       const navItems = await navService.getNavItemsByUserId(req.body.username);
 
@@ -38,7 +38,7 @@ class NavController extends BaseController {
     }
   };
 
-  putNavigation = async (req: PutNaReq, res: PutNavRes) => {
+  putNavigation = async (req: PutNavReq, res: PutNavRes) => {
     try {
       res.status(StatusCodes.ACCEPTED).send({ message: "Navigation updated" });
     } catch (error) {
