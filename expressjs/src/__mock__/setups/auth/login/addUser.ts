@@ -9,7 +9,7 @@ import { mockRes } from "@/shared/utils/__test__/mockMiddleware";
 import { encryptByPublicKey } from "@/shared/utils/crypto";
 import { postUserReq } from "@/testData/manage/user/postUser";
 
-export const addUser = async (req: PostUserReq = postUserReq) => {
+export const addUser = async (req: PostUserReq = postUserReq()) => {
   req.body.password = encryptByPublicKey(req.body.password);
 
   const res = mockRes<PostUserRes>();

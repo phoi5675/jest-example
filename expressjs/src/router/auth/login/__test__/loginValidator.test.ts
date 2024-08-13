@@ -6,12 +6,12 @@
 import loginValidator from "@/router/auth/login/loginValidator";
 import { mockNext, mockRes } from "@/shared/utils/__test__/mockMiddleware";
 import { encryptByPublicKey } from "@/shared/utils/crypto";
-import { getTestData } from "@/testData/index";
+import { postLoginReq } from "@/testData/auth/login/postLogin";
 import { StatusCodes } from "http-status-codes";
 
 describe(`Login validator test`, () => {
   it(`should return nothing when 'username' and 'password' is provided in body`, () => {
-    const req = getTestData("postLoginReq");
+    const req = postLoginReq();
     req.body.password = encryptByPublicKey(req.body.password);
     const res = mockRes();
     const next = mockNext;
@@ -19,7 +19,7 @@ describe(`Login validator test`, () => {
     expect(loginValidator.postLogin(req, res, next)).toBeUndefined();
   });
   it(`should return ${StatusCodes.BAD_REQUEST} if username is not provided in body`, () => {
-    const req = getTestData("postLoginReq");
+    const req = postLoginReq();
     req.body.password = encryptByPublicKey(req.body.password);
     const res = mockRes();
     const next = mockNext;
@@ -32,7 +32,7 @@ describe(`Login validator test`, () => {
     expect(res.status).toHaveBeenCalledWith(StatusCodes.BAD_REQUEST);
   });
   it(`should return ${StatusCodes.BAD_REQUEST} if password is not provided in body`, () => {
-    const req = getTestData("postLoginReq");
+    const req = postLoginReq();
     req.body.password = encryptByPublicKey(req.body.password);
     const res = mockRes();
     const next = mockNext;
@@ -45,7 +45,7 @@ describe(`Login validator test`, () => {
     expect(res.status).toHaveBeenCalledWith(StatusCodes.BAD_REQUEST);
   });
   it(`should return ${StatusCodes.BAD_REQUEST} if username is longer than 10 character`, () => {
-    const req = getTestData("postLoginReq");
+    const req = postLoginReq();
     req.body.password = encryptByPublicKey(req.body.password);
     const res = mockRes();
     const next = mockNext;

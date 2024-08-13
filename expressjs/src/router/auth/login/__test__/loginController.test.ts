@@ -12,7 +12,7 @@ import { isValidRes } from "@/shared/utils/__test__/jestUtil";
 import { mockNext, mockRes } from "@/shared/utils/__test__/mockMiddleware";
 import { encryptByPublicKey } from "@/shared/utils/crypto";
 import logger from "@/shared/utils/logger";
-import { getTestData } from "@/testData/index";
+import { postLoginReq } from "@/testData/auth/login/postLogin";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
 
@@ -25,7 +25,7 @@ describe(`Login controller test`, () => {
       await deleteUsers();
     });
     it(`should get ${StatusCodes.OK} status when login with correct username and password`, async () => {
-      const req = getTestData("postLoginReq");
+      const req = postLoginReq();
       req.body.password = encryptByPublicKey(req.body.password);
 
       const res = mockRes<PostLoginRes>();
