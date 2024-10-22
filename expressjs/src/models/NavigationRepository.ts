@@ -68,6 +68,31 @@ class NavigationRepository extends Repository {
       FK_user_seq: user.seq,
     });
   }
+
+  async upsertPathsByUsername(username: string, navList: string[]) {
+    const user = await this.knex(UserRepository.tableName)
+      .where({ username })
+      .first();
+
+    if (!user) {
+      return;
+    }
+
+    await knex(NavigationRepository.tableName)
+      .where({
+        FK_user_seq: user.seq,
+      })
+      .delete();
+
+    const entities = navList.map<Navigation>((path) => {
+      return {
+        path: path,
+        FK_user_seq: user.seq!,
+      };
+    });
+
+    await knex(NavigationRepository.tableName).insert(entities);
+  }
 }
 
 const navigationRepository = new NavigationRepository(knex);

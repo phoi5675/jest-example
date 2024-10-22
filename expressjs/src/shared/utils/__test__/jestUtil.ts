@@ -8,8 +8,8 @@ import logger from "@/shared/utils/logger";
 import Joi from "joi";
 
 export const isValidRes = <T>(
-  validator: Joi.ObjectSchema<T>,
-  obj?: T
+  validator: Joi.ObjectSchema<T> | Joi.ArraySchema<T>,
+  obj?: T | Array<T>
 ): boolean => {
   if (ENV.NODE_ENV !== "test") {
     throw new Error(

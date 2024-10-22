@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { navigationRepository } from "@/models/NavigationRepository";
+import { PutNavReq } from "@/router/navigation/types/PutNav";
 import { BaseService } from "@/shared/class/handlerClass";
 import { Navigation } from "@/shared/types/models/Navigation";
 
@@ -17,6 +18,13 @@ class NavService extends BaseService {
       return;
     }
     return navItems;
+  };
+
+  putNavItemsByUserId = async (req: PutNavReq) => {
+    await navigationRepository.upsertPathsByUsername(
+      req.body.username,
+      req.body.navData
+    );
   };
 }
 
