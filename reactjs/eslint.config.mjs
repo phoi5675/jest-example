@@ -20,6 +20,7 @@ export default [
       "rest-spread-spacing": "error",
       "spaced-comment": "error",
       "valid-typeof": "error",
+      "react/react-in-jsx-scope": "off", // Turn off react-jsx rule
     },
   },
 ];
