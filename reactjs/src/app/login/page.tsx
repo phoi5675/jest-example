@@ -3,8 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { NavigationBar } from "@/components/navigation/topNavBar";
-
 export default function Page() {
-  return <NavigationBar />;
+  return <h1>login</h1>;
 }
